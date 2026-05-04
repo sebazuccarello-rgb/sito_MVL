@@ -33,96 +33,97 @@
     .separator { color: var(--text-dim); }
     .header-right { font-size: 10px; letter-spacing: 0.14em; color: var(--text-dim); }
 
-    /* ── MAIN LAYOUT ── */
-    .vault-wrapper {
+    /* ── PAGE BODY ── */
+    .vault-page {
       display: flex;
+      flex-direction: column;
       height: 100vh;
       padding-top: 52px;
     }
 
-    /* left label */
-    .vault-label {
-      width: 44px;
-      flex-shrink: 0;
+    /* ── TOP LABEL ── */
+    .vault-top-label {
+      padding: 18px 40px 12px;
       display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 24px 0 24px 0;
-      border-right: 1px solid var(--border);
-      background: #0a0a09;
+      align-items: baseline;
+      gap: 20px;
+      flex-shrink: 0;
     }
-    .vault-label-top {
-      writing-mode: vertical-lr;
-      transform: rotate(180deg);
+    .vault-archive-title {
       font-family: 'Prototype', var(--font);
-      font-size: 20px;
-      letter-spacing: 0.1em;
-      color: var(--text);
-      padding-left: 12px;
-      white-space: nowrap;
+      font-size: 13px;
+      letter-spacing: 0.3em;
+      color: var(--text-dim);
+      text-transform: uppercase;
     }
-    .vault-label-top span { color: var(--teal); }
-    .vault-label-bottom {
-      writing-mode: vertical-lr;
-      transform: rotate(180deg);
-      font-size: 7px;
+    .vault-final-work {
+      font-family: 'Prototype', var(--font);
+      font-size: 32px;
+      letter-spacing: 0.12em;
+      color: var(--text);
+      text-transform: uppercase;
+      line-height: 1;
+    }
+    .vault-final-work span { color: var(--teal); }
+    .vault-count {
+      font-size: 9px;
       letter-spacing: 0.22em;
       color: var(--text-dim);
-      padding-left: 14px;
-      white-space: nowrap;
-      line-height: 1.8;
+      margin-left: auto;
     }
 
-    /* ── FOLDERS CONTAINER ── */
-    .folders-container {
+    /* ── FOLDERS ROW ── */
+    .folders-row {
       flex: 1;
       display: flex;
       align-items: stretch;
-      overflow-x: auto;
-      overflow-y: hidden;
-      scrollbar-width: none;
-    }
-    .folders-container::-webkit-scrollbar { display: none; }
-
-    /* ── SINGLE FOLDER CARD ── */
-    .folder-card {
-      flex: 1;
-      min-width: 200px;
-      max-width: 340px;
-      display: flex;
-      flex-direction: column;
-      border-right: 1px solid rgba(255,255,255,0.07);
-      cursor: pointer;
-      transition: transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
-      position: relative;
+      padding: 0 40px 32px;
       overflow: hidden;
     }
-    .folder-card:hover { transform: translateY(-36px); z-index: 10; }
+
+    /* ── FOLDER CARD ── */
+    .folder-card {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.38s cubic-bezier(0.25,0.46,0.45,0.94), z-index 0s;
+      margin-right: -28px; /* overlap */
+      z-index: 1;
+    }
+    .folder-card:last-child { margin-right: 0; }
+    .folder-card:hover {
+      transform: translateY(-44px);
+      z-index: 50;
+    }
 
     /* ── TAB ── */
     .folder-tab {
       flex-shrink: 0;
-      height: 72px;
-      padding: 12px 18px;
+      height: 64px;
+      padding: 10px 16px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      position: relative;
-      z-index: 2;
-      transition: background 0.3s;
+      background: #131312;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-bottom: none;
+      clip-path: polygon(0 18px, 18px 0, 100% 0, 100% 100%, 0 100%);
+      transition: background 0.25s;
     }
-    .folder-card:hover .folder-tab { background: rgba(255,255,255,0.04); }
+    .folder-card:hover .folder-tab { background: #1a1a18; }
 
     .tab-code {
-      font-size: 8px;
-      letter-spacing: 0.25em;
+      font-size: 7px;
+      letter-spacing: 0.28em;
       color: var(--teal);
     }
     .tab-name {
       font-family: 'Prototype', var(--font);
-      font-size: 11px;
-      letter-spacing: 0.18em;
+      font-size: 12px;
+      letter-spacing: 0.16em;
       color: var(--text);
       text-transform: uppercase;
       white-space: nowrap;
@@ -135,85 +136,66 @@
       flex: 1;
       position: relative;
       overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-top: none;
     }
 
-    /* background media */
     .card-bg {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      filter: saturate(0.45) brightness(0.6);
+      filter: saturate(0.4) brightness(0.55);
       transition: filter 0.4s;
     }
-    .folder-card:hover .card-bg { filter: saturate(0.75) brightness(0.8); }
+    .folder-card:hover .card-bg { filter: saturate(0.8) brightness(0.82); }
 
-    /* dark overlay gradient */
     .card-overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.1) 60%);
+      background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.08) 55%);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: 20px 18px;
+      padding: 16px 18px;
     }
 
-    /* large vertical project name */
-    .card-project-name {
+    /* large faded name */
+    .card-project-bg-name {
       font-family: 'Prototype', var(--font);
-      font-size: clamp(28px, 4vw, 52px);
+      font-size: clamp(20px, 3.5vw, 48px);
       letter-spacing: 0.04em;
-      color: rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.07);
       text-transform: uppercase;
       writing-mode: vertical-lr;
       transform: rotate(180deg);
       align-self: flex-end;
       line-height: 1;
-      transition: color 0.3s;
       pointer-events: none;
+      transition: color 0.35s;
     }
-    .folder-card:hover .card-project-name { color: rgba(255,255,255,0.45); }
+    .folder-card:hover .card-project-bg-name { color: rgba(255,255,255,0.32); }
 
-    /* bottom info */
     .card-bottom {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 7px;
     }
     .card-title {
       font-family: 'Prototype', var(--font);
-      font-size: 18px;
-      letter-spacing: 0.08em;
-      color: var(--text);
+      font-size: 16px;
+      letter-spacing: 0.1em;
+      color: #fff;
       text-transform: uppercase;
     }
-    .card-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .card-tags { display: flex; flex-wrap: wrap; gap: 5px; }
     .card-tag {
-      font-size: 7px;
+      font-size: 6px;
       letter-spacing: 0.18em;
       color: var(--text-dim);
-      border: 1px solid rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.1);
       padding: 2px 6px;
-    }
-
-    /* empty placeholder card */
-    .folder-card.empty {
-      background: #0e0e0d;
-      cursor: default;
-    }
-    .folder-card.empty:hover { transform: none; }
-    .empty-label {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 8px;
-      letter-spacing: 0.2em;
-      color: #222;
-      writing-mode: vertical-lr;
     }
 
     /* ── MODAL ── */
@@ -231,7 +213,7 @@
     .modal video { width: 100%; display: block; }
     .modal-close {
       position: absolute;
-      top: -32px; right: 0;
+      top: -30px; right: 0;
       font-family: var(--font);
       font-size: 10px;
       letter-spacing: 0.2em;
@@ -241,9 +223,9 @@
     }
     .modal-close:hover { color: var(--red); }
     .modal-title {
-      margin-top: 12px;
+      margin-top: 10px;
       font-family: 'Prototype', var(--font);
-      font-size: 12px;
+      font-size: 11px;
       letter-spacing: 0.22em;
       color: var(--text-dim);
     }
@@ -260,16 +242,17 @@
     <div class="header-right" id="version-tag">[Version\1.0.0]</div>
   </header>
 
-  <div class="vault-wrapper">
+  <div class="vault-page">
 
-    <!-- left vertical label -->
-    <div class="vault-label">
-      <div class="vault-label-top">GRID DAILY <span>_01</span></div>
-      <div class="vault-label-bottom">Visual Studies<br>Type · Image · Emotion<br>FILE_01//</div>
+    <div class="vault-top-label">
+      <div>
+        <div class="vault-archive-title">ARCHIVE_LOG //</div>
+        <div class="vault-final-work">FINAL_WORK <span id="work-count">_01</span></div>
+      </div>
+      <div class="vault-count">// COMPLETED RENDERS &amp; VIDEOS</div>
     </div>
 
-    <!-- folder cards -->
-    <div class="folders-container">
+    <div class="folders-row" id="folders-row">
 
       <!-- OAKLEY -->
       <div class="folder-card" onclick="openModal('oakley')">
@@ -279,9 +262,9 @@
         </div>
         <div class="folder-body">
           <video class="card-bg" src="projects/vault/oakley/video.mp4"
-                 muted loop playsinline preload="metadata"></video>
+                 muted playsinline preload="metadata" id="prev-oakley"></video>
           <div class="card-overlay">
-            <div class="card-project-name">OAKLEY</div>
+            <div class="card-project-bg-name">OAKLEY</div>
             <div class="card-bottom">
               <div class="card-title">OAKLEY</div>
               <div class="card-tags">
@@ -291,47 +274,6 @@
               </div>
             </div>
           </div>
-        </div>
-      </div>
-
-      <!-- EMPTY SLOTS -->
-      <div class="folder-card empty">
-        <div class="folder-tab">
-          <span class="tab-code">CODE_002 //</span>
-          <span class="tab-name">— PENDING —</span>
-        </div>
-        <div class="folder-body">
-          <div class="empty-label">[ EMPTY SLOT ]</div>
-        </div>
-      </div>
-
-      <div class="folder-card empty">
-        <div class="folder-tab">
-          <span class="tab-code">CODE_003 //</span>
-          <span class="tab-name">— PENDING —</span>
-        </div>
-        <div class="folder-body">
-          <div class="empty-label">[ EMPTY SLOT ]</div>
-        </div>
-      </div>
-
-      <div class="folder-card empty">
-        <div class="folder-tab">
-          <span class="tab-code">CODE_004 //</span>
-          <span class="tab-name">— PENDING —</span>
-        </div>
-        <div class="folder-body">
-          <div class="empty-label">[ EMPTY SLOT ]</div>
-        </div>
-      </div>
-
-      <div class="folder-card empty">
-        <div class="folder-tab">
-          <span class="tab-code">CODE_005 //</span>
-          <span class="tab-name">— PENDING —</span>
-        </div>
-        <div class="folder-body">
-          <div class="empty-label">[ EMPTY SLOT ]</div>
         </div>
       </div>
 
@@ -349,13 +291,25 @@
 
   <script src="js/main.js"></script>
   <script>
-    /* play video on hover */
-    document.querySelectorAll('.folder-card:not(.empty)').forEach(card => {
+    /* 5-second looping preview on hover */
+    document.querySelectorAll('.folder-card').forEach(card => {
       const v = card.querySelector('.card-bg');
       if (!v) return;
-      v.addEventListener('loadedmetadata', () => { v.currentTime = 1; });
-      card.addEventListener('mouseenter', () => v.play());
-      card.addEventListener('mouseleave', () => { v.pause(); v.currentTime = 1; });
+
+      v.addEventListener('loadedmetadata', () => { v.currentTime = 0; });
+
+      v.addEventListener('timeupdate', () => {
+        if (v.currentTime >= 5) { v.currentTime = 0; }
+      });
+
+      card.addEventListener('mouseenter', () => {
+        v.currentTime = 0;
+        v.play();
+      });
+      card.addEventListener('mouseleave', () => {
+        v.pause();
+        v.currentTime = 0;
+      });
     });
 
     function openModal(id) {
