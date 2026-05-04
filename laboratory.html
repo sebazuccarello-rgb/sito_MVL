@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MVL // BASE\LABORATORY</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(ellipse at 20% 0%,   rgba(0,90,100,0.28) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 100%,  rgba(140,20,20,0.22) 0%, transparent 55%),
+        radial-gradient(ellipse at 50% 50%,   rgba(0,60,70,0.15)  0%, transparent 80%),
+        #080808;
+      overflow-x: hidden;
+    }
+
+    /* dust canvas */
+    #dust-canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 40px;
+      background: rgba(8,8,8,0.88);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+    }
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+    .back-link {
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      color: var(--text-dim);
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--teal); }
+
+    .page-title {
+      font-size: 11px;
+      letter-spacing: 0.28em;
+      color: var(--teal);
+      text-transform: uppercase;
+    }
+    .separator { color: var(--text-dim); }
+
+    .header-right {
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      color: var(--text-dim);
+    }
+
+    /* ── MAIN CONTENT ── */
+    main {
+      position: relative;
+      z-index: 2;
+      padding: 60px 40px 100px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 9px;
+      letter-spacing: 0.3em;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── PROJECT GRID ── */
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 2px;
+    }
+
+    .project-card {
+      position: relative;
+      aspect-ratio: 16/10;
+      background: #0e0e0e;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color 0.3s;
+    }
+    .project-card:hover { border-color: var(--teal-dim); }
+
+    /* dust accumulation overlay on each card */
+    .project-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 40%, rgba(8,8,8,0.65) 100%);
+      z-index: 2;
+      pointer-events: none;
+    }
+    /* vignette dust layer */
+    .project-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.08;
+      z-index: 3;
+      pointer-events: none;
+      transition: opacity 0.4s;
+    }
+    .project-card:hover::after { opacity: 0.03; }
+
+    .card-media {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: saturate(0.7) brightness(0.75);
+      transition: filter 0.4s;
+    }
+    .project-card:hover .card-media {
+      filter: saturate(0.9) brightness(0.9);
+    }
+
+    /* placeholder when no media */
+    .card-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #0d0d0d;
+      color: var(--text-dim);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+    }
+
+    .card-info {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 14px 16px;
+      z-index: 4;
+    }
+    .card-code {
+      font-size: 8px;
+      letter-spacing: 0.22em;
+      color: var(--teal);
+      margin-bottom: 4px;
+    }
+    .card-name {
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      color: var(--text);
+      text-transform: uppercase;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .card-status {
+      margin-top: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .status-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--red);
+      box-shadow: 0 0 6px var(--red);
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.3; }
+    }
+    .status-text {
+      font-size: 8px;
+      letter-spacing: 0.2em;
+      color: var(--text-dim);
+    }
+
+    /* ── EMPTY STATE ── */
+    .empty-state {
+      grid-column: 1 / -1;
+      padding: 80px 0;
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      line-height: 2.4;
+    }
+    .empty-state span {
+      display: block;
+      font-size: 8px;
+      margin-top: 12px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="dust-canvas"></canvas>
+
+  <header>
+    <div class="header-left">
+      <a href="index.html" class="back-link nav-link">← [HOME]</a>
+      <span class="separator">//</span>
+      <span class="page-title">[BASE\\LABORATORY]</span>
+    </div>
+    <div class="header-right" id="version-tag">[Version\1.0.0]</div>
+  </header>
+
+  <main>
+    <div class="section-label">// WORK IN PROGRESS — ACTIVE EXPERIMENTS</div>
+
+    <div class="project-grid" id="project-grid">
+      <!-- Projects are loaded dynamically from projects/lab/ folder -->
+      <!-- Placeholder cards shown until real content is added -->
+      <div class="project-card">
+        <div class="card-placeholder">[ NO SIGNAL ]</div>
+        <div class="card-info">
+          <div class="card-code">WIP_001 //</div>
+          <div class="card-name">AWAITING_INPUT</div>
+          <div class="card-status">
+            <div class="status-dot"></div>
+            <span class="status-text">DORMANT</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="card-placeholder">[ NO SIGNAL ]</div>
+        <div class="card-info">
+          <div class="card-code">WIP_002 //</div>
+          <div class="card-name">AWAITING_INPUT</div>
+          <div class="card-status">
+            <div class="status-dot"></div>
+            <span class="status-text">DORMANT</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="card-placeholder">[ NO SIGNAL ]</div>
+        <div class="card-info">
+          <div class="card-code">WIP_003 //</div>
+          <div class="card-name">AWAITING_INPUT</div>
+          <div class="card-status">
+            <div class="status-dot"></div>
+            <span class="status-text">DORMANT</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/main.js"></script>
+  <script src="js/dust.js"></script>
+</body>
+</html>

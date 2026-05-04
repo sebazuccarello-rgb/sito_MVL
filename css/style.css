@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+
+:root {
+  --bg:       #080808;
+  --red:      #c41e1e;
+  --red-dim:  #7a1212;
+  --teal:     #00b4c8;
+  --teal-dim: #007a87;
+  --text:     #d0d0d0;
+  --text-dim: #555;
+  --border:   rgba(208, 208, 208, 0.12);
+  --font:     'Space Mono', 'Courier New', monospace;
+}
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Grain overlay */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.055;
+  pointer-events: none;
+  z-index: 9000;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ── NAV LINK (shared across pages) ── */
+.nav-link {
+  display: inline-block;
+  font-family: var(--font);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text);
+  padding: 8px 14px;
+  border: 1px solid var(--border);
+  position: relative;
+  transition: color 0.25s, border-color 0.25s;
+  cursor: pointer;
+}
+
+.nav-link::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 0; height: 1px;
+  background: var(--teal);
+  transition: width 0.35s ease;
+}
+
+.nav-link:hover {
+  color: var(--teal);
+  border-color: var(--teal-dim);
+}
+
+.nav-link:hover::before {
+  width: 100%;
+}
+
+/* ── SCAN-LINE FLICKER ── */
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  92%       { opacity: 1; }
+  93%       { opacity: 0.6; }
+  94%       { opacity: 1; }
+  96%       { opacity: 0.7; }
+  97%       { opacity: 1; }
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--text-dim); }
