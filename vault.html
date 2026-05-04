@@ -8,7 +8,8 @@
   <style>
     html, body {
       height: 100%;
-      overflow: hidden;
+      overflow-y: auto;
+      overflow-x: hidden;
       background: #0a0a09;
     }
 
@@ -35,33 +36,27 @@
 
     /* ── PAGE BODY ── */
     .vault-page {
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
       padding-top: 52px;
     }
 
     /* ── TOP LABEL ── */
     .vault-top-label {
-      padding: 18px 40px 12px;
+      padding: 24px 40px 20px;
       display: flex;
       align-items: baseline;
       gap: 20px;
-      flex-shrink: 0;
     }
     .vault-archive-title {
       font-family: 'Prototype', var(--font);
       font-size: 13px;
       letter-spacing: 0.3em;
       color: var(--text-dim);
-      text-transform: uppercase;
     }
     .vault-final-work {
       font-family: 'Prototype', var(--font);
       font-size: 32px;
       letter-spacing: 0.12em;
       color: var(--text);
-      text-transform: uppercase;
       line-height: 1;
     }
     .vault-final-work span { color: var(--teal); }
@@ -72,64 +67,65 @@
       margin-left: auto;
     }
 
-    /* ── FOLDERS ROW ── */
+    /* ── FOLDERS STACK ── */
     .folders-row {
-      flex: 1;
       display: flex;
-      align-items: stretch;
-      padding: 0 40px 32px;
-      overflow: hidden;
+      flex-direction: column;
+      padding: 0 40px 80px;
     }
 
     /* ── FOLDER CARD ── */
     .folder-card {
-      flex: 1;
-      min-width: 0;
+      width: 100%;
+      height: 420px;
       display: flex;
       flex-direction: column;
       cursor: pointer;
       position: relative;
-      transition: transform 0.38s cubic-bezier(0.25,0.46,0.45,0.94), z-index 0s;
-      margin-right: -28px; /* overlap */
-      z-index: 1;
+      transition: transform 0.38s cubic-bezier(0.25,0.46,0.45,0.94);
+      margin-top: -32px;
     }
-    .folder-card:last-child { margin-right: 0; }
+    .folder-card:first-child { margin-top: 0; }
     .folder-card:hover {
-      transform: translateY(-44px);
+      transform: translateY(-28px);
       z-index: 50;
     }
 
     /* ── TAB ── */
     .folder-tab {
       flex-shrink: 0;
-      height: 64px;
-      padding: 10px 16px;
+      height: 60px;
+      padding: 10px 24px;
       display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
       background: #131312;
       border: 1px solid rgba(255,255,255,0.08);
       border-bottom: none;
-      clip-path: polygon(0 18px, 18px 0, 100% 0, 100% 100%, 0 100%);
       transition: background 0.25s;
     }
-    .folder-card:hover .folder-tab { background: #1a1a18; }
+    .folder-card:hover .folder-tab { background: #1c1c1a; }
 
     .tab-code {
-      font-size: 7px;
+      font-size: 8px;
       letter-spacing: 0.28em;
       color: var(--teal);
+      white-space: nowrap;
     }
     .tab-name {
       font-family: 'Prototype', var(--font);
-      font-size: 12px;
+      font-size: 14px;
       letter-spacing: 0.16em;
       color: var(--text);
       text-transform: uppercase;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
+    .tab-arrow {
+      margin-left: auto;
+      font-size: 13px;
+      color: var(--text-dim);
+      transition: color 0.25s, transform 0.25s;
+    }
+    .folder-card:hover .tab-arrow { color: var(--teal); transform: translateX(4px); }
 
     /* ── CARD BODY ── */
     .folder-body {
@@ -146,56 +142,40 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      filter: saturate(0.4) brightness(0.55);
+      filter: saturate(0.35) brightness(0.5);
       transition: filter 0.4s;
     }
-    .folder-card:hover .card-bg { filter: saturate(0.8) brightness(0.82); }
+    .folder-card:hover .card-bg { filter: saturate(0.75) brightness(0.78); }
 
     .card-overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.08) 55%);
+      background: linear-gradient(to right, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.1) 60%);
       display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 16px 18px;
+      align-items: flex-end;
+      padding: 28px 32px;
     }
-
-    /* large faded name */
-    .card-project-bg-name {
-      font-family: 'Prototype', var(--font);
-      font-size: clamp(20px, 3.5vw, 48px);
-      letter-spacing: 0.04em;
-      color: rgba(255,255,255,0.07);
-      text-transform: uppercase;
-      writing-mode: vertical-lr;
-      transform: rotate(180deg);
-      align-self: flex-end;
-      line-height: 1;
-      pointer-events: none;
-      transition: color 0.35s;
-    }
-    .folder-card:hover .card-project-bg-name { color: rgba(255,255,255,0.32); }
 
     .card-bottom {
       display: flex;
       flex-direction: column;
-      gap: 7px;
+      gap: 8px;
     }
     .card-title {
       font-family: 'Prototype', var(--font);
-      font-size: 16px;
-      letter-spacing: 0.1em;
+      font-size: 42px;
+      letter-spacing: 0.06em;
       color: #fff;
       text-transform: uppercase;
+      line-height: 1;
     }
-    .card-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+    .card-tags { display: flex; flex-wrap: wrap; gap: 6px; }
     .card-tag {
-      font-size: 6px;
+      font-size: 7px;
       letter-spacing: 0.18em;
       color: var(--text-dim);
-      border: 1px solid rgba(255,255,255,0.1);
-      padding: 2px 6px;
+      border: 1px solid rgba(255,255,255,0.12);
+      padding: 3px 8px;
     }
 
     /* ── MODAL ── */
@@ -259,12 +239,12 @@
         <div class="folder-tab">
           <span class="tab-code">CODE_001 //</span>
           <span class="tab-name">OAKLEY</span>
+          <span class="tab-arrow">→</span>
         </div>
         <div class="folder-body">
           <video class="card-bg" src="projects/vault/oakley/video.mp4"
                  muted playsinline preload="metadata" id="prev-oakley"></video>
           <div class="card-overlay">
-            <div class="card-project-bg-name">OAKLEY</div>
             <div class="card-bottom">
               <div class="card-title">OAKLEY</div>
               <div class="card-tags">
@@ -282,6 +262,7 @@
         <div class="folder-tab">
           <span class="tab-code">CODE_002 //</span>
           <span class="tab-name">FABRI FIBRA</span>
+          <span class="tab-arrow">→</span>
         </div>
         <div class="folder-body">
           <video class="card-bg" src="projects/vault/fabri-fibra/video.mp4"
@@ -322,6 +303,10 @@
 
   <script src="js/main.js"></script>
   <script>
+    /* z-index decrescente: prima cartella sopra */
+    const cards = document.querySelectorAll('.folder-card');
+    cards.forEach((c, i) => { c.style.zIndex = cards.length - i; });
+
     /* 5-second looping preview on hover */
     document.querySelectorAll('.folder-card').forEach(card => {
       const v = card.querySelector('.card-bg');
