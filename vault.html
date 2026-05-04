@@ -305,7 +305,7 @@
   <script>
     /* z-index decrescente: prima cartella sopra */
     const cards = document.querySelectorAll('.folder-card');
-    cards.forEach((c, i) => { c.style.zIndex = cards.length - i; });
+    cards.forEach((c, i) => { c.style.zIndex = i + 1; });
 
     /* 5-second looping preview on hover */
     document.querySelectorAll('.folder-card').forEach(card => {
