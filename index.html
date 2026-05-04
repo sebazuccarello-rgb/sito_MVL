@@ -100,33 +100,17 @@
       justify-content: center;
     }
 
-    /* scan rectangle */
+    /* reflection frame — no border, glass overlay */
     .scan-frame {
       position: relative;
       padding: 24px 36px;
-      border: 1.5px solid rgba(100, 200, 220, 0.65);
+      border: none;
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
       box-shadow:
-        0 0 18px rgba(0,180,200,0.12),
-        inset 0 0 24px rgba(0,180,200,0.04);
-    }
-
-    /* corner accents */
-    .scan-frame::before,
-    .scan-frame::after {
-      content: '';
-      position: absolute;
-      width: 12px;
-      height: 12px;
-      border-color: var(--teal);
-      border-style: solid;
-    }
-    .scan-frame::before {
-      top: -1px; left: -1px;
-      border-width: 2px 0 0 2px;
-    }
-    .scan-frame::after {
-      bottom: -1px; right: -1px;
-      border-width: 0 2px 2px 0;
+        inset 0 0 40px rgba(0, 160, 180, 0.06),
+        inset 0 0 80px rgba(180, 60, 60, 0.04);
     }
 
     .center-logo {
