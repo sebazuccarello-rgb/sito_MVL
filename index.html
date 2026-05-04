@@ -130,23 +130,22 @@
       transform: translate(-50vw, -50%);
     }
 
-    /* center dot */
-    .center-dot {
+    /* center logo */
+    .center-logo {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 4px;
-      height: 4px;
-      border-radius: 50%;
-      background: var(--teal);
-      box-shadow: 0 0 10px var(--teal);
+      width: 260px;
       pointer-events: none;
+      z-index: 2;
+      filter: drop-shadow(0 0 18px rgba(0,180,200,0.18));
     }
+    .center-logo img { width: 100%; }
 
     /* nav link override for home */
     .nav-link {
-      font-size: 10px;
+      font-size: 14px;
       letter-spacing: 0.22em;
       border-color: transparent;
       background: rgba(8,8,8,0.45);
@@ -166,7 +165,11 @@
 
     <!-- crosshair -->
     <div class="crosshair"></div>
-    <div class="center-dot"></div>
+
+    <!-- center logo -->
+    <div class="center-logo">
+      <img src="assets/1x/Risorsa 5.png" alt="MVL Logo">
+    </div>
 
     <!-- top-left logo -->
     <div class="logo">
