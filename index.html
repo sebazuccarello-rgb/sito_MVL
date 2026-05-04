@@ -22,10 +22,10 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(ellipse at center, rgba(8,8,8,0.35) 0%, rgba(8,8,8,0.78) 100%);
+      background: radial-gradient(ellipse at center, rgba(8,8,8,0.15) 0%, rgba(8,8,8,0.55) 100%);
     }
 
-    /* ── LAYOUT ── */
+    /* ── SHELL ── */
     .shell {
       position: relative;
       z-index: 1;
@@ -33,18 +33,40 @@
       height: 100vh;
     }
 
-    /* ── TOP-LEFT: polaroid logo ── */
-    .logo {
+    /* ── NAV LINKS — no box, plain text ── */
+    .nav-link {
+      font-family: var(--font);
+      font-size: 14px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text);
+      background: none;
+      border: none;
+      padding: 0;
+      white-space: nowrap;
+      transition: color 0.25s;
+    }
+    .nav-link:hover { color: var(--teal); }
+
+    /* ── TOP-LEFT: polaroid ── */
+    .logo-polaroid {
       position: absolute;
-      top: 28px;
-      left: 32px;
-      width: 90px;
-      opacity: 0.92;
+      top: 24px;
+      left: 28px;
+      width: 110px;
       animation: flicker 8s infinite;
     }
-    .logo img { width: 100%; }
+    .logo-polaroid img { width: 100%; }
 
-    /* ── TOP-RIGHT: system badges ── */
+    /* ── TOP-CENTER: [BASE\\LABORATORY] ── */
+    .nav-top {
+      position: absolute;
+      top: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    /* ── TOP-RIGHT: badges ── */
     .sys-badges {
       position: absolute;
       top: 28px;
@@ -56,105 +78,111 @@
     }
     .badge {
       font-family: var(--font);
-      font-size: 10px;
+      font-size: 14px;
       letter-spacing: 0.18em;
-      color: var(--text-dim);
-      border: 1px solid var(--border);
-      padding: 5px 10px;
+      color: var(--text);
       cursor: default;
-      transition: color 0.2s, border-color 0.2s;
-    }
-    .badge:hover {
-      color: var(--teal);
-      border-color: var(--teal-dim);
+      transition: color 0.2s;
     }
     .badge.login { cursor: pointer; }
-    .badge.login:hover { color: var(--red); border-color: var(--red-dim); }
+    .badge.login:hover { color: var(--red); }
+    .badge:not(.login):hover { color: var(--teal); }
 
-    /* ── CROSS NAVIGATION ── */
-    /* top */
-    .nav-top {
+    /* ── CENTER: logo with scan frame ── */
+    .center-block {
       position: absolute;
-      top: 52px;
+      top: 50%;
       left: 50%;
-      transform: translateX(-50%);
+      transform: translate(-50%, -50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    /* bottom */
-    .nav-bottom {
+
+    /* scan rectangle */
+    .scan-frame {
+      position: relative;
+      padding: 24px 36px;
+      border: 1.5px solid rgba(100, 200, 220, 0.65);
+      box-shadow:
+        0 0 18px rgba(0,180,200,0.12),
+        inset 0 0 24px rgba(0,180,200,0.04);
+    }
+
+    /* corner accents */
+    .scan-frame::before,
+    .scan-frame::after {
+      content: '';
       position: absolute;
-      bottom: 52px;
-      left: 50%;
-      transform: translateX(-50%);
+      width: 12px;
+      height: 12px;
+      border-color: var(--teal);
+      border-style: solid;
     }
-    /* left */
+    .scan-frame::before {
+      top: -1px; left: -1px;
+      border-width: 2px 0 0 2px;
+    }
+    .scan-frame::after {
+      bottom: -1px; right: -1px;
+      border-width: 0 2px 2px 0;
+    }
+
+    .center-logo {
+      width: 260px;
+      display: block;
+      filter: drop-shadow(0 2px 20px rgba(0,0,0,0.5));
+    }
+
+    /* ── MIDDLE-LEFT ── */
     .nav-left {
       position: absolute;
       top: 50%;
-      left: 52px;
+      left: 32px;
       transform: translateY(-50%);
     }
-    /* right */
+
+    /* ── MIDDLE-RIGHT ── */
     .nav-right {
       position: absolute;
       top: 50%;
-      right: 52px;
+      right: 32px;
       transform: translateY(-50%);
     }
 
-    /* crosshair lines */
-    .crosshair {
+    /* ── BOTTOM-CENTER ── */
+    .nav-bottom {
       position: absolute;
-      top: 50%;
+      bottom: 32px;
       left: 50%;
-      transform: translate(-50%, -50%);
-      pointer-events: none;
-    }
-    .crosshair::before,
-    .crosshair::after {
-      content: '';
-      position: absolute;
-      background: rgba(208,208,208,0.06);
-    }
-    .crosshair::before {
-      width: 1px;
-      height: 100vh;
-      left: 0;
-      top: 50%;
-      transform: translate(-50%, -50vh);
-    }
-    .crosshair::after {
-      height: 1px;
-      width: 100vw;
-      top: 0;
-      left: 50%;
-      transform: translate(-50vw, -50%);
+      transform: translateX(-50%);
     }
 
-    /* center logo */
-    .center-logo {
+    /* ── BOTTOM-LEFT: quote ── */
+    .quote {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 260px;
-      pointer-events: none;
-      z-index: 2;
-      filter: drop-shadow(0 0 18px rgba(0,180,200,0.18));
+      bottom: 60px;
+      left: 32px;
+      font-family: var(--font);
+      font-size: 18px;
+      line-height: 1.7;
+      color: var(--text);
+      max-width: 280px;
     }
-    .center-logo img { width: 100%; }
 
-    /* nav link override for home */
-    .nav-link {
-      font-size: 14px;
-      letter-spacing: 0.22em;
-      border-color: transparent;
-      background: rgba(8,8,8,0.45);
-      backdrop-filter: blur(2px);
-      white-space: nowrap;
+    /* ── BOTTOM-RIGHT: system data ── */
+    .system-data {
+      position: absolute;
+      bottom: 32px;
+      right: 32px;
+      font-family: var(--font);
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      color: var(--text-dim);
+      cursor: pointer;
+      transition: color 0.2s;
     }
-    .nav-link:hover {
-      background: rgba(8,8,8,0.7);
-    }
+    .system-data:hover { color: var(--text); }
   </style>
 </head>
 <body>
@@ -163,17 +191,14 @@
 
   <div class="shell">
 
-    <!-- crosshair -->
-    <div class="crosshair"></div>
-
-    <!-- center logo -->
-    <div class="center-logo">
-      <img src="assets/1x/Risorsa 5.png" alt="MVL Logo">
+    <!-- top-left polaroid -->
+    <div class="logo-polaroid">
+      <img src="assets/rettangolo11.png" alt="MVL">
     </div>
 
-    <!-- top-left logo -->
-    <div class="logo">
-      <img src="assets/rettangolo11.png" alt="MVL">
+    <!-- top-center -->
+    <div class="nav-top">
+      <a href="laboratory.html" class="nav-link">[BASE\\LABORATORY]</a>
     </div>
 
     <!-- top-right badges -->
@@ -182,19 +207,35 @@
       <div class="badge" id="version-tag">[Version\1.0.0]</div>
     </div>
 
-    <!-- navigation cross -->
-    <div class="nav-top">
-      <a href="laboratory.html" class="nav-link">[BASE\\LABORATORY]</a>
+    <!-- center logo with scan frame -->
+    <div class="center-block">
+      <div class="scan-frame">
+        <img src="assets/1x/Risorsa 5.png" alt="MVL Logo" class="center-logo">
+      </div>
     </div>
-    <div class="nav-right">
-      <a href="vault.html" class="nav-link">[SCAN\\THE_VAULT]</a>
-    </div>
-    <div class="nav-bottom">
-      <a href="raw-idea.html" class="nav-link">[STATUS\\RAW_IDEA]</a>
-    </div>
+
+    <!-- middle-left -->
     <div class="nav-left">
       <a href="vision.html" class="nav-link">[WORLD\\THE_VISION]</a>
     </div>
+
+    <!-- middle-right -->
+    <div class="nav-right">
+      <a href="vault.html" class="nav-link">[SCAN\\THE_VAULT]</a>
+    </div>
+
+    <!-- bottom-center -->
+    <div class="nav-bottom">
+      <a href="raw-idea.html" class="nav-link">[STATUS\\RAW_IDEA]</a>
+    </div>
+
+    <!-- bottom-left quote -->
+    <div class="quote">
+      "Don't tell me<br>what you want,<br>tell me your<br>Vision"
+    </div>
+
+    <!-- bottom-right system data -->
+    <div class="system-data">[SYSTEM.DATA // PRIVACY &amp; COOKIES]</div>
 
   </div>
 
