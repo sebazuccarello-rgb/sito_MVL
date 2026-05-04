@@ -11,3 +11,8 @@ type: project
 - Il primo push con `-u origin main` ha funzionato senza problemi.
 - Git su Windows sostituisce LF con CRLF (warning atteso, non un errore).
 - I file di memory e lessons vengono tenuti nella cartella `memory/` dentro la repo stessa.
+
+## 2026-05-04 — Pulizia file provvisori
+
+- Rimosso `test_provvisorio.md` dopo aver verificato che push/pull funzionano correttamente.
+- Struttura finale: `README.md` + cartella `memory/`.
