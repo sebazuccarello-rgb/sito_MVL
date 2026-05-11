@@ -19,7 +19,7 @@
   --teal:     #00b4c8;
   --teal-dim: #007a87;
   --text:     #d0d0d0;
-  --text-dim: #555;
+  --text-dim: rgba(255,255,255,0.7);
   --border:   rgba(208, 208, 208, 0.12);
   --font:     'Space Mono', 'Courier New', monospace;
 }
@@ -36,7 +36,7 @@ html, body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--font);
-  font-size: 11px;
+  font-size: 13px;
   letter-spacing: 0.08em;
   -webkit-font-smoothing: antialiased;
 }
