@@ -8,10 +8,4 @@ async function loadVersion() {
   } catch (_) {}
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  loadVersion();
-  /* sfumatura fissa in basso — nasconde lo stacco del gradiente animato */
-  const fade = document.createElement('div');
-  fade.className = 'page-fade-bottom';
-  document.body.appendChild(fade);
-});
+document.addEventListener('DOMContentLoaded', loadVersion);
