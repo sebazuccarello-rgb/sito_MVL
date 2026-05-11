@@ -100,6 +100,17 @@ a {
   97%       { opacity: 1; }
 }
 
+/* ── HEADER LOGO (back-link) ── */
+.header-logo {
+  height: 20px;
+  width: auto;
+  display: block;
+  filter: brightness(0) invert(1);   /* forza bianco */
+  opacity: 0.55;
+  transition: opacity 0.25s;
+}
+.back-link:hover .header-logo { opacity: 1; }
+
 /* ── SCROLLBAR ── */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
