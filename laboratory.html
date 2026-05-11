@@ -75,16 +75,93 @@
       box-shadow: 1px 2px 10px rgba(0,0,0,0.7);
       overflow: hidden;
       cursor: pointer;
-      transition: border-color 0.25s, box-shadow 0.25s;
+      transform-origin: center;
+      transition: border-color 0.25s, box-shadow 0.25s, transform 0.32s cubic-bezier(0.25,0.46,0.45,0.94);
       /* default size for cards beyond 20 */
       grid-column: span 3;
       grid-row: span 2;
     }
     .fc:hover {
+      transform: scale(1.06);
       border-color: #333;
-      box-shadow: 2px 4px 20px rgba(0,0,0,0.9);
-      z-index: 10;
+      box-shadow: 0 6px 32px rgba(0,0,0,0.95);
+      z-index: 20;
     }
+
+    /* ── GLITCH CLICK ── */
+    @keyframes fc-glitch {
+      0%   { transform: scale(1.06) translate(0,0);     clip-path: none;               filter: brightness(1); }
+      10%  { transform: scale(1.06) translate(-5px,2px);  clip-path: inset(6% 0 90% 0);  filter: brightness(3) saturate(0); }
+      20%  { transform: scale(1.06) translate(5px,-2px);  clip-path: none;               filter: brightness(0.3); }
+      30%  { transform: scale(1.06) translate(-4px,3px);  clip-path: inset(52% 0 32% 0); filter: brightness(2.5) hue-rotate(80deg); }
+      40%  { transform: scale(1.06) translate(0,0);     clip-path: none;               filter: brightness(1); }
+      50%  { transform: scale(1.06) translate(4px,-1px);  clip-path: inset(72% 0 8% 0);  filter: brightness(1.8) saturate(0); }
+      60%  { transform: scale(1.06) translate(-3px,0);   clip-path: none;               filter: brightness(0.5); }
+      70%  { transform: scale(1.06) translate(3px,3px);   clip-path: inset(18% 0 72% 0); filter: brightness(2); }
+      80%  { transform: scale(1.06) translate(0,0);     clip-path: none;               filter: brightness(1); }
+      100% { transform: scale(1);    translate(0,0);     clip-path: none;               filter: brightness(1); }
+    }
+    .fc.glitching {
+      animation: fc-glitch 0.42s steps(1) forwards !important;
+      transition: none !important;
+      z-index: 50;
+      pointer-events: none;
+    }
+
+    /* ── LIGHTBOX ── */
+    .lb-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 800;
+      background: rgba(0,0,0,0.97);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      animation: lb-fade-in 0.3s ease forwards;
+    }
+    @keyframes lb-fade-in { from { opacity:0; } to { opacity:1; } }
+    .lb-overlay.lb-closing { animation: lb-fade-out 0.22s ease forwards; }
+    @keyframes lb-fade-out { to { opacity:0; } }
+
+    .lb-inner {
+      position: relative;
+      cursor: default;
+      animation: lb-zoom-in 0.38s cubic-bezier(0.16,1,0.3,1) forwards;
+    }
+    @keyframes lb-zoom-in {
+      from { transform: scale(0.82); opacity:0; }
+      to   { transform: scale(1);    opacity:1; }
+    }
+    .lb-inner img,
+    .lb-inner video {
+      max-width: 90vw;
+      max-height: 85vh;
+      object-fit: contain;
+      display: block;
+    }
+    .lb-placeholder {
+      width: 80vw; height: 60vh;
+      background: #080808;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 9px; letter-spacing: 0.3em; color: #1e1e1e;
+    }
+    .lb-close {
+      position: absolute;
+      top: -26px; right: 0;
+      font-family: var(--font);
+      font-size: 9px; letter-spacing: 0.22em;
+      color: var(--text-dim);
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .lb-close:hover { color: var(--red); }
+    .lb-meta {
+      margin-top: 10px;
+      display: flex; gap: 16px; align-items: baseline;
+    }
+    .lb-code { font-size: 8px; letter-spacing: 0.25em; color: var(--teal); }
+    .lb-name { font-family: 'Prototype', var(--font); font-size: 11px; letter-spacing: 0.14em; color: var(--text); }
 
     .card-placeholder {
       width: 100%; height: 100%;
@@ -174,6 +251,7 @@
   <script src="js/main.js"></script>
   <script src="js/dust.js"></script>
   <script>
+    /* ── generate cards ── */
     const grid = document.getElementById('film-grid');
     for (let i = 1; i <= 20; i++) {
       const num = String(i).padStart(3, '0');
@@ -187,6 +265,57 @@
           <div class="card-status"><div class="status-dot"></div><span class="status-text">DORMANT</span></div>
         </div>`;
       grid.appendChild(card);
+    }
+
+    /* ── click: glitch → lightbox ── */
+    grid.addEventListener('click', e => {
+      const card = e.target.closest('.fc');
+      if (!card || card.classList.contains('glitching')) return;
+      card.classList.add('glitching');
+      setTimeout(() => {
+        card.classList.remove('glitching');
+        openLightbox(card);
+      }, 420);
+    });
+
+    function openLightbox(card) {
+      const media  = card.querySelector('.card-media');
+      const code   = card.querySelector('.card-code')?.textContent  || '';
+      const name   = card.querySelector('.card-name')?.textContent  || '';
+
+      let mediaHTML;
+      if (media) {
+        if (media.tagName === 'VIDEO') {
+          mediaHTML = `<video src="${media.src}" autoplay loop muted playsinline></video>`;
+        } else {
+          mediaHTML = `<img src="${media.src}" alt="${name}">`;
+        }
+      } else {
+        mediaHTML = `<div class="lb-placeholder">[ NO SIGNAL ]</div>`;
+      }
+
+      const overlay = document.createElement('div');
+      overlay.className = 'lb-overlay';
+      overlay.innerHTML = `
+        <div class="lb-inner">
+          <div class="lb-close">[✕ CLOSE]</div>
+          ${mediaHTML}
+          <div class="lb-meta">
+            <span class="lb-code">${code}</span>
+            <span class="lb-name">${name}</span>
+          </div>
+        </div>`;
+      document.body.appendChild(overlay);
+
+      const close = () => {
+        overlay.classList.add('lb-closing');
+        setTimeout(() => overlay.remove(), 220);
+        document.removeEventListener('keydown', onKey);
+      };
+      overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
+      overlay.querySelector('.lb-close').addEventListener('click', close);
+      const onKey = e => { if (e.key === 'Escape') close(); };
+      document.addEventListener('keydown', onKey);
     }
   </script>
 </body>
