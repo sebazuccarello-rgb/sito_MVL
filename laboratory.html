@@ -20,14 +20,18 @@
       100% { --g1x: 20%; --g1y:   0%; --g2x: 80%; --g2y: 100%; }
     }
 
-    body {
-      min-height: 100vh;
+    html {
+      min-height: 100%;
       background-color: #080808;
       background-image:
         radial-gradient(ellipse at var(--g1x) var(--g1y), rgba(0,90,100,0.30) 0%, transparent 58%),
         radial-gradient(ellipse at var(--g2x) var(--g2y), rgba(140,20,20,0.24) 0%, transparent 54%);
-      background-size: 100% 100%;     /* copre l'intera altezza del body, qualunque essa sia */
+      background-size: 100% 100%;
       animation: bg-drift 18s ease-in-out infinite;
+    }
+    body {
+      min-height: 100vh;
+      background: transparent;
       overflow-x: hidden;
     }
 
