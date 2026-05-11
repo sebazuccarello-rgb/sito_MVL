@@ -248,21 +248,63 @@
   <script src="js/main.js"></script>
   <script src="js/dust.js"></script>
   <script>
+    /* ── card data ── */
+    const CARDS = [
+      { code:'WIP_001', name:'JUMP_PERSP',       src:'projects/laboratory/WIP_001_JUMP_PERSP.mp4',       type:'video' },
+      { code:'WIP_002', name:'JUMP_SIDE',         src:'projects/laboratory/WIP_002_JUMP_SIDE.mp4',         type:'video' },
+      { code:'WIP_003', name:'WALK_FRONT',        src:'projects/laboratory/WIP_003_WALK_FRONT.mp4',        type:'video' },
+      { code:'WIP_004', name:'WALK_LEFT',         src:'projects/laboratory/WIP_004_WALK_LEFT.mp4',         type:'video' },
+      { code:'WIP_005', name:'WALK_PERSP',        src:'projects/laboratory/WIP_005_WALK_PERSP.mp4',        type:'video' },
+      { code:'WIP_006', name:'LOST_VALLEY_01',    src:'projects/laboratory/WIP_006_LOST_VALLEY_01.mp4',    type:'video' },
+      { code:'WIP_007', name:'LOST_VALLEY_02',    src:'projects/laboratory/WIP_007_LOST_VALLEY_02.mp4',    type:'video' },
+      { code:'WIP_008', name:'LOST_VALLEY_03',    src:'projects/laboratory/WIP_008_LOST_VALLEY_03.mp4',    type:'video' },
+      { code:'WIP_009', name:'FACE_ANIM',         src:'projects/laboratory/WIP_009_FACE_ANIM.mp4',         type:'video' },
+      { code:'WIP_010', name:'VFX_FIRE',          src:'projects/laboratory/WIP_010_VFX_FIRE.mp4',          type:'video' },
+      { code:'WIP_011', name:'ARCADE_EX',         src:'projects/laboratory/WIP_011_ARCADE_EX.mp4',         type:'video' },
+      { code:'WIP_012', name:'BALL_RENDER',       src:'projects/laboratory/WIP_012_BALL_RENDER.jpg',       type:'img'   },
+      { code:'WIP_013', name:'ENV_RENDER',        src:'projects/laboratory/WIP_013_ENV_RENDER.jpg',        type:'img'   },
+      { code:'WIP_014', name:'OPEN_SITES',        src:'projects/laboratory/WIP_014_OPEN_SITES.mp4',        type:'video' },
+      { code:'WIP_015', name:'COMFY_AI',          src:'projects/laboratory/WIP_015_COMFY_AI.jpg',          type:'img'   },
+      { code:'WIP_016', name:'AWAITING_INPUT',    src:null, type:null },
+      { code:'WIP_017', name:'AWAITING_INPUT',    src:null, type:null },
+      { code:'WIP_018', name:'AWAITING_INPUT',    src:null, type:null },
+      { code:'WIP_019', name:'AWAITING_INPUT',    src:null, type:null },
+      { code:'WIP_020', name:'AWAITING_INPUT',    src:null, type:null },
+    ];
+
     /* ── generate cards ── */
     const grid = document.getElementById('film-grid');
-    for (let i = 1; i <= 20; i++) {
-      const num = String(i).padStart(3, '0');
+    CARDS.forEach(d => {
       const card = document.createElement('div');
       card.className = 'fc';
+
+      let mediaHTML = '';
+      if (d.type === 'video') {
+        mediaHTML = `<video class="card-media" src="${d.src}" muted playsinline preload="metadata"></video>`;
+      } else if (d.type === 'img') {
+        mediaHTML = `<img class="card-media" src="${d.src}" alt="${d.name}">`;
+      } else {
+        mediaHTML = `<div class="card-placeholder">[ NO SIGNAL ]</div>`;
+      }
+
+      const status = d.src ? 'ACTIVE' : 'DORMANT';
       card.innerHTML = `
-        <div class="card-placeholder">[ NO SIGNAL ]</div>
+        ${mediaHTML}
         <div class="card-info">
-          <div class="card-code">WIP_${num} //</div>
-          <div class="card-name">AWAITING_INPUT</div>
-          <div class="card-status"><div class="status-dot"></div><span class="status-text">DORMANT</span></div>
+          <div class="card-code">${d.code} //</div>
+          <div class="card-name">${d.name}</div>
+          <div class="card-status"><div class="status-dot"></div><span class="status-text">${status}</span></div>
         </div>`;
       grid.appendChild(card);
-    }
+    });
+
+    /* ── video hover preview ── */
+    grid.querySelectorAll('.fc').forEach(card => {
+      const v = card.querySelector('video.card-media');
+      if (!v) return;
+      card.addEventListener('mouseenter', () => { v.currentTime = 0; v.play(); });
+      card.addEventListener('mouseleave', () => { v.pause(); v.currentTime = 0; });
+    });
 
     /* ── click: glitch → lightbox ── */
     grid.addEventListener('click', e => {
