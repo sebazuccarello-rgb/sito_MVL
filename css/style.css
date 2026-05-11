@@ -100,6 +100,28 @@ a {
   97%       { opacity: 1; }
 }
 
+/* ── PAGE TOP LABEL (laboratory, raw-idea, vision) ── */
+.page-top-label {
+  padding: 24px 40px 20px;
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+}
+.page-archive-title {
+  font-family: 'Prototype', var(--font);
+  font-size: 13px;
+  letter-spacing: 0.3em;
+  color: #fff;
+}
+.page-main-title {
+  font-family: 'Prototype', var(--font);
+  font-size: 32px;
+  letter-spacing: 0.12em;
+  color: var(--text);
+  line-height: 1;
+}
+.page-main-title span { color: var(--teal); }
+
 /* ── HEADER LOGO (back-link) ── */
 .header-logo {
   height: 20px;
