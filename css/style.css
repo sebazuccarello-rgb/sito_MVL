@@ -102,7 +102,7 @@ a {
 
 /* ── PAGE TOP LABEL (laboratory, raw-idea, vision) ── */
 .page-top-label {
-  padding: 24px 40px 20px;
+  padding: 24px 0 20px;
   display: flex;
   align-items: baseline;
   gap: 20px;
