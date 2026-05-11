@@ -133,6 +133,16 @@ a {
 }
 .back-link:hover .header-logo { opacity: 1; }
 
+/* ── BOTTOM FADE — nasconde lo stacco del gradiente animato ── */
+.page-fade-bottom {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: 200px;
+  background: linear-gradient(to bottom, transparent 0%, #080808 100%);
+  pointer-events: none;
+  z-index: 50;
+}
+
 /* ── SCROLLBAR ── */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
