@@ -113,25 +113,22 @@
       position: fixed;
       inset: 0;
       z-index: 800;
-      background: rgba(0,0,0,0.97);
+      background: rgba(0,0,0,0);         /* parte trasparente, JS lo scurisce */
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      animation: lb-fade-in 0.3s ease forwards;
     }
-    @keyframes lb-fade-in { from { opacity:0; } to { opacity:1; } }
-    .lb-overlay.lb-closing { animation: lb-fade-out 0.22s ease forwards; }
-    @keyframes lb-fade-out { to { opacity:0; } }
+    .lb-overlay.lb-closing {
+      animation: lb-fade-out 0.28s ease forwards;
+      pointer-events: none;
+    }
+    @keyframes lb-fade-out { to { opacity: 0; } }
 
     .lb-inner {
       position: relative;
       cursor: default;
-      animation: lb-zoom-in 0.38s cubic-bezier(0.16,1,0.3,1) forwards;
-    }
-    @keyframes lb-zoom-in {
-      from { transform: scale(0.82); opacity:0; }
-      to   { transform: scale(1);    opacity:1; }
+      will-change: transform, opacity;    /* ottimizza GPU */
     }
     .lb-inner img,
     .lb-inner video {
@@ -279,17 +276,16 @@
     });
 
     function openLightbox(card) {
+      const cRect  = card.getBoundingClientRect();          // posizione esatta card
       const media  = card.querySelector('.card-media');
-      const code   = card.querySelector('.card-code')?.textContent  || '';
-      const name   = card.querySelector('.card-name')?.textContent  || '';
+      const code   = card.querySelector('.card-code')?.textContent || '';
+      const name   = card.querySelector('.card-name')?.textContent || '';
 
       let mediaHTML;
       if (media) {
-        if (media.tagName === 'VIDEO') {
-          mediaHTML = `<video src="${media.src}" autoplay loop muted playsinline></video>`;
-        } else {
-          mediaHTML = `<img src="${media.src}" alt="${name}">`;
-        }
+        mediaHTML = media.tagName === 'VIDEO'
+          ? `<video src="${media.src}" autoplay loop muted playsinline></video>`
+          : `<img src="${media.src}" alt="${name}">`;
       } else {
         mediaHTML = `<div class="lb-placeholder">[ NO SIGNAL ]</div>`;
       }
@@ -307,13 +303,40 @@
         </div>`;
       document.body.appendChild(overlay);
 
+      /* ── FLIP: misuro la posizione finale, poi parto da quella della card ── */
+      const inner  = overlay.querySelector('.lb-inner');
+      const iRect  = inner.getBoundingClientRect();         // posizione finale centrata
+
+      /* differenza di centri tra card e inner */
+      const dx     = (cRect.left + cRect.width  / 2) - (iRect.left + iRect.width  / 2);
+      const dy     = (cRect.top  + cRect.height / 2) - (iRect.top  + iRect.height / 2);
+      /* scala: quanto è piccola la card rispetto all'inner */
+      const scale  = Math.min(cRect.width / iRect.width, cRect.height / iRect.height);
+
+      /* stato iniziale: posizionato e scalato come la card */
+      inner.style.transform = `translate(${dx}px, ${dy}px) scale(${scale})`;
+      inner.style.opacity   = '0';
+      inner.style.transition = 'none';
+
+      /* due rAF: assicuro che il browser abbia dipinto lo stato iniziale */
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        /* sfondo: fade in */
+        overlay.style.transition = 'background 0.55s ease';
+        overlay.style.background = 'rgba(0,0,0,0.97)';
+        /* inner: zoom dal punto della card al centro — spring curve, 0.82s */
+        inner.style.transition = 'transform 0.82s cubic-bezier(0.16,1,0.3,1), opacity 0.28s ease';
+        inner.style.transform  = 'translate(0,0) scale(1)';
+        inner.style.opacity    = '1';
+      }));
+
+      /* ── chiusura ── */
       const close = () => {
         overlay.classList.add('lb-closing');
-        setTimeout(() => overlay.remove(), 220);
+        setTimeout(() => overlay.remove(), 280);
         document.removeEventListener('keydown', onKey);
       };
       overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
-      overlay.querySelector('.lb-close').addEventListener('click', close);
+      inner.querySelector('.lb-close').addEventListener('click', close);
       const onKey = e => { if (e.key === 'Escape') close(); };
       document.addEventListener('keydown', onKey);
     }
