@@ -19,7 +19,7 @@
   --teal:     #00b4c8;
   --teal-dim: #007a87;
   --text:     #d0d0d0;
-  --text-dim: rgba(255,255,255,0.7);
+  --text-dim: rgba(255,255,255,0.5);
   --border:   rgba(208, 208, 208, 0.12);
   --font:     'Space Mono', 'Courier New', monospace;
 }
@@ -138,3 +138,14 @@ a {
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--text-dim); }
+
+/* ── MOBILE ── */
+@media (max-width: 768px) {
+  html, body { font-size: 12px; }
+
+  .page-top-label { padding: 16px 0 12px; }
+  .page-archive-title { font-size: 10px; }
+  .page-main-title { font-size: 22px; }
+
+  .header-logo { height: 16px; }
+}

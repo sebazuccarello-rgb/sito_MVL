@@ -241,6 +241,15 @@
       line-height: 2;
       margin-top: -12px;
     }
+
+    /* ── MOBILE ── */
+    @media (max-width: 768px) {
+      header { padding: 12px 16px; }
+      main { padding: 40px 16px 80px; }
+
+      .form-heading { font-size: 26px; }
+      .submit-btn { width: 100%; text-align: center; padding: 18px 24px; }
+    }
   </style>
 </head>
 <body>
@@ -273,27 +282,27 @@
     <form class="brief-form" id="brief-form">
 
       <div class="field-group">
-        <label class="field-label">// INPUT_MODE</label>
-        <div class="mode-toggle">
+        <label class="field-label" for="mode-toggle">// INPUT_MODE</label>
+        <div class="mode-toggle" id="mode-toggle">
           <button type="button" class="mode-btn active" data-mode="both">PHOTO + TEXT</button>
           <button type="button" class="mode-btn" data-mode="text">TEXT ONLY</button>
         </div>
       </div>
 
       <div class="field-group" id="name-field">
-        <label class="field-label">// IDENTIFIER</label>
-        <input type="text" class="field-input" placeholder="Your name or alias" autocomplete="off">
+        <label class="field-label" for="input-name">// IDENTIFIER</label>
+        <input type="text" id="input-name" name="name" class="field-input" placeholder="Your name or alias" autocomplete="off">
       </div>
 
       <div class="field-group" id="contact-field">
-        <label class="field-label">// CONTACT_SIGNAL</label>
-        <input type="email" class="field-input" placeholder="Email address" autocomplete="off">
+        <label class="field-label" for="input-email">// CONTACT_SIGNAL</label>
+        <input type="email" id="input-email" name="email" class="field-input" placeholder="Email address" autocomplete="off">
       </div>
 
       <div class="field-group" id="upload-field">
-        <label class="field-label">// VISUAL_REFERENCE</label>
+        <label class="field-label" for="file-input">// VISUAL_REFERENCE</label>
         <div class="upload-zone" id="upload-zone">
-          <input type="file" id="file-input" accept="image/*,video/*" multiple>
+          <input type="file" id="file-input" name="files" accept="image/*,video/*" multiple>
           <div class="upload-icon">
             <strong>[DROP FILES HERE]</strong>
             JPG, PNG, MP4 accepted — up to 20MB each
@@ -303,8 +312,8 @@
       </div>
 
       <div class="field-group">
-        <label class="field-label">// RAW_TEXT</label>
-        <textarea class="field-textarea" placeholder="Describe your idea, mood, references, any detail that matters..."></textarea>
+        <label class="field-label" for="input-text">// RAW_TEXT</label>
+        <textarea id="input-text" name="message" class="field-textarea" placeholder="Describe your idea, mood, references, any detail that matters..."></textarea>
       </div>
 
       <div class="form-note">

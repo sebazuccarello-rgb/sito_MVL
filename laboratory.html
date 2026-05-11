@@ -289,6 +289,22 @@
 
     /* ── GRID PLACEMENT — le regole nth-child vengono generate dinamicamente via JS
        in base al numero di card nell'array CARDS ── */
+
+    /* ── MOBILE ── */
+    @media (max-width: 768px) {
+      header { padding: 12px 16px; }
+      main { padding: 24px 16px 80px; }
+
+      .film-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: 160px;
+      }
+      /* override mosaic: tutte le card occupano 1 colonna e 1 riga */
+      .fc {
+        grid-column: span 1 !important;
+        grid-row: span 1 !important;
+      }
+    }
   </style>
 </head>
 <body>

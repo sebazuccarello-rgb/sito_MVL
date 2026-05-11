@@ -172,6 +172,50 @@
       transition: color 0.2s;
     }
     .system-data:hover { color: var(--red); }
+
+    /* ── MOBILE ── */
+    @media (max-width: 768px) {
+      /* Nascondi elementi decorativi */
+      .logo-polaroid { display: none; }
+      .quote { display: none; }
+      .system-data { display: none; }
+
+      /* Logo centrale più piccolo */
+      .center-logo { width: 72vw; }
+      .center-block { top: 38%; }
+
+      /* Badge più piccoli */
+      .badge { font-size: 14px; }
+      .sys-badges { top: 16px; right: 16px; gap: 4px; }
+
+      /* Nav links: più piccoli e impilati sotto il logo */
+      .nav-link { font-size: 14px; letter-spacing: 0.2em; }
+
+      .nav-top {
+        top: auto;
+        bottom: 200px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      .nav-left {
+        top: auto;
+        left: 50%;
+        bottom: 155px;
+        transform: translateX(-50%);
+      }
+      .nav-right {
+        top: auto;
+        right: auto;
+        left: 50%;
+        bottom: 110px;
+        transform: translateX(-50%);
+      }
+      .nav-bottom {
+        bottom: 60px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    }
   </style>
 </head>
 <body>
