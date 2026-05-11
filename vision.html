@@ -11,11 +11,11 @@
     @property --g2x { syntax: '<percentage>'; inherits: false; initial-value:  80%; }
     @property --g2y { syntax: '<percentage>'; inherits: false; initial-value: 100%; }
     @keyframes bg-drift {
-      0%   { --g1x: 20%; --g1y:   0%; --g2x: 80%; --g2y: 100%; }
-      25%  { --g1x: 78%; --g1y:  28%; --g2x: 12%; --g2y:  62%; }
-      50%  { --g1x: 38%; --g1y:  82%; --g2x: 68%; --g2y:  18%; }
-      75%  { --g1x:  6%; --g1y:  52%; --g2x: 92%; --g2y:  42%; }
-      100% { --g1x: 20%; --g1y:   0%; --g2x: 80%; --g2y: 100%; }
+      0%   { --g1x: 80%; --g1y: 100%; --g2x: 20%; --g2y:   0%; }
+      25%  { --g1x: 22%; --g1y:  72%; --g2x: 88%; --g2y:  38%; }
+      50%  { --g1x: 62%; --g1y:  18%; --g2x: 32%; --g2y:  82%; }
+      75%  { --g1x: 94%; --g1y:  48%; --g2x:  8%; --g2y:  58%; }
+      100% { --g1x: 80%; --g1y: 100%; --g2x: 20%; --g2y:   0%; }
     }
     #dust-canvas { position: fixed; inset: 0; pointer-events: none; z-index: 1; }
 
