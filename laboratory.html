@@ -26,8 +26,8 @@
       background-image:
         radial-gradient(ellipse at var(--g1x) var(--g1y), rgba(0,90,100,0.30) 0%, transparent 58%),
         radial-gradient(ellipse at var(--g2x) var(--g2y), rgba(140,20,20,0.24) 0%, transparent 54%);
-      background-size: 100% 100vh;
-      background-repeat: repeat-y;
+      background-size: 100% 100%;
+      background-attachment: fixed;   /* rimane ancorato al viewport — lunghezza pagina irrilevante */
       animation: bg-drift 18s ease-in-out infinite;
       overflow-x: hidden;
     }
