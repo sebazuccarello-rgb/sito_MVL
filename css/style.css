@@ -38,6 +38,7 @@ html, body {
   font-family: var(--font);
   font-size: 13px;
   letter-spacing: 0.08em;
+  line-height: 2;
   -webkit-font-smoothing: antialiased;
 }
 
