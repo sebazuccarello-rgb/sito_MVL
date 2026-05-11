@@ -217,6 +217,62 @@
     @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
     .status-text { font-size: 6px; letter-spacing: 0.2em; color: var(--text-dim); }
 
+    /* ── EMPTY STATE ── */
+    .empty-state {
+      display: none;
+      position: absolute;
+      top: 50vh;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      pointer-events: none;
+      z-index: 2;
+    }
+    .empty-state.visible { display: block; }
+
+    .empty-label {
+      font-size: 8px;
+      letter-spacing: 0.32em;
+      color: var(--text-dim);
+      margin-bottom: 18px;
+    }
+    .empty-title {
+      font-family: 'Prototype', var(--font);
+      font-size: 28px;
+      letter-spacing: 0.22em;
+      color: var(--text);
+      line-height: 1.3;
+      text-transform: uppercase;
+      animation: fluorescent 4.5s steps(1) infinite;
+    }
+    .empty-sub {
+      margin-top: 20px;
+      font-size: 7px;
+      letter-spacing: 0.28em;
+      color: var(--text-dim);
+      animation: fluorescent 4.5s steps(1) infinite;
+      animation-delay: 0.08s;
+    }
+
+    /* flickering luce fluorescente */
+    @keyframes fluorescent {
+      0%,   3.9%  { opacity: 1;    }
+      4%,   4.4%  { opacity: 0;    }   /* scatto 1 */
+      4.5%, 5.9%  { opacity: 1;    }
+      6%,   6.2%  { opacity: 0.15; }   /* tremolìo */
+      6.3%, 27.9% { opacity: 1;    }
+      28%,  28.4% { opacity: 0;    }   /* doppio scatto */
+      28.5%,28.9% { opacity: 1;    }
+      29%,  29.4% { opacity: 0;    }
+      29.5%,54.9% { opacity: 1;    }
+      55%,  56.9% { opacity: 0;    }   /* spegnimento lungo */
+      57%,  57.4% { opacity: 0.6;  }   /* riaccensione instabile */
+      57.5%,57.9% { opacity: 0;    }
+      58%,  81.9% { opacity: 1;    }
+      82%,  82.2% { opacity: 0;    }   /* micro-scatto finale */
+      82.3%,100%  { opacity: 1;    }
+    }
+
     /* ── GRID PLACEMENT — le regole nth-child vengono generate dinamicamente via JS
        in base al numero di card nell'array CARDS ── */
   </style>
@@ -237,6 +293,11 @@
   <main>
     <div class="section-label">// WORK IN PROGRESS — ACTIVE EXPERIMENTS</div>
     <div class="film-grid" id="film-grid"></div>
+    <div class="empty-state" id="empty-state">
+      <div class="empty-label">// LAB STATUS //</div>
+      <div class="empty-title">NESSUN ESPERIMENTO<br>IN CORSO</div>
+      <div class="empty-sub">[ IN ATTESA DI INPUT ]</div>
+    </div>
   </main>
 
   <script src="js/main.js"></script>
@@ -305,6 +366,9 @@
       applyLayout(card, i);
       grid.appendChild(card);
     });
+
+    /* empty state */
+    if (CARDS.length === 0) document.getElementById('empty-state').classList.add('visible');
 
     /* hover preview per i video */
     grid.querySelectorAll('.fc').forEach(card => {
