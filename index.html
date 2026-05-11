@@ -46,7 +46,20 @@
       white-space: nowrap;
       transition: color 0.25s;
     }
-    .nav-link:hover { color: var(--teal); }
+    .nav-link:hover {
+      color: var(--teal);
+      animation: glitch 0.4s steps(1) infinite;
+    }
+
+    @keyframes glitch {
+      0%   { text-shadow: none; transform: translate(0); }
+      20%  { text-shadow: -2px 0 var(--red), 2px 0 var(--teal); transform: translate(-1px, 0); }
+      40%  { text-shadow: 2px 0 var(--red), -2px 0 var(--teal); transform: translate(1px, 0); clip-path: inset(10% 0 80% 0); }
+      60%  { text-shadow: none; transform: translate(0); clip-path: none; }
+      70%  { text-shadow: -3px 0 var(--teal); transform: translate(2px, 1px); }
+      80%  { text-shadow: 3px 0 var(--red); transform: translate(-1px, 0); clip-path: inset(60% 0 20% 0); }
+      100% { text-shadow: none; transform: translate(0); clip-path: none; }
+    }
 
     /* ── TOP-LEFT: polaroid ── */
     .logo-polaroid {
