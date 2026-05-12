@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MVL // SYSTEM\AUTH</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    @property --g1x { syntax: '<percentage>'; inherits: false; initial-value:  20%; }
+    @property --g1y { syntax: '<percentage>'; inherits: false; initial-value:   0%; }
+    @property --g2x { syntax: '<percentage>'; inherits: false; initial-value:  80%; }
+    @property --g2y { syntax: '<percentage>'; inherits: false; initial-value: 100%; }
+    @keyframes bg-drift {
+      0%   { --g1x: 20%; --g1y: 100%; --g2x: 80%; --g2y:   0%; }
+      25%  { --g1x: 78%; --g1y:  72%; --g2x: 12%; --g2y:  38%; }
+      50%  { --g1x: 38%; --g1y:  18%; --g2x: 68%; --g2y:  82%; }
+      75%  { --g1x:  6%; --g1y:  48%; --g2x: 92%; --g2y:  58%; }
+      100% { --g1x: 20%; --g1y: 100%; --g2x: 80%; --g2y:   0%; }
+    }
+    #dust-canvas { position: fixed; inset: 0; pointer-events: none; z-index: 1; }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+    body {
+      background-color: #080808;
+      background-image:
+        radial-gradient(ellipse at var(--g1x) var(--g1y), rgba(0,90,100,0.30) 0%, transparent 58%),
+        radial-gradient(ellipse at var(--g2x) var(--g2y), rgba(140,20,20,0.24) 0%, transparent 54%);
+      background-attachment: fixed;
+      animation: bg-drift 18s ease-in-out infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ── WRAPPER ── */
+    .auth-wrap {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 420px;
+      padding: 0 24px;
+    }
+
+    /* ── LOGO ── */
+    .auth-logo {
+      display: block;
+      width: 120px;
+      margin: 0 auto 40px;
+      filter: brightness(0.85);
+    }
+
+    /* ── PANEL ── */
+    .auth-panel {
+      border: 1px solid var(--border);
+      background: rgba(8,8,8,0.82);
+      backdrop-filter: blur(12px);
+      padding: 40px 36px 36px;
+      transition: border-color 0.4s;
+    }
+    .auth-panel.error  { border-color: var(--red);  }
+    .auth-panel.success{ border-color: var(--teal); }
+
+    .auth-tag {
+      font-size: 8px;
+      letter-spacing: 0.32em;
+      color: var(--text-dim);
+      margin-bottom: 10px;
+    }
+    .auth-title {
+      font-family: 'Prototype', var(--font);
+      font-size: 22px;
+      letter-spacing: 0.16em;
+      color: var(--text);
+      text-transform: uppercase;
+      margin-bottom: 36px;
+      line-height: 1.2;
+    }
+
+    /* ── FIELDS ── */
+    .auth-field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .auth-label {
+      font-size: 9px;
+      letter-spacing: 0.28em;
+      color: var(--teal);
+      text-transform: uppercase;
+    }
+    .auth-input {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 13px;
+      letter-spacing: 0.14em;
+      padding: 14px 16px;
+      outline: none;
+      width: 100%;
+      transition: border-color 0.25s, background 0.25s;
+    }
+    .auth-input:focus {
+      border-color: var(--teal-dim);
+      background: rgba(0,180,200,0.04);
+    }
+    .auth-input::placeholder {
+      color: var(--text-dim);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+    }
+
+    /* ── STATUS MESSAGE ── */
+    .auth-status {
+      font-size: 9px;
+      letter-spacing: 0.24em;
+      height: 18px;
+      margin-bottom: 24px;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+    .auth-status.err  { color: var(--red);  }
+    .auth-status.ok   { color: var(--teal); }
+
+    /* ── SUBMIT ── */
+    .auth-btn {
+      font-family: var(--font);
+      font-size: 11px;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: var(--teal);
+      border: none;
+      padding: 16px 0;
+      width: 100%;
+      cursor: pointer;
+      transition: background 0.25s, letter-spacing 0.25s;
+    }
+    .auth-btn:hover { background: #00cce0; letter-spacing: 0.32em; }
+    .auth-btn:disabled { background: #1a1a1a; color: var(--text-dim); cursor: default; letter-spacing: 0.26em; }
+
+    /* ── BACK LINK ── */
+    .auth-back {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      color: var(--text-dim);
+      transition: color 0.2s;
+    }
+    .auth-back:hover { color: var(--teal); }
+
+    /* ── SHAKE (errore) ── */
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      15%     { transform: translateX(-8px); }
+      30%     { transform: translateX(7px); }
+      45%     { transform: translateX(-6px); }
+      60%     { transform: translateX(5px); }
+      75%     { transform: translateX(-3px); }
+      90%     { transform: translateX(2px); }
+    }
+    .auth-panel.shaking { animation: shake 0.45s ease; }
+
+    /* ── SUCCESS STATE ── */
+    .success-block {
+      display: none;
+      text-align: center;
+      padding: 20px 0 8px;
+    }
+    .success-block.visible { display: block; }
+    .success-code {
+      font-size: 8px;
+      letter-spacing: 0.3em;
+      color: var(--teal);
+      margin-bottom: 16px;
+    }
+    .success-title {
+      font-family: 'Prototype', var(--font);
+      font-size: 20px;
+      letter-spacing: 0.18em;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+    .success-sub {
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: var(--text-dim);
+    }
+
+    /* mobile */
+    @media (max-width: 480px) {
+      .auth-panel { padding: 28px 20px 24px; }
+      .auth-title { font-size: 17px; }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="dust-canvas"></canvas>
+
+  <div class="auth-wrap">
+
+    <a href="index.html">
+      <img src="assets/1x/Risorsa 5.png" alt="MVL" class="auth-logo">
+    </a>
+
+    <div class="auth-panel" id="auth-panel">
+
+      <!-- LOGIN FORM -->
+      <div id="form-block">
+        <div class="auth-tag">// SYSTEM_AUTH</div>
+        <div class="auth-title">ACCESS<br>CONTROL</div>
+
+        <form id="auth-form" autocomplete="off">
+          <div class="auth-field">
+            <label class="auth-label" for="auth-user">// IDENTIFIER</label>
+            <input class="auth-input" id="auth-user" name="identifier" type="text" placeholder="Enter identifier" spellcheck="false">
+          </div>
+          <div class="auth-field">
+            <label class="auth-label" for="auth-pass">// ACCESS_KEY</label>
+            <input class="auth-input" id="auth-pass" name="access_key" type="password" placeholder="Enter access key">
+          </div>
+
+          <div class="auth-status" id="auth-status"></div>
+
+          <button class="auth-btn" type="submit" id="auth-btn">[AUTHENTICATE]</button>
+        </form>
+      </div>
+
+      <!-- SUCCESS STATE -->
+      <div class="success-block" id="success-block">
+        <div class="success-code">// ACCESS_GRANTED</div>
+        <div class="success-title">IDENTITY CONFIRMED</div>
+        <div class="success-sub">Redirecting to control panel…</div>
+      </div>
+
+    </div>
+
+    <a href="index.html" class="auth-back">← RETURN TO CONTROL</a>
+
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/dust.js"></script>
+  <script>
+    /* ── Credentials — cambia qui username e password ── */
+    const AUTH = { user: 'MVL', pass: 'OUR_VISION' };
+
+    /* Se già loggato, vai diretto all'admin */
+    if (sessionStorage.getItem('mvl_auth') === '1') {
+      window.location.href = 'admin.html';
+    }
+
+    const form   = document.getElementById('auth-form');
+    const panel  = document.getElementById('auth-panel');
+    const status = document.getElementById('auth-status');
+    const btn    = document.getElementById('auth-btn');
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const user = document.getElementById('auth-user').value.trim();
+      const pass = document.getElementById('auth-pass').value;
+
+      if (user === AUTH.user && pass === AUTH.pass) {
+        /* ── SUCCESS ── */
+        sessionStorage.setItem('mvl_auth', '1');
+        panel.classList.remove('error');
+        panel.classList.add('success');
+        status.textContent = '';
+        document.getElementById('form-block').style.display = 'none';
+        document.getElementById('success-block').classList.add('visible');
+        setTimeout(() => { window.location.href = 'admin.html'; }, 1800);
+
+      } else {
+        /* ── ERROR ── */
+        panel.classList.remove('shaking', 'success');
+        panel.classList.add('error');
+        void panel.offsetWidth; /* reflow per restart animation */
+        panel.classList.add('shaking');
+        status.className = 'auth-status err';
+        status.textContent = '// SIGNAL_REJECTED — INVALID CREDENTIALS';
+        document.getElementById('auth-pass').value = '';
+        document.getElementById('auth-pass').focus();
+      }
+    });
+
+    /* rimuovi errore quando l'utente riprende a digitare */
+    document.getElementById('auth-user').addEventListener('input', clearError);
+    document.getElementById('auth-pass').addEventListener('input', clearError);
+    function clearError() {
+      panel.classList.remove('error');
+      status.textContent = '';
+      status.className = 'auth-status';
+    }
+  </script>
+</body>
+</html>

@@ -19,9 +19,7 @@
     }
     #dust-canvas { position: fixed; inset: 0; pointer-events: none; z-index: 1; }
 
-    html {
-      min-height: 100%;
-    }
+    html { min-height: 100%; }
     body {
       min-height: 100vh;
       background-color: #080808;
@@ -36,9 +34,7 @@
     body::after {
       content: '';
       position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
+      bottom: 0; left: 0; right: 0;
       height: 160px;
       background: linear-gradient(to bottom, transparent, #080808);
       pointer-events: none;
@@ -67,9 +63,7 @@
     .header-right { font-size: 13px; letter-spacing: 0.14em; color: var(--text-dim); }
 
     /* ── PAGE BODY ── */
-    .vault-page {
-      padding-top: 52px;
-    }
+    .vault-page { padding-top: 52px; }
 
     /* ── TOP LABEL ── */
     .vault-top-label {
@@ -91,7 +85,6 @@
       color: var(--text);
       line-height: 1;
     }
-    .vault-final-work span { color: var(--teal); }
     .vault-count {
       font-size: 9px;
       letter-spacing: 0.22em;
@@ -99,14 +92,116 @@
       margin-left: auto;
     }
 
-    /* ── FOLDERS STACK ── */
+    /* ── BACK BUTTON ── */
+    .back-to-vault {
+      font-family: var(--font);
+      font-size: 9px;
+      letter-spacing: 0.24em;
+      color: var(--text-dim);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: color 0.2s;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      display: block;
+    }
+    .back-to-vault:hover { color: var(--teal); }
+
+    /* ══════════════════════════════════
+       VAULT GRID — 4 group cards mosaic
+       (identico a laboratory)
+    ══════════════════════════════════ */
+    .vault-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-rows: 80px;
+      gap: 6px;
+      padding: 0 40px 120px;
+    }
+    .vc-animation { grid-column: 1/8;  grid-row: 1/7; }
+    .vc-render    { grid-column: 8/13; grid-row: 1/4; }
+    .vc-ai        { grid-column: 8/11; grid-row: 4/7; }
+    .vc-motion    { grid-column: 11/13;grid-row: 4/7; }
+
+    /* ── FC CARD (mosaic card, lab-style) ── */
+    .fc {
+      position: relative;
+      background: #060606;
+      border: 7px solid #000;
+      box-shadow: 1px 2px 10px rgba(0,0,0,0.7);
+      overflow: hidden;
+      cursor: pointer;
+      transform-origin: center;
+      transition: border-color 0.25s, box-shadow 0.25s, transform 0.32s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    .fc:hover {
+      transform: scale(1.06);
+      border-color: #333;
+      box-shadow: 0 6px 32px rgba(0,0,0,0.95);
+      z-index: 20;
+    }
+    .card-media {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: saturate(0.4) brightness(0.6);
+      transition: filter 0.35s;
+    }
+    .fc:hover .card-media { filter: saturate(0.8) brightness(0.82); }
+    .card-info {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 8px 10px;
+      background: linear-gradient(transparent, rgba(0,0,0,0.92));
+      z-index: 2;
+    }
+    .card-code { font-size: 6px; letter-spacing: 0.25em; color: var(--teal); margin-bottom: 2px; }
+    .card-name {
+      font-family: 'Prototype', var(--font);
+      font-size: 10px; letter-spacing: 0.1em;
+      color: var(--text); text-transform: uppercase;
+    }
+    .card-status { margin-top: 3px; display: flex; align-items: center; gap: 5px; }
+    .status-dot {
+      width: 4px; height: 4px; border-radius: 50%;
+      background: var(--red); box-shadow: 0 0 4px var(--red);
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    .status-text { font-size: 6px; letter-spacing: 0.2em; color: var(--text-dim); }
+
+    /* ── GLITCH CLICK ── */
+    @keyframes fc-glitch {
+      0%   { transform: scale(1.06) translate(0,0);      clip-path: none;               filter: brightness(1); }
+      10%  { transform: scale(1.06) translate(-5px,2px); clip-path: inset(6% 0 90% 0);  filter: brightness(3) saturate(0); }
+      20%  { transform: scale(1.06) translate(5px,-2px); clip-path: none;               filter: brightness(0.3); }
+      30%  { transform: scale(1.06) translate(-4px,3px); clip-path: inset(52% 0 32% 0); filter: brightness(2.5) hue-rotate(80deg); }
+      40%  { transform: scale(1.06) translate(0,0);      clip-path: none;               filter: brightness(1); }
+      50%  { transform: scale(1.06) translate(4px,-1px); clip-path: inset(72% 0 8% 0);  filter: brightness(1.8) saturate(0); }
+      60%  { transform: scale(1.06) translate(-3px,0);   clip-path: none;               filter: brightness(0.5); }
+      70%  { transform: scale(1.06) translate(3px,3px);  clip-path: inset(18% 0 72% 0); filter: brightness(2); }
+      80%  { transform: scale(1.06) translate(0,0);      clip-path: none;               filter: brightness(1); }
+      100% { transform: scale(1);                        clip-path: none;               filter: brightness(1); }
+    }
+    .fc.glitching {
+      animation: fc-glitch 0.42s steps(1) forwards !important;
+      transition: none !important;
+      z-index: 50;
+      pointer-events: none;
+    }
+
+    /* ══════════════════════════════════
+       FOLDERS STACK — project cards
+       inside each group
+    ══════════════════════════════════ */
     .folders-row {
       display: flex;
       flex-direction: column;
-      padding: 36px 40px 80px;
+      padding: 36px 40px 140px;
     }
 
-    /* ── FOLDER CARD ── */
+    /* ── FOLDER CARD (singolo progetto) ── */
     .folder-card {
       width: 100%;
       height: 420px;
@@ -114,23 +209,27 @@
       flex-direction: column;
       cursor: pointer;
       position: relative;
-      transition: transform 0.38s cubic-bezier(0.25,0.46,0.45,0.94);
-      margin-top: -32px;
+      /* SPRING "sfilamento" — overshoot leggero */
+      transition: transform 0.55s cubic-bezier(0.34,1.4,0.64,1),
+                  box-shadow 0.35s ease;
+      margin-top: -220px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
     }
     .folder-card:first-child { margin-top: 0; }
     .folder-card:hover {
-      transform: translateY(-28px);
+      transform: translateY(-80px);
       z-index: 50;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.85);
     }
 
     /* ── TAB ── */
     .folder-tab {
       flex-shrink: 0;
-      height: 60px;
-      padding: 10px 24px;
+      height: 56px;
+      padding: 0 24px;
       display: flex;
       align-items: center;
-      gap: 24px;
+      gap: 20px;
       background: #131312;
       border: 1px solid rgba(255,255,255,0.08);
       border-bottom: none;
@@ -138,26 +237,21 @@
     }
     .folder-card:hover .folder-tab { background: #1c1c1a; }
 
-    .tab-code {
-      font-size: 8px;
-      letter-spacing: 0.28em;
-      color: var(--teal);
-      white-space: nowrap;
-    }
+    .tab-code { font-size: 8px; letter-spacing: 0.28em; color: var(--teal); white-space: nowrap; }
     .tab-name {
       font-family: 'Prototype', var(--font);
-      font-size: 14px;
+      font-size: 13px;
       letter-spacing: 0.16em;
       color: var(--text);
       text-transform: uppercase;
     }
     .tab-arrow {
       margin-left: auto;
-      font-size: 13px;
+      font-size: 14px;
       color: var(--text-dim);
-      transition: color 0.25s, transform 0.25s;
+      transition: color 0.25s, transform 0.4s cubic-bezier(0.34,1.4,0.64,1);
     }
-    .folder-card:hover .tab-arrow { color: var(--teal); transform: translateX(4px); }
+    .folder-card:hover .tab-arrow { color: var(--teal); transform: translateX(6px); }
 
     /* ── CARD BODY ── */
     .folder-body {
@@ -167,12 +261,10 @@
       border: 1px solid rgba(255,255,255,0.07);
       border-top: none;
     }
-
     .card-bg {
       position: absolute;
       inset: 0;
-      width: 100%;
-      height: 100%;
+      width: 100%; height: 100%;
       object-fit: cover;
       filter: saturate(0.35) brightness(0.5);
       transition: filter 0.4s;
@@ -187,20 +279,6 @@
       align-items: flex-end;
       padding: 28px 32px;
     }
-
-    .card-bottom {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .card-title {
-      font-family: 'Prototype', var(--font);
-      font-size: 42px;
-      letter-spacing: 0.06em;
-      color: #fff;
-      text-transform: uppercase;
-      line-height: 1;
-    }
     .card-tags { display: flex; flex-wrap: wrap; gap: 6px; }
     .card-tag {
       font-size: 7px;
@@ -210,36 +288,140 @@
       padding: 3px 8px;
     }
 
-    /* ── MODAL ── */
-    .modal-overlay {
-      display: none;
+    /* ══════════════════════════════════
+       GROUP VIEW
+    ══════════════════════════════════ */
+    #vault-group-view { display: none; }
+    .group-page { display: none; }
+    .group-page.active { display: block; }
+
+    /* ── BOTTOM SWITCHER ── */
+    .group-switcher {
       position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.95);
-      z-index: 500;
-      align-items: center;
-      justify-content: center;
+      bottom: 0; left: 0; right: 0;
+      z-index: 300;
+      display: flex;
+      background: rgba(8,8,8,0.97);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--border);
     }
-    .modal-overlay.active { display: flex; }
-    .modal { position: relative; width: 88vw; max-width: 1000px; }
-    .modal video { width: 100%; display: block; }
-    .modal-close {
-      position: absolute;
-      top: -30px; right: 0;
-      font-family: var(--font);
-      font-size: 10px;
-      letter-spacing: 0.2em;
-      color: var(--text-dim);
-      cursor: pointer;
-      transition: color 0.2s;
-    }
-    .modal-close:hover { color: var(--red); }
-    .modal-title {
-      margin-top: 10px;
+    .switcher-btn {
+      flex: 1;
       font-family: 'Prototype', var(--font);
-      font-size: 11px;
+      font-size: 9px;
       letter-spacing: 0.22em;
       color: var(--text-dim);
+      background: transparent;
+      border: none;
+      border-right: 1px solid var(--border);
+      padding: 14px 8px 12px;
+      cursor: pointer;
+      transition: color 0.2s, background 0.2s;
+      text-transform: uppercase;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .switcher-btn:last-child { border-right: none; }
+    .switcher-btn:hover { color: var(--teal); background: rgba(0,180,200,0.04); }
+    .switcher-btn.active { color: var(--teal); background: rgba(0,180,200,0.08); }
+    .switcher-btn .sw-count {
+      font-size: 7px;
+      letter-spacing: 0.14em;
+      color: var(--text-dim);
+      font-family: var(--font);
+    }
+    .switcher-btn.active .sw-count { color: var(--teal); }
+
+    /* ══════════════════════════════════
+       PROJECT VIEW — singola pagina
+    ══════════════════════════════════ */
+    #vault-project-view { display: none; }
+
+    .proj-hero {
+      padding: 0 40px 48px;
+    }
+    .proj-hero video,
+    .proj-hero img {
+      width: 100%;
+      max-height: 65vh;
+      object-fit: contain;
+      display: block;
+      background: #000;
+    }
+
+    /* descrizione / meta progetto */
+    .proj-meta {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 16px 0 0;
+      flex-wrap: wrap;
+    }
+    .proj-meta-tag {
+      font-size: 7px;
+      letter-spacing: 0.18em;
+      color: var(--text-dim);
+      border: 1px solid rgba(255,255,255,0.12);
+      padding: 3px 9px;
+    }
+
+    /* WIP section */
+    .proj-section-label {
+      font-size: 9px;
+      letter-spacing: 0.3em;
+      color: #fff;
+      padding: 0 40px 28px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .proj-section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    .wip-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      padding: 0 40px 160px;
+    }
+    .wip-card {
+      aspect-ratio: 16/9;
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+      background: rgba(255,255,255,0.015);
+      transition: border-color 0.25s;
+    }
+    .wip-card:hover { border-color: rgba(0,180,200,0.3); }
+    .wip-media {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: saturate(0.4) brightness(0.6);
+      transition: filter 0.35s;
+    }
+    .wip-card:hover .wip-media { filter: saturate(0.75) brightness(0.8); }
+
+    /* placeholder step quando src è null */
+    .wip-placeholder {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 8px;
+    }
+    .wip-placeholder-code { font-size: 7px; letter-spacing: 0.3em; color: #252525; }
+    .wip-placeholder-status { font-size: 6px; letter-spacing: 0.2em; color: #1a1a1a; }
+
+    .wip-info {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 8px 10px;
+      background: linear-gradient(transparent, rgba(0,0,0,0.94));
+    }
+    .wip-step  { font-size: 6px; letter-spacing: 0.28em; color: var(--teal); margin-bottom: 2px; }
+    .wip-desc  {
+      font-family: 'Prototype', var(--font);
+      font-size: 9px; letter-spacing: 0.12em;
+      color: var(--text); text-transform: uppercase;
     }
 
     /* ── MOBILE ── */
@@ -249,13 +431,21 @@
       .vault-top-label { padding: 16px 16px 12px; flex-wrap: wrap; gap: 8px; }
       .vault-final-work { font-size: 22px; }
       .vault-count { margin-left: 0; }
-      .folders-row { padding: 16px 16px 60px; }
 
-      .folder-card { height: 260px; margin-top: -20px; }
-      .folder-card:hover { transform: translateY(-16px); }
-      .card-title { font-size: 26px; }
+      /* vault main grid */
+      .vault-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 160px; padding: 0 16px 120px; }
+      .vault-grid .fc { grid-column: span 1 !important; grid-row: span 1 !important; }
 
-      .modal { width: 96vw; }
+      /* group pages */
+      .folders-row { padding: 16px 16px 140px; }
+      .folder-card { height: 260px; margin-top: -130px; }
+      .folder-card:hover { transform: translateY(-50px); }
+      .switcher-btn { font-size: 8px; padding: 10px 4px; }
+
+      /* project view */
+      .proj-hero { padding: 0 16px 24px; }
+      .proj-section-label { padding: 0 16px 20px; }
+      .wip-grid { grid-template-columns: repeat(2, 1fr); padding: 0 16px 160px; }
     }
   </style>
 </head>
@@ -267,431 +457,396 @@
     <div class="header-left">
       <a href="index.html" class="back-link"><img src="assets/1x/Risorsa 5.png" alt="MVL" class="header-logo"></a>
       <span class="separator">//</span>
-      <span class="page-title">[SCAN\\THE_VAULT]</span>
+      <span class="page-title" id="header-page-title">[SCAN\\THE_VAULT]</span>
     </div>
     <div class="header-right" id="version-tag">[Version\1.0.0]</div>
   </header>
 
-  <div class="vault-page">
-
+  <!-- ══════════════════════════════════════════
+       MAIN VIEW — 4 group cards mosaic
+  ══════════════════════════════════════════ -->
+  <div id="vault-main" class="vault-page">
     <div class="vault-top-label">
       <div>
         <div class="vault-archive-title">ARCHIVE_LOG //</div>
         <div class="vault-final-work">THE_VAULT</div>
       </div>
-      <div class="vault-count">// COMPLETED RENDERS &amp; VIDEOS</div>
+      <div class="vault-count">// 4 CATEGORIES</div>
     </div>
 
-    <div class="folders-row" id="folders-row">
+    <div class="vault-grid">
 
-      <!-- OAKLEY -->
-      <div class="folder-card" onclick="openModal('oakley')">
-        <div class="folder-tab">
-          <span class="tab-code">CODE_001 //</span>
-          <span class="tab-name">OAKLEY</span>
-          <span class="tab-arrow">→</span>
-        </div>
-        <div class="folder-body">
-          <video class="card-bg" src="projects/vault/oakley/video.mp4"
-                 muted playsinline preload="metadata" id="prev-oakley"></video>
-          <div class="card-overlay">
-            <div class="card-bottom">
-              <div class="card-title">OAKLEY</div>
-              <div class="card-tags">
-                <span class="card-tag">3D</span>
-                <span class="card-tag">SPOT</span>
-                <span class="card-tag">VIDEO</span>
-              </div>
-            </div>
-          </div>
+      <div class="fc vc-animation" onclick="glitchOpen(this,'animation')">
+        <video class="card-media" src="projects/vault/oakley/video.mp4" muted playsinline preload="metadata"></video>
+        <div class="card-info">
+          <div class="card-code">GRP_001 //</div>
+          <div class="card-name">ANIMATION</div>
+          <div class="card-status"><div class="status-dot"></div><span class="status-text">11 PROJECTS</span></div>
         </div>
       </div>
 
-      <!-- FABRI FIBRA -->
-      <div class="folder-card" onclick="openModal('fabri-fibra')">
-        <div class="folder-tab">
-          <span class="tab-code">CODE_002 //</span>
-          <span class="tab-name">FABRI FIBRA</span>
-          <span class="tab-arrow">→</span>
+      <div class="fc vc-render" onclick="glitchOpen(this,'render')">
+        <img class="card-media" src="projects/vault/ball-render/cover.jpg" alt="Render">
+        <div class="card-info">
+          <div class="card-code">GRP_002 //</div>
+          <div class="card-name">RENDER</div>
+          <div class="card-status"><div class="status-dot"></div><span class="status-text">2 PROJECTS</span></div>
         </div>
+      </div>
+
+      <div class="fc vc-ai" onclick="glitchOpen(this,'ai')">
+        <img class="card-media" src="projects/vault/comfy-ai/cover.png" alt="AI">
+        <div class="card-info">
+          <div class="card-code">GRP_003 //</div>
+          <div class="card-name">AI</div>
+          <div class="card-status"><div class="status-dot"></div><span class="status-text">1 PROJECT</span></div>
+        </div>
+      </div>
+
+      <div class="fc vc-motion" onclick="glitchOpen(this,'motion')">
+        <video class="card-media" src="projects/vault/open-sites/video.mp4" muted playsinline preload="metadata"></video>
+        <div class="card-info">
+          <div class="card-code">GRP_004 //</div>
+          <div class="card-name">MOTION</div>
+          <div class="card-status"><div class="status-dot"></div><span class="status-text">1 PROJECT</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       GROUP VIEW — projects of selected group
+  ══════════════════════════════════════════ -->
+  <div id="vault-group-view" class="vault-page">
+    <div class="vault-top-label">
+      <div>
+        <button class="back-to-vault" onclick="backToVault()">← THE_VAULT</button>
+        <div class="vault-archive-title" id="grp-label"></div>
+        <div class="vault-final-work" id="grp-title"></div>
+      </div>
+      <div class="vault-count" id="grp-count"></div>
+    </div>
+
+    <!-- ANIMATION -->
+    <div class="group-page folders-row" data-group="animation">
+      <div class="folder-card" onclick="openProject('oakley')">
+        <div class="folder-tab"><span class="tab-code">CODE_001 //</span><span class="tab-name">OAKLEY</span><span class="tab-arrow">→</span></div>
+        <div class="folder-body">
+          <video class="card-bg" src="projects/vault/oakley/video.mp4" muted playsinline preload="metadata"></video>
+          <div class="card-overlay"><div class="card-tags"><span class="card-tag">3D</span><span class="card-tag">SPOT</span><span class="card-tag">VIDEO</span></div></div>
+        </div>
+      </div>
+      <div class="folder-card" onclick="openProject('fabri-fibra')">
+        <div class="folder-tab"><span class="tab-code">CODE_002 //</span><span class="tab-name">FABRI FIBRA</span><span class="tab-arrow">→</span></div>
         <div class="folder-body">
           <video class="card-bg" src="projects/vault/fabri-fibra/video.mp4" muted playsinline preload="metadata"></video>
-          <div class="card-overlay">
-            <div class="card-bottom">
-              <div class="card-title">FABRI FIBRA</div>
-              <div class="card-tags">
-                <span class="card-tag">3D</span>
-                <span class="card-tag">ANIMATION</span>
-                <span class="card-tag">VIDEO</span>
-              </div>
-            </div>
-          </div>
+          <div class="card-overlay"><div class="card-tags"><span class="card-tag">3D</span><span class="card-tag">ANIMATION</span><span class="card-tag">VIDEO</span></div></div>
         </div>
       </div>
-
-      <!-- ARCADE EX -->
-      <div class="folder-card" onclick="openModal('arcade-ex')">
-        <div class="folder-tab">
-          <span class="tab-code">CODE_003 //</span>
-          <span class="tab-name">ARCADE EX</span>
-          <span class="tab-arrow">→</span>
-        </div>
+      <div class="folder-card" onclick="openProject('arcade-ex')">
+        <div class="folder-tab"><span class="tab-code">CODE_003 //</span><span class="tab-name">ARCADE EX</span><span class="tab-arrow">→</span></div>
         <div class="folder-body">
           <video class="card-bg" src="projects/vault/arcade-ex/video.mp4" muted playsinline preload="metadata"></video>
-          <div class="card-overlay">
-            <div class="card-bottom">
-              <div class="card-title">ARCADE EX</div>
-              <div class="card-tags">
-                <span class="card-tag">3D</span>
-                <span class="card-tag">ANIMATION</span>
-                <span class="card-tag">CGI</span>
-              </div>
-            </div>
-          </div>
+          <div class="card-overlay"><div class="card-tags"><span class="card-tag">3D</span><span class="card-tag">ANIMATION</span><span class="card-tag">CGI</span></div></div>
         </div>
       </div>
-
-      <!-- FACE ANIMATION -->
-      <div class="folder-card" onclick="openModal('face-anim')">
-        <div class="folder-tab">
-          <span class="tab-code">CODE_004 //</span>
-          <span class="tab-name">FACE ANIMATION</span>
-          <span class="tab-arrow">→</span>
-        </div>
+      <div class="folder-card" onclick="openProject('face-anim')">
+        <div class="folder-tab"><span class="tab-code">CODE_004 //</span><span class="tab-name">FACE ANIMATION</span><span class="tab-arrow">→</span></div>
         <div class="folder-body">
           <video class="card-bg" src="projects/vault/face-anim/video.mp4" muted playsinline preload="metadata"></video>
-          <div class="card-overlay">
-            <div class="card-bottom">
-              <div class="card-title">FACE ANIM</div>
-              <div class="card-tags">
-                <span class="card-tag">3D</span>
-                <span class="card-tag">CHARACTER</span>
-                <span class="card-tag">ANIMATION</span>
-              </div>
-            </div>
-          </div>
+          <div class="card-overlay"><div class="card-tags"><span class="card-tag">3D</span><span class="card-tag">CHARACTER</span><span class="card-tag">ANIMATION</span></div></div>
         </div>
       </div>
-
-      <!-- JUMP PERSP -->
-      <div class="folder-card" onclick="openModal('jump-persp')">
-        <div class="folder-tab">
-          <span class="tab-code">CODE_005 //</span>
-          <span class="tab-name">JUMP PERSP</span>
-          <span class="tab-arrow">→</span>
-        </div>
+      <div class="folder-card" onclick="openProject('jump-persp')">
+        <div class="folder-tab"><span class="tab-code">CODE_005 //</span><span class="tab-name">JUMP PERSP</span><span class="tab-arrow">→</span></div>
         <div class="folder-body">
           <video class="card-bg" src="projects/vault/jump-persp/video.mp4" muted playsinline preload="metadata"></video>
-          <div class="card-overlay">
-            <div class="card-bottom">
-              <div class="card-title">JUMP PERSP</div>
-              <div class="card-tags">
-                <span class="card-tag">3D</span>
-                <span class="card-tag">CHARACTER</span>
-                <span class="card-tag">ANIMATION</span>
-              </div>
-            </div>
-          </div>
+          <div class="card-overlay"><div class="card-tags"><span class="card-tag">3D</span><span class="card-tag">CHARACTER</span><span class="card-tag">ANIMATION</span></div></div>
         </div>
       </div>
-
-      <!-- JUMP SIDE -->
-      <div class="folder-card" onclick="openModal('jump-side')">
-        <div class="folder-tab">
-          <span class="tab-code">CODE_006 //</span>
-          <span class="tab-name">JUMP SIDE</span>
-          <span class="tab-arrow">→</span>
-        </div>
+      <div class="folder-card" onclick="openProject('jump-side')">
+        <div class="folder-tab"><span class="tab-code">CODE_006 //</span><span class="tab-name">JUMP SIDE</span><span class="tab-arrow">→</span></div>
         <div class="folder-body">
           <video class="card-bg" src="projects/vault/jump-side/video.mp4" muted playsinline preload="metadata"></video>
-          <div class="card-overlay">
-            <div class="card-bottom">
-              <div class="card-title">JUMP SIDE</div>
-              <div class="card-tags">
-                <span class="card-tag">3D</span>
-                <span class="card-tag">CHARACTER</span>
-                <span class="card-tag">ANIMATION</span>
-              </div>
-            </div>
-          </div>
+          <div class="card-overlay"><div class="card-tags"><span class="card-tag">3D</span><span class="card-tag">CHARACTER</span><span class="card-tag">ANIMATION</span></div></div>
         </div>
       </div>
-
-      <!-- LOST VALLEY -->
-      <div class="folder-card" onclick="openModal('lost-valley')">
-        <div class="folder-tab">
-          <span class="tab-code">CODE_007 //</span>
-          <span class="tab-name">LOST VALLEY</span>
-          <span class="tab-arrow">→</span>
-        </div>
+      <div class="folder-card" onclick="openProject('lost-valley')">
+        <div class="folder-tab"><span class="tab-code">CODE_007 //</span><span class="tab-name">LOST VALLEY</span><span class="tab-arrow">→</span></div>
         <div class="folder-body">
           <video class="card-bg" src="projects/vault/lost-valley/video.mp4" muted playsinline preload="metadata"></video>
-          <div class="card-overlay">
-            <div class="card-bottom">
-              <div class="card-title">LOST VALLEY</div>
-              <div class="card-tags">
-                <span class="card-tag">3D</span>
-                <span class="card-tag">ENVIRONMENT</span>
-                <span class="card-tag">VFX</span>
-              </div>
-            </div>
-          </div>
+          <div class="card-overlay"><div class="card-tags"><span class="card-tag">3D</span><span class="card-tag">ENVIRONMENT</span><span class="card-tag">VFX</span></div></div>
         </div>
       </div>
-
-      <!-- PARALLAX -->
-      <div class="folder-card" onclick="openModal('parallax')">
-        <div class="folder-tab">
-          <span class="tab-code">CODE_008 //</span>
-          <span class="tab-name">PARALLAX</span>
-          <span class="tab-arrow">→</span>
-        </div>
+      <div class="folder-card" onclick="openProject('parallax')">
+        <div class="folder-tab"><span class="tab-code">CODE_008 //</span><span class="tab-name">PARALLAX</span><span class="tab-arrow">→</span></div>
         <div class="folder-body">
           <video class="card-bg" src="projects/vault/parallax/video.mp4" muted playsinline preload="metadata"></video>
-          <div class="card-overlay">
-            <div class="card-bottom">
-              <div class="card-title">PARALLAX</div>
-              <div class="card-tags">
-                <span class="card-tag">3D</span>
-                <span class="card-tag">COMPOSITING</span>
-                <span class="card-tag">VFX</span>
-              </div>
-            </div>
-          </div>
+          <div class="card-overlay"><div class="card-tags"><span class="card-tag">3D</span><span class="card-tag">COMPOSITING</span><span class="card-tag">VFX</span></div></div>
         </div>
       </div>
-
-      <!-- SWAT CYCLE -->
-      <div class="folder-card" onclick="openModal('swat-cycle')">
-        <div class="folder-tab">
-          <span class="tab-code">CODE_009 //</span>
-          <span class="tab-name">SWAT CYCLE</span>
-          <span class="tab-arrow">→</span>
-        </div>
+      <div class="folder-card" onclick="openProject('swat-cycle')">
+        <div class="folder-tab"><span class="tab-code">CODE_009 //</span><span class="tab-name">SWAT CYCLE</span><span class="tab-arrow">→</span></div>
         <div class="folder-body">
           <video class="card-bg" src="projects/vault/swat-cycle/video.mp4" muted playsinline preload="metadata"></video>
-          <div class="card-overlay">
-            <div class="card-bottom">
-              <div class="card-title">SWAT CYCLE</div>
-              <div class="card-tags">
-                <span class="card-tag">3D</span>
-                <span class="card-tag">CHARACTER</span>
-                <span class="card-tag">ANIMATION</span>
-              </div>
-            </div>
-          </div>
+          <div class="card-overlay"><div class="card-tags"><span class="card-tag">3D</span><span class="card-tag">CHARACTER</span><span class="card-tag">ANIMATION</span></div></div>
         </div>
       </div>
-
-      <!-- TOFU -->
-      <div class="folder-card" onclick="openModal('tofu')">
-        <div class="folder-tab">
-          <span class="tab-code">CODE_010 //</span>
-          <span class="tab-name">TOFU</span>
-          <span class="tab-arrow">→</span>
-        </div>
+      <div class="folder-card" onclick="openProject('tofu')">
+        <div class="folder-tab"><span class="tab-code">CODE_010 //</span><span class="tab-name">TOFU</span><span class="tab-arrow">→</span></div>
         <div class="folder-body">
           <video class="card-bg" src="projects/vault/tofu/video.mp4" muted playsinline preload="metadata"></video>
-          <div class="card-overlay">
-            <div class="card-bottom">
-              <div class="card-title">TOFU</div>
-              <div class="card-tags">
-                <span class="card-tag">3D</span>
-                <span class="card-tag">COMPOSITING</span>
-                <span class="card-tag">CGI</span>
-              </div>
-            </div>
-          </div>
+          <div class="card-overlay"><div class="card-tags"><span class="card-tag">3D</span><span class="card-tag">COMPOSITING</span><span class="card-tag">CGI</span></div></div>
         </div>
       </div>
-
-      <!-- VFX FIRE -->
-      <div class="folder-card" onclick="openModal('vfx-fire')">
-        <div class="folder-tab">
-          <span class="tab-code">CODE_011 //</span>
-          <span class="tab-name">VFX FIRE</span>
-          <span class="tab-arrow">→</span>
-        </div>
+      <div class="folder-card" onclick="openProject('vfx-fire')">
+        <div class="folder-tab"><span class="tab-code">CODE_011 //</span><span class="tab-name">VFX FIRE</span><span class="tab-arrow">→</span></div>
         <div class="folder-body">
           <video class="card-bg" src="projects/vault/vfx-fire/video.mp4" muted playsinline preload="metadata"></video>
-          <div class="card-overlay">
-            <div class="card-bottom">
-              <div class="card-title">VFX FIRE</div>
-              <div class="card-tags">
-                <span class="card-tag">VFX</span>
-                <span class="card-tag">FIRE</span>
-                <span class="card-tag">SIMULATION</span>
-              </div>
-            </div>
-          </div>
+          <div class="card-overlay"><div class="card-tags"><span class="card-tag">VFX</span><span class="card-tag">FIRE</span><span class="card-tag">SIMULATION</span></div></div>
         </div>
       </div>
+    </div>
 
-      <!-- OPEN SITES -->
-      <div class="folder-card" onclick="openModal('open-sites')">
-        <div class="folder-tab">
-          <span class="tab-code">CODE_012 //</span>
-          <span class="tab-name">OPEN SITES</span>
-          <span class="tab-arrow">→</span>
+    <!-- RENDER -->
+    <div class="group-page folders-row" data-group="render">
+      <div class="folder-card" onclick="openProject('ball-render')">
+        <div class="folder-tab"><span class="tab-code">CODE_013 //</span><span class="tab-name">BALL RENDER</span><span class="tab-arrow">→</span></div>
+        <div class="folder-body">
+          <img class="card-bg" src="projects/vault/ball-render/cover.jpg" alt="Ball Render">
+          <div class="card-overlay"><div class="card-tags"><span class="card-tag">3D</span><span class="card-tag">RENDER</span><span class="card-tag">CGI</span></div></div>
         </div>
+      </div>
+      <div class="folder-card" onclick="openProject('env-render')">
+        <div class="folder-tab"><span class="tab-code">CODE_014 //</span><span class="tab-name">ENV RENDER</span><span class="tab-arrow">→</span></div>
+        <div class="folder-body">
+          <img class="card-bg" src="projects/vault/env-render/cover.jpg" alt="Environment Render">
+          <div class="card-overlay"><div class="card-tags"><span class="card-tag">3D</span><span class="card-tag">ENVIRONMENT</span><span class="card-tag">RENDER</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI -->
+    <div class="group-page folders-row" data-group="ai">
+      <div class="folder-card" onclick="openProject('comfy-ai')">
+        <div class="folder-tab"><span class="tab-code">CODE_015 //</span><span class="tab-name">COMFY AI</span><span class="tab-arrow">→</span></div>
+        <div class="folder-body">
+          <img class="card-bg" src="projects/vault/comfy-ai/cover.png" alt="Comfy AI">
+          <div class="card-overlay"><div class="card-tags"><span class="card-tag">AI</span><span class="card-tag">CGI</span><span class="card-tag">RENDER</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MOTION -->
+    <div class="group-page folders-row" data-group="motion">
+      <div class="folder-card" onclick="openProject('open-sites')">
+        <div class="folder-tab"><span class="tab-code">CODE_012 //</span><span class="tab-name">OPEN SITES</span><span class="tab-arrow">→</span></div>
         <div class="folder-body">
           <video class="card-bg" src="projects/vault/open-sites/video.mp4" muted playsinline preload="metadata"></video>
-          <div class="card-overlay">
-            <div class="card-bottom">
-              <div class="card-title">OPEN SITES</div>
-              <div class="card-tags">
-                <span class="card-tag">3D</span>
-                <span class="card-tag">MOTION</span>
-                <span class="card-tag">VIDEO</span>
-              </div>
-            </div>
-          </div>
+          <div class="card-overlay"><div class="card-tags"><span class="card-tag">3D</span><span class="card-tag">MOTION</span><span class="card-tag">VIDEO</span></div></div>
         </div>
       </div>
+    </div>
 
+    <!-- BOTTOM SWITCHER -->
+    <div class="group-switcher">
+      <button class="switcher-btn" data-group="animation" onclick="openGroup('animation')">ANIMATION<span class="sw-count">11</span></button>
+      <button class="switcher-btn" data-group="render"    onclick="openGroup('render')">RENDER<span class="sw-count">2</span></button>
+      <button class="switcher-btn" data-group="ai"        onclick="openGroup('ai')">AI<span class="sw-count">1</span></button>
+      <button class="switcher-btn" data-group="motion"    onclick="openGroup('motion')">MOTION<span class="sw-count">1</span></button>
     </div>
   </div>
 
-  <!-- VIDEO MODAL -->
-  <div class="modal-overlay" id="modal-oakley">
-    <div class="modal">
-      <div class="modal-close" onclick="closeModal('oakley')">[✕ CLOSE]</div>
-      <video src="projects/vault/oakley/video.mp4" controls></video>
-      <div class="modal-title">CODE_001 // OAKLEY — SPOT PROMOZIONALE</div>
+  <!-- ══════════════════════════════════════════
+       PROJECT VIEW — singola pagina progetto
+  ══════════════════════════════════════════ -->
+  <div id="vault-project-view" class="vault-page">
+    <div class="vault-top-label">
+      <div>
+        <button class="back-to-vault" id="proj-back-btn" onclick="backToGroup()">← BACK</button>
+        <div class="vault-archive-title" id="proj-code"></div>
+        <div class="vault-final-work" id="proj-name"></div>
+      </div>
+      <div class="vault-count" id="proj-tags-display"></div>
     </div>
-  </div>
 
-  <div class="modal-overlay" id="modal-fabri-fibra">
-    <div class="modal">
-      <div class="modal-close" onclick="closeModal('fabri-fibra')">[✕ CLOSE]</div>
-      <video src="projects/vault/fabri-fibra/video.mp4" controls></video>
-      <div class="modal-title">CODE_002 // FABRI FIBRA — ANIMATION</div>
+    <!-- media principale -->
+    <div class="proj-hero">
+      <div id="proj-media-wrap"></div>
     </div>
-  </div>
 
-  <div class="modal-overlay" id="modal-arcade-ex">
-    <div class="modal">
-      <div class="modal-close" onclick="closeModal('arcade-ex')">[✕ CLOSE]</div>
-      <video src="projects/vault/arcade-ex/video.mp4" controls></video>
-      <div class="modal-title">CODE_003 // ARCADE EX — 3D ANIMATION</div>
-    </div>
-  </div>
-
-  <div class="modal-overlay" id="modal-face-anim">
-    <div class="modal">
-      <div class="modal-close" onclick="closeModal('face-anim')">[✕ CLOSE]</div>
-      <video src="projects/vault/face-anim/video.mp4" controls></video>
-      <div class="modal-title">CODE_004 // FACE ANIMATION — CHARACTER</div>
-    </div>
-  </div>
-
-  <div class="modal-overlay" id="modal-jump-persp">
-    <div class="modal">
-      <div class="modal-close" onclick="closeModal('jump-persp')">[✕ CLOSE]</div>
-      <video src="projects/vault/jump-persp/video.mp4" controls></video>
-      <div class="modal-title">CODE_005 // JUMP PERSP — CHARACTER ANIMATION</div>
-    </div>
-  </div>
-
-  <div class="modal-overlay" id="modal-jump-side">
-    <div class="modal">
-      <div class="modal-close" onclick="closeModal('jump-side')">[✕ CLOSE]</div>
-      <video src="projects/vault/jump-side/video.mp4" controls></video>
-      <div class="modal-title">CODE_006 // JUMP SIDE — CHARACTER ANIMATION</div>
-    </div>
-  </div>
-
-  <div class="modal-overlay" id="modal-lost-valley">
-    <div class="modal">
-      <div class="modal-close" onclick="closeModal('lost-valley')">[✕ CLOSE]</div>
-      <video src="projects/vault/lost-valley/video.mp4" controls></video>
-      <div class="modal-title">CODE_007 // LOST VALLEY — ENVIRONMENT VFX</div>
-    </div>
-  </div>
-
-  <div class="modal-overlay" id="modal-parallax">
-    <div class="modal">
-      <div class="modal-close" onclick="closeModal('parallax')">[✕ CLOSE]</div>
-      <video src="projects/vault/parallax/video.mp4" controls></video>
-      <div class="modal-title">CODE_008 // PARALLAX — COMPOSITING VFX</div>
-    </div>
-  </div>
-
-  <div class="modal-overlay" id="modal-swat-cycle">
-    <div class="modal">
-      <div class="modal-close" onclick="closeModal('swat-cycle')">[✕ CLOSE]</div>
-      <video src="projects/vault/swat-cycle/video.mp4" controls></video>
-      <div class="modal-title">CODE_009 // SWAT CYCLE — CHARACTER ANIMATION</div>
-    </div>
-  </div>
-
-  <div class="modal-overlay" id="modal-tofu">
-    <div class="modal">
-      <div class="modal-close" onclick="closeModal('tofu')">[✕ CLOSE]</div>
-      <video src="projects/vault/tofu/video.mp4" controls></video>
-      <div class="modal-title">CODE_010 // TOFU — COMPOSITING CGI</div>
-    </div>
-  </div>
-
-  <div class="modal-overlay" id="modal-vfx-fire">
-    <div class="modal">
-      <div class="modal-close" onclick="closeModal('vfx-fire')">[✕ CLOSE]</div>
-      <video src="projects/vault/vfx-fire/video.mp4" controls></video>
-      <div class="modal-title">CODE_011 // VFX FIRE — SIMULATION</div>
-    </div>
-  </div>
-
-  <div class="modal-overlay" id="modal-open-sites">
-    <div class="modal">
-      <div class="modal-close" onclick="closeModal('open-sites')">[✕ CLOSE]</div>
-      <video src="projects/vault/open-sites/video.mp4" controls></video>
-      <div class="modal-title">CODE_012 // OPEN SITES — MOTION VIDEO</div>
-    </div>
+    <!-- WIP steps -->
+    <div class="proj-section-label">// WIP_LOG</div>
+    <div class="wip-grid" id="wip-grid"></div>
   </div>
 
   <script src="js/main.js"></script>
   <script src="js/dust.js"></script>
   <script>
-    /* z-index decrescente: prima cartella sopra */
-    const cards = document.querySelectorAll('.folder-card');
-    cards.forEach((c, i) => { c.style.zIndex = i + 1; });
+    /* ══════════════════════════════════════════
+       DATI PROGETTI
+    ══════════════════════════════════════════ */
+    const PROJECTS = {
+      'oakley':      { code:'CODE_001', name:'OAKLEY',         group:'animation', type:'video', src:'projects/vault/oakley/video.mp4',       tags:['3D','SPOT','VIDEO'],          wip:[] },
+      'fabri-fibra': { code:'CODE_002', name:'FABRI FIBRA',    group:'animation', type:'video', src:'projects/vault/fabri-fibra/video.mp4',   tags:['3D','ANIMATION','VIDEO'],     wip:[] },
+      'arcade-ex':   { code:'CODE_003', name:'ARCADE EX',      group:'animation', type:'video', src:'projects/vault/arcade-ex/video.mp4',     tags:['3D','ANIMATION','CGI'],       wip:[] },
+      'face-anim':   { code:'CODE_004', name:'FACE ANIMATION', group:'animation', type:'video', src:'projects/vault/face-anim/video.mp4',     tags:['3D','CHARACTER','ANIMATION'], wip:[] },
+      'jump-persp':  { code:'CODE_005', name:'JUMP PERSP',     group:'animation', type:'video', src:'projects/vault/jump-persp/video.mp4',    tags:['3D','CHARACTER','ANIMATION'], wip:[] },
+      'jump-side':   { code:'CODE_006', name:'JUMP SIDE',      group:'animation', type:'video', src:'projects/vault/jump-side/video.mp4',     tags:['3D','CHARACTER','ANIMATION'], wip:[] },
+      'lost-valley': { code:'CODE_007', name:'LOST VALLEY',    group:'animation', type:'video', src:'projects/vault/lost-valley/video.mp4',   tags:['3D','ENVIRONMENT','VFX'],     wip:[] },
+      'parallax':    { code:'CODE_008', name:'PARALLAX',       group:'animation', type:'video', src:'projects/vault/parallax/video.mp4',      tags:['3D','COMPOSITING','VFX'],     wip:[] },
+      'swat-cycle':  { code:'CODE_009', name:'SWAT CYCLE',     group:'animation', type:'video', src:'projects/vault/swat-cycle/video.mp4',    tags:['3D','CHARACTER','ANIMATION'], wip:[] },
+      'tofu':        { code:'CODE_010', name:'TOFU',           group:'animation', type:'video', src:'projects/vault/tofu/video.mp4',          tags:['3D','COMPOSITING','CGI'],     wip:[] },
+      'vfx-fire':    { code:'CODE_011', name:'VFX FIRE',       group:'animation', type:'video', src:'projects/vault/vfx-fire/video.mp4',      tags:['VFX','FIRE','SIMULATION'],    wip:[] },
+      'open-sites':  { code:'CODE_012', name:'OPEN SITES',     group:'motion',    type:'video', src:'projects/vault/open-sites/video.mp4',    tags:['3D','MOTION','VIDEO'],        wip:[] },
+      'ball-render': { code:'CODE_013', name:'BALL RENDER',    group:'render',    type:'img',   src:'projects/vault/ball-render/cover.jpg',   tags:['3D','RENDER','CGI'],          wip:[] },
+      'env-render':  { code:'CODE_014', name:'ENV RENDER',     group:'render',    type:'img',   src:'projects/vault/env-render/cover.jpg',    tags:['3D','ENVIRONMENT','RENDER'],  wip:[] },
+      'comfy-ai':    { code:'CODE_015', name:'COMFY AI',       group:'ai',        type:'img',   src:'projects/vault/comfy-ai/cover.png',      tags:['AI','CGI','RENDER'],          wip:[] },
+    };
 
-    /* 5-second looping preview on hover */
-    document.querySelectorAll('.folder-card').forEach(card => {
-      const v = card.querySelector('.card-bg');
+    const GROUP_META = {
+      animation: { label:'ANIMATION //', title:'ANIMATION', count:'// 11 PROJECTS' },
+      render:    { label:'RENDER //',    title:'RENDER',    count:'// 2 PROJECTS'  },
+      ai:        { label:'AI //',        title:'AI',        count:'// 1 PROJECT'   },
+      motion:    { label:'MOTION //',    title:'MOTION',    count:'// 1 PROJECT'   },
+    };
+
+    let currentGroup = 'animation';
+
+    /* ── glitch → openGroup (main vault cards) ── */
+    function glitchOpen(card, groupId) {
+      if (card.classList.contains('glitching')) return;
+      card.classList.add('glitching');
+      setTimeout(() => { card.classList.remove('glitching'); openGroup(groupId); }, 420);
+    }
+
+    /* ── apri gruppo ── */
+    function openGroup(id) {
+      currentGroup = id;
+      const m = GROUP_META[id];
+      document.getElementById('grp-label').textContent = m.label;
+      document.getElementById('grp-title').textContent = m.title;
+      document.getElementById('grp-count').textContent = m.count;
+
+      document.querySelectorAll('.group-page').forEach(p => p.classList.remove('active'));
+      document.querySelector('.group-page[data-group="' + id + '"]').classList.add('active');
+
+      document.querySelectorAll('.switcher-btn').forEach(b => {
+        b.classList.toggle('active', b.dataset.group === id);
+      });
+
+      document.getElementById('vault-main').style.display         = 'none';
+      document.getElementById('vault-project-view').style.display = 'none';
+      document.getElementById('vault-group-view').style.display   = 'block';
+
+      initCards();
+      window.scrollTo(0, 0);
+    }
+
+    /* ── torna alla vault main ── */
+    function backToVault() {
+      stopProjectMedia();
+      document.getElementById('vault-group-view').style.display   = 'none';
+      document.getElementById('vault-project-view').style.display = 'none';
+      document.getElementById('vault-main').style.display         = 'block';
+      window.scrollTo(0, 0);
+    }
+
+    /* ── apri pagina singolo progetto ── */
+    function openProject(id) {
+      const p = PROJECTS[id];
+      currentGroup = p.group;
+
+      /* header */
+      document.getElementById('proj-code').textContent         = p.code + ' //';
+      document.getElementById('proj-name').textContent         = p.name;
+      document.getElementById('proj-tags-display').textContent = p.tags.join('  —  ');
+      document.getElementById('proj-back-btn').textContent     = '← ' + p.group.toUpperCase();
+      document.getElementById('header-page-title').textContent = '[' + p.code + '\\\\' + p.name + ']';
+
+      /* media principale */
+      const wrap = document.getElementById('proj-media-wrap');
+      if (p.type === 'video') {
+        wrap.innerHTML = `<video src="${p.src}" autoplay loop muted playsinline controls></video>`;
+      } else {
+        wrap.innerHTML = `<img src="${p.src}" alt="${p.name}">`;
+      }
+      /* tag row */
+      const tagsHtml = p.tags.map(t => `<span class="proj-meta-tag">${t}</span>`).join('');
+      wrap.insertAdjacentHTML('afterend', `<div class="proj-meta" id="proj-meta-tags">${tagsHtml}</div>`);
+
+      /* WIP grid */
+      const grid = document.getElementById('wip-grid');
+      if (p.wip && p.wip.length > 0) {
+        grid.innerHTML = p.wip.map(w => {
+          const media = w.src
+            ? (w.type === 'video'
+                ? `<video class="wip-media" src="${w.src}" muted playsinline preload="metadata"></video>`
+                : `<img class="wip-media" src="${w.src}" alt="${w.desc}">`)
+            : `<div class="wip-placeholder"><span class="wip-placeholder-code">${w.step} //</span><span class="wip-placeholder-status">PENDING</span></div>`;
+          return `<div class="wip-card">${media}<div class="wip-info"><div class="wip-step">${w.step} //</div><div class="wip-desc">${w.desc}</div></div></div>`;
+        }).join('');
+      } else {
+        /* placeholder quando i WIP non sono ancora stati caricati */
+        grid.innerHTML = [1,2,3,4].map(n => `
+          <div class="wip-card">
+            <div class="wip-placeholder">
+              <span class="wip-placeholder-code">WIP_0${n} //</span>
+              <span class="wip-placeholder-status">— PENDING UPLOAD —</span>
+            </div>
+            <div class="wip-info">
+              <div class="wip-step">WIP_0${n} //</div>
+              <div class="wip-desc">PENDING</div>
+            </div>
+          </div>`).join('');
+      }
+
+      /* mostra project view */
+      document.getElementById('vault-group-view').style.display   = 'none';
+      document.getElementById('vault-project-view').style.display = 'block';
+      window.scrollTo(0, 0);
+    }
+
+    /* ── torna al gruppo dal progetto ── */
+    function backToGroup() {
+      stopProjectMedia();
+      /* pulisce meta tags dinamici */
+      const mt = document.getElementById('proj-meta-tags');
+      if (mt) mt.remove();
+      document.getElementById('header-page-title').textContent = '[SCAN\\\\THE_VAULT]';
+      document.getElementById('vault-project-view').style.display = 'none';
+      openGroup(currentGroup);
+    }
+
+    function stopProjectMedia() {
+      document.querySelectorAll('#proj-media-wrap video').forEach(v => { v.pause(); v.src = ''; });
+    }
+
+    /* ── z-index + hover video per le folder-card del gruppo attivo ── */
+    function initCards() {
+      const cards = document.querySelectorAll('.group-page.active .folder-card');
+      cards.forEach((c, i) => { c.style.zIndex = i + 1; });
+      cards.forEach(card => {
+        const v = card.querySelector('video.card-bg');
+        if (!v || card._initDone) return;
+        card._initDone = true;
+        v.addEventListener('timeupdate', () => { if (v.currentTime >= 5) v.currentTime = 0; });
+        card.addEventListener('mouseenter', () => { v.currentTime = 0; v.play(); });
+        card.addEventListener('mouseleave', () => { v.pause(); v.currentTime = 0; });
+      });
+    }
+
+    /* hover video per le card del main vault */
+    document.querySelectorAll('.vault-grid .fc').forEach(card => {
+      const v = card.querySelector('video.card-media');
       if (!v) return;
-
-      v.addEventListener('loadedmetadata', () => { v.currentTime = 0; });
-
-      v.addEventListener('timeupdate', () => {
-        if (v.currentTime >= 5) { v.currentTime = 0; }
-      });
-
-      card.addEventListener('mouseenter', () => {
-        v.currentTime = 0;
-        v.play();
-      });
-      card.addEventListener('mouseleave', () => {
-        v.pause();
-        v.currentTime = 0;
-      });
+      card.addEventListener('mouseenter', () => { v.currentTime = 0; v.play(); });
+      card.addEventListener('mouseleave', () => { v.pause(); v.currentTime = 0; });
     });
 
-    function openModal(id) {
-      const o = document.getElementById('modal-' + id);
-      o.classList.add('active');
-      o.querySelector('video').play();
-    }
-    function closeModal(id) {
-      const o = document.getElementById('modal-' + id);
-      o.classList.remove('active');
-      o.querySelector('video').pause();
-    }
-    document.querySelectorAll('.modal-overlay').forEach(o => {
-      o.addEventListener('click', e => {
-        if (e.target === o) closeModal(o.id.replace('modal-', ''));
-      });
-    });
+    /* init */
+    initCards();
   </script>
 </body>
 </html>

@@ -87,7 +87,7 @@
     /* ── HERO BIO BLOCK ── */
     .bio-hero {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1.6fr 1fr;
       gap: 80px;
       align-items: start;
       margin-bottom: 100px;
@@ -146,7 +146,7 @@
       display: flex;
       flex-direction: column;
       gap: 2px;
-      padding-top: 8px;
+      padding-top: 32px;
     }
 
     /* stat rows */
@@ -170,6 +170,17 @@
     }
     .stat-value.highlight { color: var(--teal); }
 
+    /* software row: label allineata in alto, lista in colonna */
+    .stat-row--top {
+      align-items: flex-start;
+      gap: 48px;
+    }
+    .stat-value--col {
+      text-align: right;
+      line-height: 2.4;
+      flex-shrink: 0;
+    }
+
     /* ── VISION STATEMENT ── */
     .vision-block {
       border-top: 1px solid var(--border);
@@ -191,9 +202,21 @@
       color: var(--text);
       line-height: 1.5;
       text-transform: uppercase;
-      max-width: 800px;
+      max-width: 900px;
     }
     .vision-quote span { color: var(--teal); }
+
+    .vision-body {
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+      line-height: 2.2;
+      text-transform: none;
+      max-width: 900px;
+      margin-top: 36px;
+    }
+    .vision-body span { color: var(--teal); }
 
     /* placeholder */
     .vision-placeholder {
@@ -287,18 +310,12 @@
     <div class="bio-hero">
       <div class="bio-left">
         <div class="bio-label">// SUBJECT_FILE</div>
-        <div class="bio-name">MVL</div>
-        <div class="bio-role">3D Artist // Visual Designer</div>
+        <div class="bio-name">MVL.WORLD</div>
+        <div class="bio-role">3D Artist // CGI Specialist</div>
 
         <div class="bio-text">
-          <!-- Replace this block with your actual bio text -->
-          <div class="bio-placeholder">
-            // BIO_TEXT PENDING UPLOAD<br>
-            Insert your biography here.<br>
-            Describe your background, your artistic journey,<br>
-            what drives your work and your vision.<br><br>
-            — Text will be provided by the artist.
-          </div>
+          <p>My name is <em>Sebastiano Zuccarello</em>, a 20-year-old who studied graphic design and communication in high school, then attended <em>Bigrock</em> in 2026 right after graduating. I love experimenting with software and diving into every field of visual art — 2D, 3D, and even physical media.</p>
+          <p>What brought me here? My drive to transmit emotions through a vision that is <em>determined, experimental, and almost alien.</em></p>
         </div>
       </div>
 
@@ -311,13 +328,13 @@
           <span class="stat-label">// DISCIPLINE</span>
           <span class="stat-value">3D / CGI</span>
         </div>
-        <div class="stat-row">
+        <div class="stat-row stat-row--top">
           <span class="stat-label">// SOFTWARE</span>
-          <span class="stat-value">— PENDING —</span>
+          <span class="stat-value stat-value--col">Maya<br>ZBrush<br>Substance Designer<br>Substance Painter<br>After Effects<br>Photoshop<br>Illustrator<br>Premiere Pro</span>
         </div>
         <div class="stat-row">
           <span class="stat-label">// BASED_IN</span>
-          <span class="stat-value">— PENDING —</span>
+          <span class="stat-value">Treviso, Italy</span>
         </div>
         <div class="stat-row">
           <span class="stat-label">// AVAILABLE</span>
@@ -334,33 +351,33 @@
     <div class="vision-block">
       <div class="vision-tag">// THE_VISION</div>
       <div class="vision-quote">
-        <!-- Replace with your vision statement -->
-        <div class="vision-placeholder">
-          // VISION_STATEMENT PENDING UPLOAD<br>
-          This is where your artistic manifesto goes.<br>
-          What do you see? What do you create? Why?<br><br>
-          — Text will be provided by the artist.
-        </div>
+        My Vision? <span>It's your Vision.</span>
+      </div>
+      <p class="vision-body">
+        When we talk, we share what we want to transmit — so when you send me yours, my goal will be to read it, listen to it, understand it. My job? To take it, shape it, merge it and bring it to life through my Vision.
+      </p>
+      <div class="vision-quote" style="margin-top: 40px;">
+        Everyone has a Vision, but few manage to make it real. Remember: <span>"OUR VISION, OUR WORLD".</span>
       </div>
     </div>
 
-    <!-- DISCIPLINES -->
-    <div class="section-label">// FIELDS_OF_WORK</div>
+    <!-- SPECIALIZATIONS -->
+    <div class="section-label">// SPECIALIZATIONS</div>
     <div class="disciplines">
       <div class="discipline-item">
         <div class="discipline-num">01 //</div>
-        <div class="discipline-name">3D RENDERING</div>
-        <div class="discipline-desc">— Pending description —</div>
+        <div class="discipline-name">COMPOSITING</div>
+        <div class="discipline-desc">Merging 2D and 3D elements, color grading and visual finishing to build coherent, high-impact images.</div>
       </div>
       <div class="discipline-item">
         <div class="discipline-num">02 //</div>
-        <div class="discipline-name">VISUAL DESIGN</div>
-        <div class="discipline-desc">— Pending description —</div>
+        <div class="discipline-name">TEXTURING</div>
+        <div class="discipline-desc">Crafting realistic or stylized materials and surfaces using Substance Designer and Substance Painter.</div>
       </div>
       <div class="discipline-item">
         <div class="discipline-num">03 //</div>
-        <div class="discipline-name">ART DIRECTION</div>
-        <div class="discipline-desc">— Pending description —</div>
+        <div class="discipline-name">ANIMATION</div>
+        <div class="discipline-desc">Character animation, motion and simulations — from pose to fluid movement, 2D and 3D.</div>
       </div>
     </div>
 
