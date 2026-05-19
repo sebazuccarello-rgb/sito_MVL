@@ -16,7 +16,7 @@
      { file:'DRAGON_WIP1_MODELLING_DEF', src:'projects/DRAGON_WIP1_MODELLING_DEF.mp4', type:'video' },
 ══════════════════════════════════════════════════════════ */
 const ALL_PROJECTS = [
-  /* — inserire qui — */
+  /* — nessun file in projects/ — */
 ];
 
 /* ── parse: estrae nome, wip, categoria, isDef dal nome file ── */
