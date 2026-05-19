@@ -376,17 +376,21 @@
       btn.disabled = true;
 
       try {
+        const fd = new FormData();
+        fd.append('access_key', WEB3_KEY);
+        fd.append('subject',    `[RAW_IDEA] ${name}`);
+        fd.append('name',       name);
+        fd.append('email',      email);
+        fd.append('message',    message);
+        fd.append('replyto',    email);
+
+        const files = document.getElementById('file-input').files;
+        Array.from(files).forEach(file => fd.append('attachment[]', file));
+
         const res = await fetch('https://api.web3forms.com/submit', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify({
-            access_key: WEB3_KEY,
-            subject:    `[RAW_IDEA] ${name}`,
-            name:       name,
-            email:      email,
-            message:    message,
-            replyto:    email,
-          })
+          headers: { 'Accept': 'application/json' },
+          body: fd,
         });
 
         const data = await res.json();
