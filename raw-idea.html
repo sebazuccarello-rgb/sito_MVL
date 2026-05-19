@@ -355,31 +355,52 @@
       });
     });
 
-    /* form submit — apre client email con i dati del form */
-    document.getElementById('brief-form').addEventListener('submit', e => {
+    /* form submit — Web3Forms */
+    const WEB3_KEY = 'YOUR_ACCESS_KEY'; // sostituire con la chiave da web3forms.com
+
+    document.getElementById('brief-form').addEventListener('submit', async e => {
       e.preventDefault();
 
+      const btn     = document.querySelector('.submit-btn');
       const name    = document.getElementById('input-name').value.trim();
       const email   = document.getElementById('input-email').value.trim();
       const message = document.getElementById('input-text').value.trim();
 
       if (!name || !email || !message) {
-        const btn = document.querySelector('.submit-btn');
         btn.textContent = '[// MISSING FIELDS]';
         setTimeout(() => { btn.textContent = '[TRANSMIT_BRIEF]'; }, 2000);
         return;
       }
 
-      const subject = encodeURIComponent(`[RAW_IDEA] ${name}`);
-      const body    = encodeURIComponent(
-        `IDENTIFIER: ${name}\n` +
-        `CONTACT: ${email}\n\n` +
-        `--- MESSAGE ---\n\n` +
-        `${message}\n\n` +
-        `[ Se hai file di riferimento, allegali a questa email ]`
-      );
+      btn.textContent = '[// TRANSMITTING...]';
+      btn.disabled = true;
 
-      window.location.href = `mailto:Seba.zuccarello@gmail.com?subject=${subject}&body=${body}`;
+      try {
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({
+            access_key: WEB3_KEY,
+            subject:    `[RAW_IDEA] ${name}`,
+            from_name:  name,
+            email:      email,
+            message:    message,
+          })
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+          btn.textContent = '[// TRANSMISSION RECEIVED]';
+          document.getElementById('brief-form').reset();
+        } else {
+          throw new Error(data.message);
+        }
+      } catch {
+        btn.textContent = '[// ERROR — RETRY]';
+        btn.disabled = false;
+        setTimeout(() => { btn.textContent = '[TRANSMIT_BRIEF]'; }, 3000);
+      }
     });
   </script>
 </body>
