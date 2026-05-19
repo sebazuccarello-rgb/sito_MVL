@@ -29,7 +29,6 @@
       background-image:
         radial-gradient(ellipse at var(--g1x) var(--g1y), rgba(0,90,100,0.30) 0%, transparent 58%),
         radial-gradient(ellipse at var(--g2x) var(--g2y), rgba(140,20,20,0.24) 0%, transparent 54%);
-      background-attachment: fixed;
       animation: bg-drift 18s ease-in-out infinite;
       overflow-y: auto;
       overflow-x: hidden;
@@ -432,9 +431,6 @@
       .vault-top-label { padding: 16px 16px 12px; flex-wrap: wrap; gap: 8px; }
       .vault-final-work { font-size: 22px; }
       .vault-count { margin-left: 0; }
-
-      /* Disabilita background-attachment: fixed su mobile (bug iOS Safari) */
-      body { background-attachment: scroll; }
 
       /* vault main grid */
       .vault-grid {

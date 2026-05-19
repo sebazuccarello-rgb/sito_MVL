@@ -31,7 +31,6 @@
       background-image:
         radial-gradient(ellipse at var(--g1x) var(--g1y), rgba(0,90,100,0.30) 0%, transparent 58%),
         radial-gradient(ellipse at var(--g2x) var(--g2y), rgba(140,20,20,0.24) 0%, transparent 54%);
-      background-attachment: fixed;
       animation: bg-drift 18s ease-in-out infinite;
     }
 
@@ -243,9 +242,6 @@
     @media (max-width: 768px) {
       header { padding: 12px 16px; }
       main { padding: 32px 16px 80px; }
-
-      /* Disabilita background-attachment: fixed su mobile (bug iOS Safari) */
-      body { background-attachment: scroll; }
 
       .form-heading { font-size: clamp(22px, 7vw, 32px); }
       .form-sub { margin-bottom: 36px; }
