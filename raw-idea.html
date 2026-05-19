@@ -382,9 +382,10 @@
           body: JSON.stringify({
             access_key: WEB3_KEY,
             subject:    `[RAW_IDEA] ${name}`,
-            from_name:  name,
+            name:       name,
             email:      email,
             message:    message,
+            replyto:    email,
           })
         });
 
