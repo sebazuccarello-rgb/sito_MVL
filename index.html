@@ -2,13 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>MVL // CONTROL</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
   <link rel="stylesheet" href="css/style.css">
   <style>
     html, body {
       overflow: hidden;
       height: 100%;
+      height: 100dvh;
     }
 
     /* ── BACKGROUND ── */
@@ -31,13 +35,14 @@
       z-index: 1;
       width: 100vw;
       height: 100vh;
+      height: 100dvh;
     }
 
     /* ── NAV LINKS — no box, plain text ── */
     .nav-link {
       font-family: 'Prototype', var(--font);
-      font-size: 32px;
-      letter-spacing: 0.38em;
+      font-size: clamp(14px, 2.2vw, 32px);
+      letter-spacing: 0.28em;
       text-transform: uppercase;
       color: var(--text);
       background: none;
@@ -66,7 +71,7 @@
       position: absolute;
       top: 24px;
       left: 28px;
-      width: 322px;
+      width: clamp(180px, 22vw, 322px);
       transform: rotate(-6deg);
     }
     .logo-polaroid img { width: 100%; }
@@ -91,7 +96,7 @@
     }
     .badge {
       font-family: 'Prototype', var(--font);
-      font-size: 32px;
+      font-size: clamp(14px, 2.2vw, 32px);
       letter-spacing: 0.18em;
       color: var(--text);
       cursor: default;
@@ -114,11 +119,11 @@
 
     .scan-frame {
       position: relative;
-      padding: 24px 36px;
+      padding: clamp(12px, 2vw, 24px) clamp(16px, 3vw, 36px);
     }
 
     .center-logo {
-      width: 585px;
+      width: clamp(200px, 40vw, 585px);
       display: block;
       filter: drop-shadow(0 2px 20px rgba(0,0,0,0.5));
     }
@@ -153,10 +158,10 @@
       bottom: 60px;
       left: 32px;
       font-family: 'PunkBabe', var(--font);
-      font-size: 80px;
+      font-size: clamp(44px, 5.5vw, 80px);
       line-height: 0.95;
       color: var(--text);
-      max-width: 520px;
+      max-width: clamp(280px, 36vw, 520px);
     }
 
     /* ── BOTTOM-RIGHT: system data ── */
@@ -165,7 +170,7 @@
       bottom: 32px;
       right: 32px;
       font-family: var(--font);
-      font-size: 23px;
+      font-size: clamp(12px, 1.6vw, 23px);
       letter-spacing: 0.16em;
       color: var(--text-dim);
       cursor: pointer;
@@ -173,48 +178,57 @@
     }
     .system-data:hover { color: var(--red); }
 
-    /* ── MOBILE ── */
+    /* ── TABLET (769–1100px) ── */
+    @media (max-width: 1100px) {
+      .logo-polaroid { display: none; }
+      .quote { display: none; }
+      .system-data { display: none; }
+    }
+
+    /* ── MOBILE (≤768px) ── */
     @media (max-width: 768px) {
-      /* Nascondi elementi decorativi */
       .logo-polaroid { display: none; }
       .quote { display: none; }
       .system-data { display: none; }
 
-      /* Logo centrale più piccolo */
-      .center-logo { width: 72vw; }
-      .center-block { top: 38%; }
+      .center-logo { width: clamp(200px, 72vw, 340px); }
+      .center-block { top: 34%; }
 
-      /* Badge più piccoli */
-      .badge { font-size: 14px; }
-      .sys-badges { top: 16px; right: 16px; gap: 4px; }
+      .badge { font-size: 13px; letter-spacing: 0.14em; }
+      .sys-badges { top: 14px; right: 14px; gap: 3px; }
 
-      /* Nav links: più piccoli e impilati sotto il logo */
-      .nav-link { font-size: 14px; letter-spacing: 0.2em; }
+      .nav-link { font-size: 12px; letter-spacing: 0.14em; }
 
+      /* Nav stack: posizioni in vh per adattarsi ad ogni altezza schermo */
       .nav-top {
         top: auto;
-        bottom: 200px;
+        bottom: 28vh;
         left: 50%;
         transform: translateX(-50%);
       }
       .nav-left {
         top: auto;
         left: 50%;
-        bottom: 155px;
+        bottom: 21vh;
         transform: translateX(-50%);
       }
       .nav-right {
         top: auto;
         right: auto;
         left: 50%;
-        bottom: 110px;
+        bottom: 14vh;
         transform: translateX(-50%);
       }
       .nav-bottom {
-        bottom: 60px;
+        bottom: 7vh;
         left: 50%;
         transform: translateX(-50%);
       }
+    }
+
+    /* ── MOTION PREFERENCE ── */
+    @media (prefers-reduced-motion: reduce) {
+      .nav-link:hover { animation: none; }
     }
   </style>
 </head>

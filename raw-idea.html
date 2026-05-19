@@ -2,8 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>MVL // STATUS\RAW_IDEA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
   <link rel="stylesheet" href="css/style.css">
   <style>
     @property --g1x { syntax: '<percentage>'; inherits: false; initial-value:  20%; }
@@ -242,13 +245,29 @@
       margin-top: -12px;
     }
 
+    /* ── TABLET (769–1100px) ── */
+    @media (max-width: 1100px) {
+      main { padding: 60px 32px 100px; }
+    }
+
     /* ── MOBILE ── */
     @media (max-width: 768px) {
       header { padding: 12px 16px; }
-      main { padding: 40px 16px 80px; }
+      main { padding: 32px 16px 80px; }
 
-      .form-heading { font-size: 26px; }
+      /* Disabilita background-attachment: fixed su mobile (bug iOS Safari) */
+      body { background-attachment: scroll; }
+
+      .form-heading { font-size: clamp(22px, 7vw, 32px); }
+      .form-sub { margin-bottom: 36px; }
+      .upload-zone { padding: 28px 16px; }
+      .mode-toggle { width: 100%; }
+      .mode-btn { flex: 1; padding: 12px 8px; font-size: 10px; }
       .submit-btn { width: 100%; text-align: center; padding: 18px 24px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      body { animation: none; }
     }
   </style>
 </head>
