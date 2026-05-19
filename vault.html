@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
   <link rel="stylesheet" href="css/style.css">
+  <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"}}</script>
   <style>
     @property --g1x { syntax: '<percentage>'; inherits: false; initial-value:  20%; }
     @property --g1y { syntax: '<percentage>'; inherits: false; initial-value:   0%; }
@@ -391,6 +392,18 @@
     }
     .wip-card:hover .wip-media { filter: saturate(0.75) brightness(0.8); }
 
+    .wip-3d-thumb {
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(0,180,200,0.04);
+      border: 1px solid rgba(0,180,200,0.15);
+    }
+
+    .vault-3d-container {
+      width: 100%; height: 65vh;
+      background: #0d0d0d;
+      position: relative;
+    }
+
     /* placeholder step quando src è null */
     .wip-placeholder {
       width: 100%; height: 100%;
@@ -533,6 +546,7 @@
   <script src="js/main.js"></script>
   <script src="js/dust.js"></script>
   <script src="js/projects.js"></script>
+  <script type="module" src="js/viewer3d.js"></script>
   <script>
     let currentGroup = null;
     const CATEGORIES = Object.keys(VAULT_PROJECTS);
@@ -648,8 +662,15 @@
 
       /* media principale */
       const wrap = document.getElementById('proj-media-wrap');
+      let cleanup3dMain = null;
       if (p.type === 'video') {
         wrap.innerHTML = `<video src="${p.src}" autoplay loop muted playsinline controls preload="none"></video>`;
+      } else if (p.type === '3d') {
+        wrap.innerHTML = `<div class="vault-3d-container" id="vault-3d-main"></div>`;
+        requestAnimationFrame(() => {
+          const c = document.getElementById('vault-3d-main');
+          if (c && window.init3DViewer) cleanup3dMain = window.init3DViewer(c, p.src);
+        });
       } else {
         wrap.innerHTML = `<img src="${p.src}" alt="${p.name}">`;
       }
@@ -664,7 +685,9 @@
           const media = w.src
             ? (w.type === 'video'
                 ? `<video class="wip-media" data-src="${w.src}" muted playsinline preload="none"></video>`
-                : `<img class="wip-media" src="${w.src}" alt="${w.desc}" loading="lazy">`)
+                : w.type === '3d'
+                  ? `<div class="wip-media wip-3d-thumb"><span style="font-size:9px;letter-spacing:.25em;color:var(--teal)">// 3D</span></div>`
+                  : `<img class="wip-media" src="${w.src}" alt="${w.desc}" loading="lazy">`)
             : `<div class="wip-placeholder"><span class="wip-placeholder-code">${w.step} //</span><span class="wip-placeholder-status">PENDING</span></div>`;
           return `<div class="wip-card">${media}<div class="wip-info"><div class="wip-step">${w.step} //</div><div class="wip-desc">${w.desc}</div></div></div>`;
         }).join('');
@@ -713,6 +736,7 @@
 
     function stopProjectMedia() {
       document.querySelectorAll('#proj-media-wrap video').forEach(v => { v.pause(); v.src = ''; });
+      if (cleanup3dMain) { cleanup3dMain(); cleanup3dMain = null; }
     }
 
     /* ── z-index + lazy-load + hover video per le folder-card del gruppo attivo ── */

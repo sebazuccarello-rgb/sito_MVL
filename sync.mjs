@@ -23,8 +23,9 @@ const PROJECTS_JS = 'js/projects.js';
 
 const VIDEO_EXTS = new Set(['.mp4', '.mov', '.webm']);
 const IMAGE_EXTS = new Set(['.jpg', '.jpeg', '.png', '.webp']);
+const MODEL_EXTS = new Set(['.fbx', '.glb', '.gltf']);
 
-const isMedia = ext => VIDEO_EXTS.has(ext) || IMAGE_EXTS.has(ext);
+const isMedia = ext => VIDEO_EXTS.has(ext) || IMAGE_EXTS.has(ext) || MODEL_EXTS.has(ext);
 
 console.log('\n── MVL SYNC ──────────────────────────────────\n');
 
@@ -48,10 +49,20 @@ async function toWebp(dir, file) {
 
 /* ── scansiona laboratory/ ── */
 console.log('  [ LABORATORY ]');
-const labFiles = readdirSync(LAB_DIR).filter(f => {
+const rawLabFiles = readdirSync(LAB_DIR).filter(f => {
   const ext = extname(f).toLowerCase();
   return isMedia(ext) && !f.startsWith('.');
 });
+
+/* deduplicazione: se esiste jpg e webp con stesso nome, tieni solo webp */
+const _labByBase = new Map();
+for (const f of rawLabFiles) {
+  const ext  = extname(f).toLowerCase();
+  const name = basename(f, ext);
+  const prev = _labByBase.get(name);
+  if (!prev || ext === '.webp') _labByBase.set(name, f);
+}
+const labFiles = [..._labByBase.values()].sort();
 
 const labEntries = [];
 for (const file of labFiles.sort()) {
@@ -62,10 +73,17 @@ for (const file of labFiles.sort()) {
   const project = m[1].toUpperCase();
   const wip     = m[2].toUpperCase();
   let finalFile = file;
-  if (IMAGE_EXTS.has(ext) && ext !== '.webp') finalFile = await toWebp(LAB_DIR, file);
-  const type = VIDEO_EXTS.has(ext) ? 'video' : 'img';
+  let type;
+  if (MODEL_EXTS.has(ext)) {
+    type = '3d';
+  } else if (VIDEO_EXTS.has(ext)) {
+    type = 'video';
+  } else {
+    type = 'img';
+    if (ext !== '.webp') finalFile = await toWebp(LAB_DIR, file);
+  }
   labEntries.push({ project, wip, src: `projects/laboratory/${finalFile}`, type });
-  console.log(`    ✓ ${file}  [${project} / ${wip}]`);
+  console.log(`    ✓ ${file}  [${project} / ${wip}]${type === '3d' ? '  [3D MODEL]' : ''}`);
 }
 
 /* ── scansiona vault/CATEGORIA/ ── */
@@ -77,19 +95,33 @@ const categories = readdirSync(VAULT_DIR).filter(f =>
 
 for (const cat of categories.sort()) {
   const catDir  = join(VAULT_DIR, cat);
-  const catFiles = readdirSync(catDir).filter(f => {
+  const rawCatFiles = readdirSync(catDir).filter(f => {
     const ext = extname(f).toLowerCase();
     return isMedia(ext) && !f.startsWith('.');
   });
-  for (const file of catFiles.sort()) {
+  const _catByBase = new Map();
+  for (const f of rawCatFiles) {
+    const ext = extname(f).toLowerCase();
+    const name = basename(f, ext);
+    if (!_catByBase.get(name) || ext === '.webp') _catByBase.set(name, f);
+  }
+  const catFiles = [..._catByBase.values()].sort();
+  for (const file of catFiles) {
     const ext  = extname(file).toLowerCase();
     const name = basename(file, ext);
     const m    = name.match(/^(.+?)_DEF$/i);
     if (!m) { console.log(`    ⚠ IGNORATO (formato errato): ${file}`); continue; }
     const project = m[1].toUpperCase();
     let finalFile = file;
-    if (IMAGE_EXTS.has(ext) && ext !== '.webp') finalFile = await toWebp(catDir, file);
-    const type = VIDEO_EXTS.has(ext) ? 'video' : 'img';
+    let type;
+    if (MODEL_EXTS.has(ext)) {
+      type = '3d';
+    } else if (VIDEO_EXTS.has(ext)) {
+      type = 'video';
+    } else {
+      type = 'img';
+      if (ext !== '.webp') finalFile = await toWebp(catDir, file);
+    }
     vaultEntries.push({ project, category: cat.toUpperCase(), src: `projects/vault/${cat}/${finalFile}`, type });
     console.log(`    ✓ ${cat}/${file}  [DEF → VAULT]`);
   }
@@ -131,9 +163,38 @@ const updated = current.replace(
 writeFileSync(PROJECTS_JS, updated, 'utf8');
 console.log('  ✓ js/projects.js aggiornato\n');
 
-/* ── git commit + push ── */
+/* ── git commit + push (salta file > 95MB) ── */
+const MAX_MB = 95;
+const allProjectFiles = [
+  ...readdirSync(LAB_DIR).map(f => `${LAB_DIR}/${f}`),
+  ...readdirSync(VAULT_DIR).flatMap(cat => {
+    const d = `${VAULT_DIR}/${cat}`;
+    try { return readdirSync(d).map(f => `${d}/${f}`); } catch { return []; }
+  })
+];
+
+const toAdd = [];
+const skippedLarge = [];
+for (const fp of allProjectFiles) {
+  try {
+    const mb = statSync(fp).size / 1024 / 1024;
+    if (mb > MAX_MB) {
+      skippedLarge.push({ fp, mb: mb.toFixed(0) });
+    } else {
+      toAdd.push(fp);
+    }
+  } catch {}
+}
+
+if (skippedLarge.length > 0) {
+  console.log('  ⚠  FILE TROPPO GRANDI per GitHub (max 100MB) — saltati:');
+  skippedLarge.forEach(f => console.log(`     ${f.fp}  (${f.mb}MB)`));
+  console.log('');
+}
+
 try {
-  execSync('git add projects/ js/projects.js', { stdio: 'pipe' });
+  if (toAdd.length > 0) execSync(`git add ${toAdd.map(f => `"${f}"`).join(' ')} js/projects.js .gitignore`, { stdio: 'pipe' });
+  else execSync('git add js/projects.js .gitignore', { stdio: 'pipe' });
   execSync(`git commit -m "sync: ${labCount} WIP in lab, ${vaultCount} DEF in vault"`, { stdio: 'pipe' });
   execSync('git push origin main', { stdio: 'inherit' });
   console.log('  ✓ Pubblicato! Attendi 1-2 minuti per GitHub Pages.\n');
