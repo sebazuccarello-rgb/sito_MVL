@@ -38,11 +38,11 @@
       height: 100dvh;
     }
 
-    /* ── NAV LINKS — no box, plain text ── */
+    /* ── NAV LINKS — tutto in vw per scaling proporzionale ── */
     .nav-link {
       font-family: 'Prototype', var(--font);
-      font-size: clamp(14px, 2.2vw, 32px);
-      letter-spacing: 0.28em;
+      font-size: min(2.22vw, 32px);
+      letter-spacing: 0.38em;
       text-transform: uppercase;
       color: var(--text);
       background: none;
@@ -69,26 +69,26 @@
     /* ── TOP-LEFT: polaroid ── */
     .logo-polaroid {
       position: absolute;
-      top: 24px;
-      left: 28px;
-      width: clamp(180px, 22vw, 322px);
+      top: min(1.67vw, 24px);
+      left: min(1.94vw, 28px);
+      width: min(22.4vw, 322px);
       transform: rotate(-6deg);
     }
     .logo-polaroid img { width: 100%; }
 
-    /* ── TOP-CENTER: [BASE\\LABORATORY] ── */
+    /* ── TOP-CENTER ── */
     .nav-top {
       position: absolute;
-      top: 32px;
+      top: min(2.22vw, 32px);
       left: 50%;
       transform: translateX(-50%);
     }
 
-    /* ── TOP-RIGHT: badges ── */
+    /* ── TOP-RIGHT: badge versione ── */
     .sys-badges {
       position: absolute;
-      top: 28px;
-      right: 32px;
+      top: min(1.94vw, 28px);
+      right: min(2.22vw, 32px);
       display: flex;
       flex-direction: column;
       align-items: flex-end;
@@ -96,17 +96,14 @@
     }
     .badge {
       font-family: 'Prototype', var(--font);
-      font-size: clamp(14px, 2.2vw, 32px);
+      font-size: min(2.22vw, 32px);
       letter-spacing: 0.18em;
       color: var(--text);
       cursor: default;
       transition: color 0.2s;
     }
-    .badge.login { cursor: pointer; }
-    .badge.login:hover { color: var(--red); }
-    .badge:not(.login):hover { color: var(--red); }
 
-    /* ── CENTER: logo with scan frame ── */
+    /* ── CENTER: logo ── */
     .center-block {
       position: absolute;
       top: 50%;
@@ -116,14 +113,12 @@
       align-items: center;
       justify-content: center;
     }
-
     .scan-frame {
       position: relative;
-      padding: clamp(12px, 2vw, 24px) clamp(16px, 3vw, 36px);
+      padding: min(1.67vw, 24px) min(2.5vw, 36px);
     }
-
     .center-logo {
-      width: clamp(200px, 40vw, 585px);
+      width: min(40.6vw, 585px);
       display: block;
       filter: drop-shadow(0 2px 20px rgba(0,0,0,0.5));
     }
@@ -132,7 +127,7 @@
     .nav-left {
       position: absolute;
       top: 50%;
-      left: 32px;
+      left: min(2.22vw, 32px);
       transform: translateY(-50%);
     }
 
@@ -140,14 +135,14 @@
     .nav-right {
       position: absolute;
       top: 50%;
-      right: 32px;
+      right: min(2.22vw, 32px);
       transform: translateY(-50%);
     }
 
     /* ── BOTTOM-CENTER ── */
     .nav-bottom {
       position: absolute;
-      bottom: 32px;
+      bottom: min(2.22vw, 32px);
       left: 50%;
       transform: translateX(-50%);
     }
@@ -155,106 +150,76 @@
     /* ── BOTTOM-LEFT: quote ── */
     .quote {
       position: absolute;
-      bottom: 60px;
-      left: 32px;
+      bottom: min(4.17vw, 60px);
+      left: min(2.22vw, 32px);
       font-family: 'PunkBabe', var(--font);
-      font-size: clamp(44px, 5.5vw, 80px);
+      font-size: min(5.56vw, 80px);
       line-height: 0.95;
       color: var(--text);
-      max-width: clamp(280px, 36vw, 520px);
+      max-width: min(36.1vw, 520px);
     }
 
-    /* ── BOTTOM-RIGHT: system data ── */
+    /* ── BOTTOM-RIGHT: privacy link ── */
     .system-data {
       position: absolute;
-      bottom: 32px;
-      right: 32px;
+      bottom: min(2.22vw, 32px);
+      right: min(2.22vw, 32px);
       font-family: var(--font);
-      font-size: clamp(12px, 1.6vw, 23px);
+      font-size: min(1.6vw, 23px);
       letter-spacing: 0.16em;
       color: var(--text-dim);
       cursor: pointer;
       transition: color 0.2s;
+      text-decoration: none;
     }
     .system-data:hover { color: var(--red); }
 
-    /* ── TABLET (769–1100px) ── */
-    @media (max-width: 1100px) {
-      .logo-polaroid { display: none; }
-      .quote { display: none; }
-      .system-data { display: none; }
-
-      .center-block { top: 34%; }
-
-      /* Sposta nav laterali nello stack verticale per evitare overlap col logo */
-      .nav-left {
-        top: auto;
-        left: 50%;
-        bottom: 21vh;
-        transform: translateX(-50%);
-      }
-      .nav-right {
-        top: auto;
-        right: auto;
-        left: 50%;
-        bottom: 14vh;
-        transform: translateX(-50%);
-      }
-      .nav-top {
-        top: auto;
-        bottom: 28vh;
-        left: 50%;
-        transform: translateX(-50%);
-      }
-      .nav-bottom {
-        bottom: 7vh;
-        left: 50%;
-        transform: translateX(-50%);
-      }
-    }
-
-    /* ── MOBILE (≤768px) ── */
+    /* ── MOBILE (≤768px) — layout flex colonna ── */
     @media (max-width: 768px) {
-      .logo-polaroid { display: none; }
-      .quote { display: none; }
-      .system-data { display: none; }
-
-      .center-logo { width: clamp(200px, 72vw, 340px); }
-      .center-block { top: 34%; }
-
-      .badge { font-size: 13px; letter-spacing: 0.14em; }
-      .sys-badges { top: 14px; right: 14px; gap: 3px; }
-
-      .nav-link { font-size: 12px; letter-spacing: 0.14em; }
-
-      /* Nav stack: posizioni in vh per adattarsi ad ogni altezza schermo */
-      .nav-top {
-        top: auto;
-        bottom: 28vh;
-        left: 50%;
-        transform: translateX(-50%);
+      /* Shell diventa flex colonna centrata */
+      .shell {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 18px;
       }
-      .nav-left {
-        top: auto;
-        left: 50%;
-        bottom: 21vh;
-        transform: translateX(-50%);
+
+      /* sys-badges rimane assoluto in alto a destra */
+      .sys-badges {
+        position: absolute;
+        top: 14px; right: 14px;
+        gap: 3px;
       }
-      .nav-right {
-        top: auto;
-        right: auto;
-        left: 50%;
-        bottom: 14vh;
-        transform: translateX(-50%);
+      .badge { font-size: 11px; letter-spacing: 0.12em; }
+
+      /* Nascondi decorativi */
+      .logo-polaroid, .quote, .system-data { display: none; }
+
+      /* Nav e logo escono dal flusso assoluto → entrano nel flex */
+      .nav-top, .nav-left, .nav-right, .nav-bottom {
+        position: static;
+        transform: none;
+        flex-shrink: 0;
       }
-      .nav-bottom {
-        bottom: 7vh;
-        left: 50%;
-        transform: translateX(-50%);
+      .center-block {
+        position: static;
+        transform: none;
+        flex-shrink: 0;
       }
+
+      /* Ordine: LABORATORY, THE_VAULT, logo, THE_VISION, RAW_IDEA */
+      .nav-top    { order: 1; }
+      .nav-right  { order: 2; }
+      .center-block { order: 3; }
+      .nav-left   { order: 4; }
+      .nav-bottom { order: 5; }
+
+      .nav-link { font-size: 12px; letter-spacing: 0.16em; }
+      .center-logo { width: 62vw; }
+      .scan-frame { padding: 8px 0; }
     }
 
-    /* ── MOTION PREFERENCE ── */
     @media (prefers-reduced-motion: reduce) {
       .nav-link:hover { animation: none; }
     }
@@ -276,9 +241,8 @@
       <a href="laboratory.html" class="nav-link">[BASE\\LABORATORY]</a>
     </div>
 
-    <!-- top-right badges -->
+    <!-- top-right badge -->
     <div class="sys-badges">
-      <a href="login.html" class="badge login">[LOG_ID]</a>
       <div class="badge" id="version-tag">[Version\1.0.0]</div>
     </div>
 
@@ -309,8 +273,8 @@
       "Don't tell me<br>what you want,<br>tell me your<br>Vision"
     </div>
 
-    <!-- bottom-right system data -->
-    <div class="system-data">[SYSTEM.DATA // PRIVACY &amp; COOKIES]</div>
+    <!-- bottom-right privacy link -->
+    <a href="privacy.html" class="system-data">[SYSTEM.DATA // PRIVACY &amp; COOKIES]</a>
 
   </div>
 
