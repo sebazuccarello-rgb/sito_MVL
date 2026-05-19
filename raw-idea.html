@@ -285,14 +285,6 @@
 
     <form class="brief-form" id="brief-form">
 
-      <div class="field-group">
-        <label class="field-label" for="mode-toggle">// INPUT_MODE</label>
-        <div class="mode-toggle" id="mode-toggle">
-          <button type="button" class="mode-btn active" data-mode="both">PHOTO + TEXT</button>
-          <button type="button" class="mode-btn" data-mode="text">TEXT ONLY</button>
-        </div>
-      </div>
-
       <div class="field-group" id="name-field">
         <label class="field-label" for="input-name">// IDENTIFIER</label>
         <input type="text" id="input-name" name="name" class="field-input" placeholder="Your name or alias" autocomplete="off">
@@ -303,25 +295,14 @@
         <input type="email" id="input-email" name="email" class="field-input" placeholder="Email address" autocomplete="off">
       </div>
 
-      <div class="field-group" id="upload-field">
-        <label class="field-label" for="file-input">// VISUAL_REFERENCE</label>
-        <div class="upload-zone" id="upload-zone">
-          <input type="file" id="file-input" name="files" accept="image/*,video/*" multiple>
-          <div class="upload-icon">
-            <strong>[DROP FILES HERE]</strong>
-            JPG, PNG, MP4 accepted — up to 20MB each
-          </div>
-          <div class="upload-preview" id="upload-preview"></div>
-        </div>
-      </div>
-
       <div class="field-group">
         <label class="field-label" for="input-text">// RAW_TEXT</label>
         <textarea id="input-text" name="message" class="field-textarea" placeholder="Describe your idea, mood, references, any detail that matters..."></textarea>
       </div>
 
       <div class="form-note">
-        // All transmissions are confidential. No data shared externally.
+        // All transmissions are confidential. No data shared externally.<br>
+        // To attach visual references, send them directly to <a href="mailto:Seba.zuccarello@gmail.com" style="color:var(--teal);text-decoration:none;">Seba.zuccarello@gmail.com</a>
       </div>
 
       <button type="submit" class="submit-btn">[TRANSMIT_BRIEF]</button>
@@ -332,29 +313,6 @@
   <script src="js/main.js"></script>
   <script src="js/dust.js"></script>
   <script>
-    /* mode toggle */
-    document.querySelectorAll('.mode-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const uploadField = document.getElementById('upload-field');
-        uploadField.style.display = btn.dataset.mode === 'text' ? 'none' : '';
-      });
-    });
-
-    /* image preview */
-    document.getElementById('file-input').addEventListener('change', function () {
-      const preview = document.getElementById('upload-preview');
-      preview.innerHTML = '';
-      Array.from(this.files).forEach(file => {
-        if (!file.type.startsWith('image/')) return;
-        const img = document.createElement('img');
-        img.className = 'preview-thumb';
-        img.src = URL.createObjectURL(file);
-        preview.appendChild(img);
-      });
-    });
-
     /* form submit — Web3Forms */
     const WEB3_KEY = '43d6a53f-6f24-474f-9ec8-cc85fae14844';
 
@@ -383,9 +341,6 @@
         fd.append('email',      email);
         fd.append('message',    message);
         fd.append('replyto',    email);
-
-        const files = document.getElementById('file-input').files;
-        Array.from(files).forEach(file => fd.append('attachment[]', file));
 
         const res = await fetch('https://api.web3forms.com/submit', {
           method: 'POST',
