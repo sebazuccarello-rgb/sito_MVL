@@ -1,32 +1,24 @@
 /* ══════════════════════════════════════════════════════════
-   ALL_PROJECTS — unica fonte di verità per tutti i lavori.
+   FILE AUTO-GENERATO da sync.mjs — non modificare manualmente.
 
-   FORMATO NOME FILE:
-     NOMEPROGETTO_WIPn_CATEGORIA        → Laboratory (WIP in corso)
-     NOMEPROGETTO_WIPn_CATEGORIA_DEF    → Vault (finale, rimuove i WIP dal Lab)
+   STRUTTURA CARTELLE:
+     projects/laboratory/NOMEPROGETTO_WIPn.ext       → Laboratory
+     projects/vault/CATEGORIA/NOMEPROGETTO_DEF.ext   → Vault
 
-   CATEGORIE DISPONIBILI:
-     MODELLING / TEXTURING / VFX / ANIMATION / COMPOSITING / RENDERING
-
-   PERCORSO FILE: cartella  projects/
-
-   ESEMPI:
-     { file:'DRAGON_WIP1_MODELLING',     src:'projects/DRAGON_WIP1_MODELLING.mp4',     type:'video' },
-     { file:'DRAGON_WIP2_MODELLING',     src:'projects/DRAGON_WIP2_MODELLING.jpg',      type:'img'   },
-     { file:'DRAGON_WIP1_MODELLING_DEF', src:'projects/DRAGON_WIP1_MODELLING_DEF.mp4', type:'video' },
+   Per aggiornare: aggiungi i file nelle cartelle e lancia SYNC.bat
 ══════════════════════════════════════════════════════════ */
 const ALL_PROJECTS = [
-  /* — nessun file in projects/ — */
+  /* — nessun file trovato — */
 ];
 
-/* ── parse: estrae nome, wip, categoria, isDef dal nome file ── */
+/* ── parse: estrae nome, wip/def, categoria, isDef dal nome file ── */
 function _parseFile(file) {
-  const m = file.match(/^(.+?)_(WIP\d+)_([A-Z]+)(_DEF)?$/i);
+  const m = file.match(/^(.+?)_(WIP\d+)(?:_([A-Z]+))?(_DEF)?$/i);
   if (!m) return null;
   return {
     projectName: m[1].toUpperCase(),
-    wipNum:      m[2].toUpperCase(),
-    category:    m[3].toUpperCase(),
+    wipNum:      m[2] ? m[2].toUpperCase() : null,
+    category:    m[3] ? m[3].toUpperCase() : null,
     isDef:       !!m[4]
   };
 }
@@ -58,8 +50,8 @@ ALL_PROJECTS.forEach(entry => {
       return ep && !ep.isDef && ep.projectName === p.projectName && ep.category === p.category;
     })
     .sort((a, b) => {
-      const na = parseInt(_parseFile(a.file).wipNum.replace(/\D/g, ''));
-      const nb = parseInt(_parseFile(b.file).wipNum.replace(/\D/g, ''));
+      const na = parseInt(_parseFile(a.file).wipNum?.replace(/\D/g, '') || 0);
+      const nb = parseInt(_parseFile(b.file).wipNum?.replace(/\D/g, '') || 0);
       return na - nb;
     })
     .map(e => {
