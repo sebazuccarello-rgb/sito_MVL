@@ -8,14 +8,15 @@
    Per aggiornare: aggiungi i file nelle cartelle e lancia SYNC.bat
 ══════════════════════════════════════════════════════════ */
 const ALL_PROJECTS = [
-  { file:'GOOFY_WIP1', src:'projects/laboratory/Goofy_WIP1.fbx', type:'3d' },
-  { file:'GOOFY_WIP2', src:'projects/laboratory/Goofy_WIP2.webp', type:'img' },
-  { file:'GOOFY_WIP3', src:'projects/laboratory/Goofy_WIP3.webp', type:'img' },
-  { file:'GOOFY_WIP4', src:'projects/laboratory/Goofy_WIP4.webp', type:'img' },
-  { file:'GOOFY_WIP5', src:'projects/laboratory/Goofy_WIP5.webp', type:'img' },
-  { file:'GOOFY_WIP6', src:'projects/laboratory/Goofy_WIP6.webp', type:'img' },
-  { file:'GOOFY_WIP7', src:'projects/laboratory/Goofy_WIP7.webp', type:'img' },
-  { file:'GOOFY_WIP8', src:'projects/laboratory/Goofy_WIP8.webp', type:'img' },
+  { file:'GOOFY_WIP1_TEXTURING', src:'projects/laboratory/Goofy_WIP1.fbx', type:'3d' },
+  { file:'GOOFY_WIP2_TEXTURING', src:'projects/laboratory/Goofy_WIP2.webp', type:'img' },
+  { file:'GOOFY_WIP3_TEXTURING', src:'projects/laboratory/Goofy_WIP3.webp', type:'img' },
+  { file:'GOOFY_WIP4_TEXTURING', src:'projects/laboratory/Goofy_WIP4.webp', type:'img' },
+  { file:'GOOFY_WIP5_TEXTURING', src:'projects/laboratory/Goofy_WIP5.webp', type:'img' },
+  { file:'GOOFY_WIP6_TEXTURING', src:'projects/laboratory/Goofy_WIP6.webp', type:'img' },
+  { file:'GOOFY_WIP7_TEXTURING', src:'projects/laboratory/Goofy_WIP7.webp', type:'img' },
+  { file:'GOOFY_WIP8_TEXTURING', src:'projects/laboratory/Goofy_WIP8.webp', type:'img' },
+  { file:'GOOFY_TEXTURING_DEF', src:'projects/vault/TEXTURING/Goofy_DEF.webp', type:'img' },
 ];
 
 /* ── parse: estrae nome, wip/def, categoria, isDef dal nome file ── */
