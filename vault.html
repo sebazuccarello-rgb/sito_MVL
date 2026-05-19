@@ -654,7 +654,7 @@
       /* media principale */
       const wrap = document.getElementById('proj-media-wrap');
       if (p.type === 'video') {
-        wrap.innerHTML = `<video src="${p.src}" autoplay loop muted playsinline controls></video>`;
+        wrap.innerHTML = `<video src="${p.src}" autoplay loop muted playsinline controls preload="none"></video>`;
       } else {
         wrap.innerHTML = `<img src="${p.src}" alt="${p.name}">`;
       }
@@ -668,8 +668,8 @@
         grid.innerHTML = p.wip.map(w => {
           const media = w.src
             ? (w.type === 'video'
-                ? `<video class="wip-media" src="${w.src}" muted playsinline preload="metadata"></video>`
-                : `<img class="wip-media" src="${w.src}" alt="${w.desc}">`)
+                ? `<video class="wip-media" data-src="${w.src}" muted playsinline preload="none"></video>`
+                : `<img class="wip-media" src="${w.src}" alt="${w.desc}" loading="lazy">`)
             : `<div class="wip-placeholder"><span class="wip-placeholder-code">${w.step} //</span><span class="wip-placeholder-status">PENDING</span></div>`;
           return `<div class="wip-card">${media}<div class="wip-info"><div class="wip-step">${w.step} //</div><div class="wip-desc">${w.desc}</div></div></div>`;
         }).join('');
@@ -687,6 +687,17 @@
             </div>
           </div>`).join('');
       }
+
+      /* lazy-load wip videos */
+      const wipObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          const v = entry.target.querySelector('video[data-src]');
+          if (v && !v.src) v.src = v.dataset.src;
+          wipObserver.unobserve(entry.target);
+        });
+      }, { rootMargin: '200px' });
+      grid.querySelectorAll('.wip-card').forEach(c => wipObserver.observe(c));
 
       /* mostra project view */
       document.getElementById('vault-group-view').style.display   = 'none';

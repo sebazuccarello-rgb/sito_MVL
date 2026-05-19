@@ -389,8 +389,8 @@
       const card = document.createElement('div');
       card.className = 'fc';
       const media = d.type === 'video'
-        ? `<video class="card-media" src="${d.src}" muted playsinline preload="metadata"></video>`
-        : `<img class="card-media" src="${d.src}" alt="${d.name}">`;
+        ? `<video class="card-media" data-src="${d.src}" muted playsinline preload="none"></video>`
+        : `<img class="card-media" src="${d.src}" alt="${d.name}" loading="lazy">`;
       card.innerHTML = `
         ${media}
         <div class="card-info">
@@ -405,11 +405,26 @@
     /* empty state */
     if (CARDS.length === 0) document.getElementById('empty-state').classList.add('visible');
 
+    /* lazy-load video src when card enters viewport */
+    const videoObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const v = entry.target.querySelector('video[data-src]');
+        if (v && !v.src) { v.src = v.dataset.src; }
+        videoObserver.unobserve(entry.target);
+      });
+    }, { rootMargin: '200px' });
+
+    grid.querySelectorAll('.fc').forEach(card => videoObserver.observe(card));
+
     /* hover preview per i video */
     grid.querySelectorAll('.fc').forEach(card => {
       const v = card.querySelector('video.card-media');
       if (!v) return;
-      card.addEventListener('mouseenter', () => { v.currentTime = 0; v.play(); });
+      card.addEventListener('mouseenter', () => {
+        if (!v.src && v.dataset.src) v.src = v.dataset.src;
+        v.currentTime = 0; v.play();
+      });
       card.addEventListener('mouseleave', () => { v.pause(); v.currentTime = 0; });
     });
 
