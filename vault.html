@@ -549,6 +549,7 @@
   <script type="module" src="js/viewer3d.js"></script>
   <script>
     let currentGroup = null;
+    let cleanup3dMain = null;
     const CATEGORIES = Object.keys(VAULT_PROJECTS);
 
     /* ── popola vault main grid dinamicamente ── */
@@ -662,7 +663,7 @@
 
       /* media principale */
       const wrap = document.getElementById('proj-media-wrap');
-      let cleanup3dMain = null;
+      cleanup3dMain = null;
       if (p.type === 'video') {
         wrap.innerHTML = `<video src="${p.src}" autoplay loop muted playsinline controls preload="none"></video>`;
       } else if (p.type === '3d') {
