@@ -336,17 +336,10 @@
 
   <script src="js/main.js"></script>
   <script src="js/dust.js"></script>
+  <script src="js/projects.js"></script>
   <script>
-    /* ══════════════════════════════════════════════════════
-       CARDS — aggiungere una voce per ogni file.
-       Denominazione file: WIP_NNN_NOME_PROGETTO.mp4 / .jpg / .png
-       Esempio:
-         { code:'WIP_001', name:'NOME_PROGETTO', src:'projects/laboratory/WIP_001_NOME_PROGETTO.mp4', type:'video' },
-         { code:'WIP_002', name:'NOME_PROGETTO', src:'projects/laboratory/WIP_002_NOME_PROGETTO.jpg', type:'img'   },
-    ══════════════════════════════════════════════════════ */
-    const CARDS = [
-      /* — inserire qui — */
-    ];
+    /* CARDS viene da projects.js → LAB_CARDS (generato automaticamente) */
+    const CARDS = LAB_CARDS;
 
     /* ── Layout mosaic: pattern di 40 posizioni, si ripete ogni 27 righe ── */
     const TILE_ROWS = 27;
