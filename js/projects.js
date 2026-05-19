@@ -21,14 +21,17 @@ const ALL_PROJECTS = [
 
 /* ── parse: estrae nome, wip/def, categoria, isDef dal nome file ── */
 function _parseFile(file) {
-  const m = file.match(/^(.+?)_(WIP\d+)(?:_([A-Z]+))?(_DEF)?$/i);
-  if (!m) return null;
-  return {
-    projectName: m[1].toUpperCase(),
-    wipNum:      m[2] ? m[2].toUpperCase() : null,
-    category:    m[3] ? m[3].toUpperCase() : null,
-    isDef:       !!m[4]
-  };
+  // DEF format: NOME_CATEGORIA_DEF
+  const mDef = file.match(/^(.+?)_([A-Za-z]+)_DEF$/i);
+  if (mDef) {
+    return { projectName: mDef[1].toUpperCase(), wipNum: null, category: mDef[2].toUpperCase(), isDef: true };
+  }
+  // WIP format: NOME_WIPn[_CATEGORIA]
+  const mWip = file.match(/^(.+?)_(WIP\d+)(?:_([A-Za-z]+))?$/i);
+  if (mWip) {
+    return { projectName: mWip[1].toUpperCase(), wipNum: mWip[2].toUpperCase(), category: mWip[3] ? mWip[3].toUpperCase() : null, isDef: false };
+  }
+  return null;
 }
 
 /* ── chiavi dei progetti che hanno già un DEF ── */

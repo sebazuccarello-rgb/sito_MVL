@@ -192,14 +192,37 @@ if (skippedLarge.length > 0) {
   console.log('');
 }
 
+/* ── git add ── */
 try {
   if (toAdd.length > 0) execSync(`git add ${toAdd.map(f => `"${f}"`).join(' ')} js/projects.js .gitignore`, { stdio: 'pipe' });
   else execSync('git add js/projects.js .gitignore', { stdio: 'pipe' });
-  execSync(`git commit -m "sync: ${labCount} WIP in lab, ${vaultCount} DEF in vault"`, { stdio: 'pipe' });
-  execSync('git push origin main', { stdio: 'inherit' });
-  console.log('  ✓ Pubblicato! Attendi 1-2 minuti per GitHub Pages.\n');
-} catch {
+} catch(e) {
+  console.log('  ✗ git add fallito:', e.stderr?.toString().trim() || e.message);
+}
+
+/* ── git commit (solo se ci sono modifiche staged) ── */
+let committed = false;
+try {
+  execSync('git diff --cached --quiet', { stdio: 'pipe' });
   console.log('  (nessuna modifica da committare)\n');
+} catch {
+  /* exit code 1 = ci sono modifiche staged → committa */
+  try {
+    execSync(`git commit -m "sync: ${labCount} WIP in lab, ${vaultCount} DEF in vault"`, { stdio: 'pipe' });
+    committed = true;
+    console.log('  ✓ Commit creato\n');
+  } catch(e) {
+    console.log('  ✗ git commit fallito:', e.stderr?.toString().trim() || e.message);
+  }
+}
+
+/* ── git push (sempre, anche se niente di nuovo da committare) ── */
+try {
+  execSync('git push origin main', { stdio: 'inherit' });
+  if (committed) console.log('  ✓ Pubblicato! Attendi 1-2 minuti per GitHub Pages.\n');
+  else console.log('  (già aggiornato su GitHub)\n');
+} catch(e) {
+  console.log('  ✗ git push fallito:', e.message);
 }
 
 console.log('── DONE ──────────────────────────────────────\n');
