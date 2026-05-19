@@ -378,6 +378,7 @@
     .wip-card {
       aspect-ratio: 16/9;
       border: 1px solid var(--border);
+      cursor: pointer;
       position: relative;
       overflow: hidden;
       background: rgba(255,255,255,0.015);
@@ -471,6 +472,44 @@
     @media (prefers-reduced-motion: reduce) {
       body { animation: none; }
     }
+
+    /* ── WIP LIGHTBOX ── */
+    .wip-lb-overlay {
+      position: fixed; inset: 0; z-index: 1000;
+      background: rgba(0,0,0,0);
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.4s ease;
+    }
+    .wip-lb-overlay.wip-lb-open { background: rgba(0,0,0,0.96); }
+    .wip-lb-overlay.wip-lb-closing { background: rgba(0,0,0,0); pointer-events: none; }
+    .wip-lb-inner {
+      position: relative;
+      max-width: min(92vw, 1100px);
+      width: 100%;
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    .wip-lb-inner img, .wip-lb-inner video {
+      width: 100%; max-height: 80vh;
+      object-fit: contain; display: block;
+      border: 1px solid var(--border);
+    }
+    .wip-lb-3d-wrap {
+      width: 100%; height: 70vh;
+      border: 1px solid var(--border);
+    }
+    .wip-lb-meta {
+      display: flex; align-items: baseline; gap: 16px;
+      font-size: 9px; letter-spacing: 0.3em;
+    }
+    .wip-lb-step { color: var(--teal); }
+    .wip-lb-desc { color: var(--text-dim); }
+    .wip-lb-hint { color: rgba(255,255,255,0.25); margin-left: auto; }
+    .wip-lb-close {
+      position: absolute; top: -28px; right: 0;
+      font-size: 9px; letter-spacing: 0.3em; color: var(--text-dim);
+      cursor: pointer; transition: color 0.2s;
+    }
+    .wip-lb-close:hover { color: #fff; }
   </style>
 </head>
 <body>
@@ -690,7 +729,7 @@
                   ? `<div class="wip-media wip-3d-thumb"><span style="font-size:9px;letter-spacing:.25em;color:var(--teal)">// 3D</span></div>`
                   : `<img class="wip-media" src="${w.src}" alt="${w.desc}" loading="lazy">`)
             : `<div class="wip-placeholder"><span class="wip-placeholder-code">${w.step} //</span><span class="wip-placeholder-status">PENDING</span></div>`;
-          return `<div class="wip-card">${media}<div class="wip-info"><div class="wip-step">${w.step} //</div><div class="wip-desc">${w.desc}</div></div></div>`;
+          return `<div class="wip-card" data-src="${w.src||''}" data-type="${w.type}" data-step="${w.step}" data-desc="${w.desc}">${media}<div class="wip-info"><div class="wip-step">${w.step} //</div><div class="wip-desc">${w.desc}</div></div></div>`;
         }).join('');
       } else {
         /* placeholder quando i WIP non sono ancora stati caricati */
@@ -718,6 +757,13 @@
       }, { rootMargin: '200px' });
       grid.querySelectorAll('.wip-card').forEach(c => wipObserver.observe(c));
 
+      /* click → lightbox WIP */
+      grid.addEventListener('click', e => {
+        const card = e.target.closest('.wip-card[data-src]');
+        if (!card || !card.dataset.src) return;
+        openWipLightbox(card.dataset.src, card.dataset.type, card.dataset.step, card.dataset.desc);
+      });
+
       /* mostra project view */
       document.getElementById('vault-group-view').style.display   = 'none';
       document.getElementById('vault-project-view').style.display = 'block';
@@ -733,6 +779,53 @@
       document.getElementById('header-page-title').textContent = '[SCAN\\\\THE_VAULT]';
       document.getElementById('vault-project-view').style.display = 'none';
       openGroup(currentGroup);
+    }
+
+    /* ── lightbox per i WIP ── */
+    let cleanupWipLb = null;
+    function openWipLightbox(src, type, step, desc) {
+      let mediaHTML, is3d = type === '3d';
+      if (is3d) {
+        mediaHTML = `<div class="wip-lb-3d-wrap" id="wip-lb-3d"></div>`;
+      } else if (type === 'video') {
+        mediaHTML = `<video src="${src}" autoplay loop muted playsinline controls></video>`;
+      } else {
+        mediaHTML = `<img src="${src}" alt="${desc}">`;
+      }
+
+      const overlay = document.createElement('div');
+      overlay.className = 'wip-lb-overlay';
+      overlay.innerHTML = `
+        <div class="wip-lb-inner">
+          <span class="wip-lb-close">[✕ CLOSE]</span>
+          ${mediaHTML}
+          <div class="wip-lb-meta">
+            <span class="wip-lb-step">${step} //</span>
+            <span class="wip-lb-desc">${desc}</span>
+            ${is3d ? '<span class="wip-lb-hint">drag to rotate · scroll to zoom</span>' : ''}
+          </div>
+        </div>`;
+      document.body.appendChild(overlay);
+      requestAnimationFrame(() => overlay.classList.add('wip-lb-open'));
+
+      if (is3d) {
+        requestAnimationFrame(() => {
+          const wrap = document.getElementById('wip-lb-3d');
+          if (wrap && window.init3DViewer) cleanupWipLb = window.init3DViewer(wrap, src);
+        });
+      }
+
+      const close = () => {
+        if (cleanupWipLb) { cleanupWipLb(); cleanupWipLb = null; }
+        overlay.classList.remove('wip-lb-open');
+        overlay.classList.add('wip-lb-closing');
+        setTimeout(() => overlay.remove(), 400);
+        document.removeEventListener('keydown', onKey);
+      };
+      overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
+      overlay.querySelector('.wip-lb-close').addEventListener('click', close);
+      const onKey = e => { if (e.key === 'Escape') close(); };
+      document.addEventListener('keydown', onKey);
     }
 
     function stopProjectMedia() {
