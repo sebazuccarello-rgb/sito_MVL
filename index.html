@@ -183,6 +183,34 @@
       .logo-polaroid { display: none; }
       .quote { display: none; }
       .system-data { display: none; }
+
+      .center-block { top: 34%; }
+
+      /* Sposta nav laterali nello stack verticale per evitare overlap col logo */
+      .nav-left {
+        top: auto;
+        left: 50%;
+        bottom: 21vh;
+        transform: translateX(-50%);
+      }
+      .nav-right {
+        top: auto;
+        right: auto;
+        left: 50%;
+        bottom: 14vh;
+        transform: translateX(-50%);
+      }
+      .nav-top {
+        top: auto;
+        bottom: 28vh;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      .nav-bottom {
+        bottom: 7vh;
+        left: 50%;
+        transform: translateX(-50%);
+      }
     }
 
     /* ── MOBILE (≤768px) ── */
