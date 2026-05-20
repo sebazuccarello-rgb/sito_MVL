@@ -8,6 +8,7 @@
    Per aggiornare: aggiungi i file nelle cartelle e lancia SYNC.bat
 ══════════════════════════════════════════════════════════ */
 const ALL_PROJECTS = [
+  { file:'ACTING_WIP1', src:'projects/laboratory/Acting_WIP1.webp', type:'img' },
   { file:'GOOFY_WIP1_TEXTURING', src:'projects/laboratory/Goofy_WIP1.fbx', type:'3d' },
   { file:'GOOFY_WIP2_TEXTURING', src:'projects/laboratory/Goofy_WIP2.webp', type:'img' },
   { file:'GOOFY_WIP3_TEXTURING', src:'projects/laboratory/Goofy_WIP3.webp', type:'img' },
