@@ -12,6 +12,7 @@ const ALL_PROJECTS = [
   { file:'ACTING_WIP2', src:'projects/laboratory/Acting_WIP2.mp4', type:'video' },
   { file:'ACTING_WIP3', src:'projects/laboratory/Acting_WIP3.webp', type:'img' },
   { file:'ACTING_WIP4', src:'projects/laboratory/Acting_WIP4.mp4', type:'video' },
+  { file:'ACTING_WIP5', src:'projects/laboratory/Acting_WIP5.mp4', type:'video' },
   { file:'GOOFY_WIP1_TEXTURING', src:'projects/laboratory/Goofy_WIP1.fbx', type:'3d' },
   { file:'GOOFY_WIP2_TEXTURING', src:'projects/laboratory/Goofy_WIP2.webp', type:'img' },
   { file:'GOOFY_WIP3_TEXTURING', src:'projects/laboratory/Goofy_WIP3.webp', type:'img' },
