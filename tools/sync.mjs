@@ -20,6 +20,21 @@ import sharp from 'sharp';
 const LAB_DIR    = 'projects/laboratory';
 const VAULT_DIR  = 'projects/vault';
 const PROJECTS_JS = 'js/projects.js';
+const CONFIG_JSON = 'config.json';
+
+/* ── incrementa la versione: patch +1; ogni 10 → minor +1; ogni 10 minor → major +1
+   es. 1.0.0 → 1.0.1 → ... → 1.0.9 → 1.1.0 → ... → 1.9.9 → 2.0.0 ── */
+function bumpVersion() {
+  let cfg = { version: '1.0.0' };
+  try { cfg = JSON.parse(readFileSync(CONFIG_JSON, 'utf8')); } catch {}
+  let [maj, min, pat] = String(cfg.version || '1.0.0').split('.').map(n => parseInt(n, 10) || 0);
+  pat += 1;
+  if (pat >= 10) { pat = 0; min += 1; }
+  if (min >= 10) { min = 0; maj += 1; }
+  cfg.version = `${maj}.${min}.${pat}`;
+  writeFileSync(CONFIG_JSON, JSON.stringify(cfg, null, 2) + '\n', 'utf8');
+  return cfg.version;
+}
 
 const VIDEO_EXTS = new Set(['.mp4', '.mov', '.webm']);
 const IMAGE_EXTS = new Set(['.jpg', '.jpeg', '.png', '.webp']);
@@ -207,8 +222,11 @@ try {
   console.log('  (nessuna modifica da committare)\n');
 } catch {
   /* exit code 1 = ci sono modifiche staged → committa */
+  const newVersion = bumpVersion();
+  try { execSync('git add config.json', { stdio: 'pipe' }); } catch {}
+  console.log(`  ✓ Versione aggiornata → ${newVersion}`);
   try {
-    execSync(`git commit -m "sync: ${labCount} WIP in lab, ${vaultCount} DEF in vault"`, { stdio: 'pipe' });
+    execSync(`git commit -m "sync v${newVersion}: ${labCount} WIP in lab, ${vaultCount} DEF in vault"`, { stdio: 'pipe' });
     committed = true;
     console.log('  ✓ Commit creato\n');
   } catch(e) {
