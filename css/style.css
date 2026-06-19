@@ -1,13 +1,15 @@
 @font-face {
   font-family: 'Prototype';
-  src: url('../fonts/Prototype.ttf') format('truetype');
+  src: url('../fonts/Prototype.woff2') format('woff2'),
+       url('../fonts/Prototype.ttf') format('truetype');
   font-weight: normal;
   font-display: swap;
 }
 
 @font-face {
   font-family: 'PunkBabe';
-  src: url('../fonts/PunkBabe.ttf') format('truetype');
+  src: url('../fonts/PunkBabe.woff2') format('woff2'),
+       url('../fonts/PunkBabe.ttf') format('truetype');
   font-weight: normal;
   font-display: swap;
 }

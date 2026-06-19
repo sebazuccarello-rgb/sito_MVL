@@ -1,4 +1,5 @@
 node_modules/
+_mov_backup/
 package-lock.json
 compress.mjs
 package.json
