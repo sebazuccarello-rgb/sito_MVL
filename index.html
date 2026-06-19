@@ -206,18 +206,19 @@
         box-sizing: border-box;
       }
 
-      /* in alto a destra mostra [3D GENERALIST] al posto della versione */
+      /* version resta in alto a destra */
       .sys-badges {
         position: absolute;
         top: 16px; right: 16px;
         gap: 4px;
       }
-      .badge { display: none; }
+      .badge { font-size: 13px; letter-spacing: 0.14em; }
 
+      /* [3D GENERALIST] in alto a sinistra */
       .quote {
         position: absolute;
-        top: 16px; right: 16px;
-        bottom: auto; left: auto;
+        top: 16px; left: 16px;
+        bottom: auto; right: auto;
         font-size: 13px;
         letter-spacing: 0.14em;
       }
