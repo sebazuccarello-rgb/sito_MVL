@@ -4,6 +4,6 @@ echo.
 echo  MVL SYNC - Pubblicazione automatica progetti
 echo  =============================================
 echo.
-node sync.mjs
+node tools/sync.mjs
 echo.
 pause
