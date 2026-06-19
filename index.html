@@ -174,34 +174,40 @@
     }
     .system-data:hover { color: var(--red); }
 
-    /* ── MOBILE (≤768px) — layout flex colonna ── */
-    @media (max-width: 768px) {
-      /* Shell diventa flex colonna centrata */
+    /* ── TABLET / SECONDO MONITOR / SCHERMI BASSI ──
+       Il layout "bussola" assoluto serve solo a schermi grandi E alti.
+       In tutti gli altri casi (tablet, Mac, finestre basse) si impila in
+       colonna così niente si sovrappone. ── */
+    @media (max-width: 1024px), (max-height: 820px) {
+      /* permetti lo scroll se serve, niente clipping */
+      html, body { overflow-y: auto; }
+
       .shell {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 18px;
+        gap: 28px;
+        min-height: 100vh;
+        min-height: 100dvh;
+        height: auto;
+        padding: 90px 24px;
+        box-sizing: border-box;
       }
 
-      /* sys-badges rimane assoluto in alto a destra */
+      /* sys-badges resta in alto a destra */
       .sys-badges {
         position: absolute;
-        top: 14px; right: 14px;
-        gap: 3px;
+        top: 16px; right: 16px;
+        gap: 4px;
       }
-      .badge { font-size: 11px; letter-spacing: 0.12em; }
+      .badge { font-size: 13px; letter-spacing: 0.14em; }
 
-      /* Nascondi decorativi */
+      /* Nascondi decorativi che causano sovrapposizioni */
       .logo-polaroid, .quote, .system-data { display: none; }
 
       /* Nav e logo escono dal flusso assoluto → entrano nel flex */
-      .nav-top, .nav-left, .nav-right, .nav-bottom {
-        position: static;
-        transform: none;
-        flex-shrink: 0;
-      }
+      .nav-top, .nav-left, .nav-right, .nav-bottom,
       .center-block {
         position: static;
         transform: none;
@@ -215,9 +221,17 @@
       .nav-left   { order: 4; }
       .nav-bottom { order: 5; }
 
-      .nav-link { font-size: 12px; letter-spacing: 0.16em; }
-      .center-logo { width: 62vw; }
+      .nav-link { font-size: 18px; letter-spacing: 0.22em; }
+      .center-logo { width: min(48vw, 400px); }
       .scan-frame { padding: 8px 0; }
+    }
+
+    /* ── TELEFONO (≤768px) — testo più piccolo ── */
+    @media (max-width: 768px) {
+      .shell { gap: 18px; padding: 70px 16px; }
+      .badge { font-size: 11px; letter-spacing: 0.12em; }
+      .nav-link { font-size: 13px; letter-spacing: 0.16em; }
+      .center-logo { width: 62vw; }
     }
 
     @media (prefers-reduced-motion: reduce) {
