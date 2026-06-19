@@ -206,16 +206,24 @@
         box-sizing: border-box;
       }
 
-      /* sys-badges resta in alto a destra */
+      /* in alto a destra mostra [3D GENERALIST] al posto della versione */
       .sys-badges {
         position: absolute;
         top: 16px; right: 16px;
         gap: 4px;
       }
-      .badge { font-size: 13px; letter-spacing: 0.14em; }
+      .badge { display: none; }
+
+      .quote {
+        position: absolute;
+        top: 16px; right: 16px;
+        bottom: auto; left: auto;
+        font-size: 13px;
+        letter-spacing: 0.14em;
+      }
 
       /* Nascondi decorativi che causano sovrapposizioni */
-      .logo-polaroid, .quote, .system-data { display: none; }
+      .logo-polaroid, .system-data { display: none; }
 
       /* Nav e logo escono dal flusso assoluto → entrano nel flex */
       .nav-top, .nav-left, .nav-right, .nav-bottom,
