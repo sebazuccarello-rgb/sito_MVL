@@ -147,6 +147,13 @@
       <span class="separator">//</span>
       <span class="page-title">[SYSTEM.DATA]</span>
     </div>
+    <div class="header-right">
+      <div class="lang-toggle">
+        <button data-lang="it" onclick="MVL_I18N.setLang('it')">IT</button>
+        <span class="sep">/</span>
+        <button data-lang="en" onclick="MVL_I18N.setLang('en')">EN</button>
+      </div>
+    </div>
   </header>
 
   <main>
@@ -169,52 +176,53 @@
     </div>
     <div class="meta-row">
       <span class="meta-label">// LAST_UPDATE</span>
-      <span class="meta-value">May 2026</span>
+      <span class="meta-value" data-i18n="priv.updated">Maggio 2026</span>
     </div>
     <div class="meta-row">
       <span class="meta-label">// JURISDICTION</span>
-      <span class="meta-value">Italy — EU (GDPR)</span>
+      <span class="meta-value" data-i18n="priv.jur">Italia — UE (GDPR)</span>
     </div>
 
     <div class="doc-divider"></div>
 
     <div class="doc-block">
       <div class="doc-tag">// 01_DATA_COLLECTED</div>
-      <div class="doc-title">What data we collect</div>
-      <div class="doc-text">
-        <p>This site is a <em>personal portfolio</em>. It does not register users, does not require accounts, and does not collect personal data automatically during browsing.</p>
-        <p>If you submit a brief via the <em>RAW_IDEA</em> page, the data you provide (name, email address, message, and any attached files) is used exclusively to respond to your request. This data is not shared with third parties and is not stored on external databases.</p>
+      <div class="doc-title" data-i18n="priv.t1">Quali dati raccogliamo</div>
+      <div class="doc-text" data-i18n="priv.b1">
+        <p>Questo sito è un <em>portfolio personale</em>. Non registra utenti, non richiede account e non raccoglie dati personali in automatico durante la navigazione.</p>
+        <p>Se invii un brief tramite la pagina <em>RAW_IDEA</em>, i dati che fornisci (nome, indirizzo email, messaggio ed eventuali file allegati) vengono usati esclusivamente per rispondere alla tua richiesta. Questi dati non vengono condivisi con terze parti e non vengono conservati su database esterni.</p>
       </div>
     </div>
 
     <div class="doc-block">
       <div class="doc-tag">// 02_COOKIES</div>
-      <div class="doc-title">Cookies</div>
-      <div class="doc-text">
-        <p>This site uses <em>no profiling or tracking cookies</em>. No analytics platforms (Google Analytics, Meta Pixel, etc.) are installed.</p>
-        <p>The only cookies that may be present are <em>technical session cookies</em> managed directly by the browser, necessary for the correct functioning of the site. These cookies do not collect personal data and are automatically deleted when the browser is closed.</p>
-        <p>Google Fonts is loaded from Google's servers to render the <em>Space Mono</em> typeface. This may cause your browser to send a request to Google's servers. For information on how Google handles this data, consult <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>.</p>
+      <div class="doc-title" data-i18n="priv.t2">Cookie</div>
+      <div class="doc-text" data-i18n="priv.b2">
+        <p>Questo sito non utilizza <em>cookie di profilazione o tracciamento</em>. Non è installata alcuna piattaforma di analytics (Google Analytics, Meta Pixel, ecc.).</p>
+        <p>Gli unici cookie eventualmente presenti sono <em>cookie tecnici di sessione</em> gestiti direttamente dal browser, necessari al corretto funzionamento del sito. Questi cookie non raccolgono dati personali e vengono eliminati automaticamente alla chiusura del browser.</p>
+        <p>Google Fonts viene caricato dai server di Google per visualizzare il carattere <em>Space Mono</em>. Questo può comportare l'invio di una richiesta ai server di Google da parte del tuo browser. Per informazioni su come Google tratta questi dati, consulta la <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy Policy di Google</a>.</p>
       </div>
     </div>
 
     <div class="doc-block">
       <div class="doc-tag">// 03_YOUR_RIGHTS</div>
-      <div class="doc-title">Your rights (GDPR)</div>
-      <div class="doc-text">
-        <p>Under EU Regulation 2016/679 (GDPR), you have the right to access, correct, delete, or limit the processing of any personal data you have provided. To exercise these rights, contact us at the email address listed above.</p>
+      <div class="doc-title" data-i18n="priv.t3">I tuoi diritti (GDPR)</div>
+      <div class="doc-text" data-i18n="priv.b3">
+        <p>Ai sensi del Regolamento UE 2016/679 (GDPR), hai il diritto di accedere, correggere, cancellare o limitare il trattamento dei dati personali che hai fornito. Per esercitare questi diritti, contattaci all'indirizzo email indicato sopra.</p>
       </div>
     </div>
 
     <div class="doc-block">
       <div class="doc-tag">// 04_HOSTING</div>
-      <div class="doc-title">Hosting</div>
-      <div class="doc-text">
-        <p>This site is hosted on <em>GitHub Pages</em> (GitHub, Inc. — Microsoft). For information on GitHub's data processing, consult <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub's Privacy Statement</a>.</p>
+      <div class="doc-title" data-i18n="priv.t4">Hosting</div>
+      <div class="doc-text" data-i18n="priv.b4">
+        <p>Questo sito è ospitato su <em>GitHub Pages</em> (GitHub, Inc. — Microsoft). Per informazioni sul trattamento dei dati da parte di GitHub, consulta la <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">Privacy Statement di GitHub</a>.</p>
       </div>
     </div>
 
   </main>
 
+  <script src="js/i18n.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

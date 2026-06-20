@@ -266,6 +266,13 @@
       <span class="separator">//</span>
       <span class="page-title">[STATUS\\RAW_IDEA]</span>
     </div>
+    <div class="header-right">
+      <div class="lang-toggle">
+        <button data-lang="it" onclick="MVL_I18N.setLang('it')">IT</button>
+        <span class="sep">/</span>
+        <button data-lang="en" onclick="MVL_I18N.setLang('en')">EN</button>
+      </div>
+    </div>
   </header>
 
   <main>
@@ -277,31 +284,31 @@
     </div>
 
     <div class="form-heading">TRANSMIT<br>YOUR <span>RAW_IDEA</span></div>
-    <div class="form-sub">
-      Describe your vision. Attach references if you have them.<br>
-      Every signal received will be processed.
+    <div class="form-sub" data-i18n="raw.sub">
+      Descrivi la tua visione. Allega dei riferimenti se li hai.<br>
+      Ogni segnale ricevuto verrà elaborato.
     </div>
 
     <form class="brief-form" id="brief-form">
 
       <div class="field-group" id="name-field">
         <label class="field-label" for="input-name">// IDENTIFIER</label>
-        <input type="text" id="input-name" name="name" class="field-input" placeholder="Your name or alias" autocomplete="off">
+        <input type="text" id="input-name" name="name" class="field-input" placeholder="Il tuo nome o alias" data-i18n-ph="raw.phName" autocomplete="off">
       </div>
 
       <div class="field-group" id="contact-field">
         <label class="field-label" for="input-email">// CONTACT_SIGNAL</label>
-        <input type="email" id="input-email" name="email" class="field-input" placeholder="Email address" autocomplete="off">
+        <input type="email" id="input-email" name="email" class="field-input" placeholder="Indirizzo email" data-i18n-ph="raw.phEmail" autocomplete="off">
       </div>
 
       <div class="field-group">
         <label class="field-label" for="input-text">// RAW_TEXT</label>
-        <textarea id="input-text" name="message" class="field-textarea" placeholder="Describe your idea, mood, references, any detail that matters..."></textarea>
+        <textarea id="input-text" name="message" class="field-textarea" placeholder="Descrivi la tua idea, il mood, i riferimenti, ogni dettaglio che conta..." data-i18n-ph="raw.phText"></textarea>
       </div>
 
-      <div class="form-note">
-        // All transmissions are confidential. No data shared externally.<br>
-        // To attach visual references, send them directly to <a href="mailto:Seba.zuccarello@gmail.com" style="color:var(--teal);text-decoration:none;">Seba.zuccarello@gmail.com</a>
+      <div class="form-note" data-i18n="raw.note">
+        // Tutte le trasmissioni sono riservate. Nessun dato condiviso esternamente.<br>
+        // Per allegare riferimenti visivi, inviali direttamente a <a href="mailto:Seba.zuccarello@gmail.com" style="color:var(--teal);text-decoration:none;">Seba.zuccarello@gmail.com</a>
       </div>
 
       <button type="submit" class="submit-btn">[TRANSMIT_BRIEF]</button>
@@ -309,6 +316,7 @@
     </form>
   </main>
 
+  <script src="js/i18n.js"></script>
   <script src="js/main.js"></script>
   <script src="js/dust.js"></script>
   <script>

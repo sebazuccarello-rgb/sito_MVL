@@ -217,14 +217,21 @@
       <span class="separator">//</span>
       <span class="page-title">[HIRE\\SERVICES]</span>
     </div>
+    <div class="header-right">
+      <div class="lang-toggle">
+        <button data-lang="it" onclick="MVL_I18N.setLang('it')">IT</button>
+        <span class="sep">/</span>
+        <button data-lang="en" onclick="MVL_I18N.setLang('en')">EN</button>
+      </div>
+    </div>
   </header>
 
   <main>
     <div class="page-archive-title">WORK_WITH_ME //</div>
     <div class="page-main-title">SERVICES</div>
 
-    <div class="form-heading">"DON'T TELL ME<br>WHAT YOU WANT,<br>TELL ME YOUR <span>VISION</span>"</div>
-    <div class="form-sub">
+    <div class="form-heading" data-i18n="svc.heading">"NON DIRMI<br>COSA VUOI,<br>DIMMI LA TUA <span>VISION</span>"</div>
+    <div class="form-sub" data-i18n="svc.sub">
       Reel, motion e grafica per chi vuole distinguersi.<br>
       Trasformo un'idea grezza in qualcosa che le persone ricordano.
     </div>
@@ -234,15 +241,15 @@
     <div class="svc-grid">
       <div class="svc-cell">
         <h3>Reel &amp; Short</h3>
-        <p>Montaggio dinamico per Instagram, TikTok e YouTube. Ritmo, sound design e taglio pensati per trattenere lo sguardo.</p>
+        <p data-i18n="svc.c1p">Montaggio dinamico per Instagram, TikTok e YouTube. Ritmo, sound design e taglio pensati per trattenere lo sguardo.</p>
       </div>
       <div class="svc-cell">
-        <h3>Motion &amp; Titoli</h3>
-        <p>Loghi animati, intro, lower-third, transizioni e animazioni grafiche che danno carattere al video.</p>
+        <h3 data-i18n="svc.c2h">Motion &amp; Titoli</h3>
+        <p data-i18n="svc.c2p">Loghi animati, intro, lower-third, transizioni e animazioni grafiche che danno carattere al video.</p>
       </div>
       <div class="svc-cell">
-        <h3>Grafica</h3>
-        <p>Locandine, copertine, post social e identità visiva coerente, costruita attorno al tuo mood.</p>
+        <h3 data-i18n="svc.c3h">Grafica</h3>
+        <p data-i18n="svc.c3p">Locandine, copertine, post social e identità visiva coerente, costruita attorno al tuo mood.</p>
       </div>
     </div>
 
@@ -252,23 +259,23 @@
       <div class="pkg">
         <div class="pkg-info">
           <h4>Single Reel</h4>
-          <p>1 reel montato (max 60s) + 1 revisione inclusa.</p>
+          <p data-i18n="svc.p1">1 reel montato (max 60s) + 1 revisione inclusa.</p>
         </div>
-        <div class="pkg-price">da 50€<small>// one shot</small></div>
+        <div class="pkg-price"><span data-i18n="svc.pr1">da 50€</span><small>// one shot</small></div>
       </div>
       <div class="pkg">
         <div class="pkg-info">
           <h4>Monthly</h4>
-          <p>4 reel al mese + cover grafiche. Presenza social costante.</p>
+          <p data-i18n="svc.p2">4 reel al mese + cover grafiche. Presenza social costante.</p>
         </div>
-        <div class="pkg-price">da 180€<small>// al mese</small></div>
+        <div class="pkg-price"><span data-i18n="svc.pr2">da 180€</span><small data-i18n="svc.pr2s">// al mese</small></div>
       </div>
       <div class="pkg">
         <div class="pkg-info">
           <h4>Custom</h4>
-          <p>Motion, grafica o progetti su misura. Parliamone.</p>
+          <p data-i18n="svc.p3">Motion, grafica o progetti su misura. Parliamone.</p>
         </div>
-        <div class="pkg-price">su preventivo<small>// tailored</small></div>
+        <div class="pkg-price"><span data-i18n="svc.pr3">su preventivo</span><small>// tailored</small></div>
       </div>
     </div>
 
@@ -279,6 +286,7 @@
 
   </main>
 
+  <script src="js/i18n.js"></script>
   <script src="js/main.js"></script>
   <script src="js/dust.js"></script>
 </body>

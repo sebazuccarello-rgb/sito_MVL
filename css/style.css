@@ -93,6 +93,43 @@ a {
   width: 100%;
 }
 
+/* ── LANGUAGE TOGGLE (IT / EN) ── */
+.header-right { display: flex; align-items: center; }
+.lang-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+}
+.lang-toggle button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+  letter-spacing: inherit;
+  color: var(--text-dim);
+  transition: color 0.2s;
+}
+.lang-toggle button:hover { color: var(--teal); }
+.lang-toggle button.active { color: var(--red); }
+.lang-toggle .sep { color: var(--text-dim); opacity: 0.5; }
+
+/* toggle sulla home (dentro sys-badges) */
+.sys-badges .lang-toggle { font-size: min(2.22vw, 32px); letter-spacing: 0.18em; }
+@media (min-width: 1025px) and (max-width: 1700px) {
+  .sys-badges .lang-toggle { font-size: 25px; }
+}
+@media (max-width: 1024px) {
+  .sys-badges .lang-toggle { font-size: 13px; letter-spacing: 0.14em; }
+}
+@media (max-width: 768px) {
+  .sys-badges .lang-toggle { font-size: 11px; letter-spacing: 0.12em; }
+  .lang-toggle { font-size: 11px; letter-spacing: 0.12em; gap: 6px; }
+}
+
 /* ── SCAN-LINE FLICKER ── */
 @keyframes flicker {
   0%, 100% { opacity: 1; }

@@ -303,6 +303,13 @@
       <span class="separator">//</span>
       <span class="page-title">[WORLD\\THE_VISION]</span>
     </div>
+    <div class="header-right">
+      <div class="lang-toggle">
+        <button data-lang="it" onclick="MVL_I18N.setLang('it')">IT</button>
+        <span class="sep">/</span>
+        <button data-lang="en" onclick="MVL_I18N.setLang('en')">EN</button>
+      </div>
+    </div>
   </header>
 
   <main>
@@ -320,9 +327,9 @@
         <div class="bio-name">MVL.WORLD</div>
         <div class="bio-role">3D Artist // CGI Specialist</div>
 
-        <div class="bio-text">
-          <p>My name is <em>Sebastiano Zuccarello</em>, a 20-year-old who studied graphic design and communication in high school, then attended <em>Bigrock</em> in 2026 right after graduating. I love experimenting with software and diving into every field of visual art — 2D, 3D, and even physical media.</p>
-          <p>What brought me here? My drive to transmit emotions through a vision that is <em>determined, experimental, and almost alien.</em></p>
+        <div class="bio-text" data-i18n="vis.bio">
+          <p>Mi chiamo <em>Sebastiano Zuccarello</em>, ho 20 anni, ho studiato graphic design e comunicazione alle superiori e poi ho frequentato <em>Bigrock</em> nel 2026 subito dopo il diploma. Amo sperimentare con i software e immergermi in ogni campo dell'arte visiva — 2D, 3D e anche supporti fisici.</p>
+          <p>Cosa mi ha portato qui? La voglia di trasmettere emozioni attraverso una visione <em>determinata, sperimentale e quasi aliena.</em></p>
         </div>
       </div>
 
@@ -341,7 +348,7 @@
         </div>
         <div class="stat-row">
           <span class="stat-label">// BASED_IN</span>
-          <span class="stat-value">Treviso, Italy</span>
+          <span class="stat-value" data-i18n="vis.based">Treviso, Italia</span>
         </div>
         <div class="stat-row">
           <span class="stat-label">// AVAILABLE</span>
@@ -357,14 +364,14 @@
     <!-- VISION STATEMENT -->
     <div class="vision-block">
       <div class="vision-tag">// THE_VISION</div>
-      <div class="vision-quote">
-        My Vision? <span>It's your Vision.</span>
+      <div class="vision-quote" data-i18n="vis.q1">
+        La mia Vision? <span>È la tua Vision.</span>
       </div>
-      <p class="vision-body">
-        When we talk, we share what we want to transmit — so when you send me yours, my goal will be to read it, listen to it, understand it. My job? To take it, shape it, merge it and bring it to life through my Vision.
+      <p class="vision-body" data-i18n="vis.body">
+        Quando parliamo, condividiamo ciò che vogliamo trasmettere — così quando mi mandi la tua, il mio obiettivo sarà leggerla, ascoltarla, capirla. Il mio lavoro? Prenderla, modellarla, fonderla e darle vita attraverso la mia Vision.
       </p>
-      <div class="vision-quote" style="margin-top: 40px;">
-        Everyone has a Vision, but few manage to make it real. Remember: <span>"OUR VISION, OUR WORLD".</span>
+      <div class="vision-quote" style="margin-top: 40px;" data-i18n="vis.q2">
+        Tutti hanno una Vision, ma pochi riescono a renderla reale. Ricorda: <span>"OUR VISION, OUR WORLD".</span>
       </div>
     </div>
 
@@ -374,22 +381,23 @@
       <div class="discipline-item">
         <div class="discipline-num">01 //</div>
         <div class="discipline-name">COMPOSITING</div>
-        <div class="discipline-desc">Merging 2D and 3D elements, color grading and visual finishing to build coherent, high-impact images.</div>
+        <div class="discipline-desc" data-i18n="vis.d1">Fusione di elementi 2D e 3D, color grading e finishing visivo per costruire immagini coerenti e ad alto impatto.</div>
       </div>
       <div class="discipline-item">
         <div class="discipline-num">02 //</div>
         <div class="discipline-name">TEXTURING</div>
-        <div class="discipline-desc">Crafting realistic or stylized materials and surfaces using Substance Designer and Substance Painter.</div>
+        <div class="discipline-desc" data-i18n="vis.d2">Creazione di materiali e superfici realistici o stilizzati con Substance Designer e Substance Painter.</div>
       </div>
       <div class="discipline-item">
         <div class="discipline-num">03 //</div>
         <div class="discipline-name">ANIMATION</div>
-        <div class="discipline-desc">Character animation, motion and simulations — from pose to fluid movement, 2D and 3D.</div>
+        <div class="discipline-desc" data-i18n="vis.d3">Animazione di personaggi, motion e simulazioni — dalla posa al movimento fluido, 2D e 3D.</div>
       </div>
     </div>
 
   </main>
 
+  <script src="js/i18n.js"></script>
   <script src="js/main.js"></script>
   <script src="js/dust.js"></script>
 </body>

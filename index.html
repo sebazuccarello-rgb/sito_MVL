@@ -272,12 +272,17 @@
 
     <!-- top-center -->
     <div class="nav-top">
-      <a href="laboratory.html" class="nav-link">[BASE\\LABORATORY]</a>
+      <a href="laboratory.html" class="nav-link">[WIP\\LABORATORY]</a>
     </div>
 
     <!-- top-right badge -->
     <div class="sys-badges">
       <div class="badge" id="version-tag">[Version\1.0.0]</div>
+      <div class="lang-toggle">
+        <button data-lang="it" onclick="MVL_I18N.setLang('it')">IT</button>
+        <span class="sep">/</span>
+        <button data-lang="en" onclick="MVL_I18N.setLang('en')">EN</button>
+      </div>
     </div>
 
     <!-- center logo with scan frame -->
@@ -294,7 +299,7 @@
 
     <!-- middle-right -->
     <div class="nav-right">
-      <a href="vault.html" class="nav-link">[SCAN\\THE_VAULT]</a>
+      <a href="vault.html" class="nav-link">[PORTFOLIO\\THE_VAULT]</a>
     </div>
 
     <!-- bottom-center -->
@@ -310,6 +315,7 @@
 
   </div>
 
+  <script src="js/i18n.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>
