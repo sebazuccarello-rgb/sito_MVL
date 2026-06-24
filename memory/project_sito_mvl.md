@@ -10,3 +10,7 @@ Progetto inizializzato il 2026-05-04 con un primo commit (README.md) per verific
 
 **Why:** La repo era vuota, serve un file di partenza per testare il flusso git.
 **How to apply:** Aggiornare questa memoria dopo ogni sessione con git commit significativo.
+
+## Stato
+
+- 2026-06-20 (commit 4b3e059): aggiunto sistema lingua IT/EN. Motore `js/i18n.js` (vanilla, `data-i18n`/`data-i18n-ph`, default IT, scelta in localStorage). Toggle IT/EN nell'header di tutte le pagine pubbliche. Tradotti i testi umani di services/vision/raw-idea/privacy; le label cyber (LABORATORY, THE_VAULT, ecc.) restano in inglese come estetica. Home: rinominate label `[PORTFOLIO\\THE_VAULT]` e `[WIP\\LABORATORY]` per chiarezza.
