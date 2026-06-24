@@ -12,6 +12,7 @@ const ALL_PROJECTS = [
   { file:'STAR_WARS_WIP2', src:'projects/laboratory/Star_Wars_WIP2.mp4', type:'video' },
   { file:'THE_MESSAGE_WIP1', src:'projects/laboratory/The_Message_WIP1.fbx', type:'3d' },
   { file:'THE_MESSAGE_WIP2', src:'projects/laboratory/The_Message_WIP2.fbx', type:'3d' },
+  { file:'THE_MESSAGE_WIP3', src:'projects/laboratory/The_Message_WIP3.webp', type:'img' },
   { file:'GOOFY_WIP1_TEXTURING', src:'projects/laboratory/Goofy_WIP1.fbx', type:'3d' },
   { file:'GOOFY_WIP2_TEXTURING', src:'projects/laboratory/Goofy_WIP2.webp', type:'img' },
   { file:'GOOFY_WIP3_TEXTURING', src:'projects/laboratory/Goofy_WIP3.webp', type:'img' },
