@@ -8,8 +8,6 @@
    Per aggiornare: aggiungi i file nelle cartelle e lancia SYNC.bat
 ══════════════════════════════════════════════════════════ */
 const ALL_PROJECTS = [
-  { file:'STAR_WARS_WIP1', src:'projects/laboratory/Star_Wars_WIP1.mp4', type:'video' },
-  { file:'STAR_WARS_WIP2', src:'projects/laboratory/Star_Wars_WIP2.mp4', type:'video' },
   { file:'THE_MESSAGE_WIP1', src:'projects/laboratory/The_Message_WIP1.fbx', type:'3d' },
   { file:'THE_MESSAGE_WIP2', src:'projects/laboratory/The_Message_WIP2.fbx', type:'3d' },
   { file:'THE_MESSAGE_WIP3', src:'projects/laboratory/The_Message_WIP3.webp', type:'img' },
