@@ -17,8 +17,6 @@ sito_MVL/
 ├── services.html       [HIRE\SERVICES]     → pagina servizi/prezzi
 ├── raw-idea.html       Form contatti (nascosto: ci si arriva da services)
 ├── privacy.html        Privacy & cookie
-├── login.html          Accesso area admin
-├── admin.html          Pannello admin
 │
 ├── assets/             Immagini del sito (logo, sfondo, polaroid)
 ├── css/                style.css  → tutti gli stili condivisi

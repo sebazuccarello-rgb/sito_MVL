@@ -9,47 +9,8 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
   <link rel="stylesheet" href="css/style.css">
   <style>
-    @property --g1x { syntax: '<percentage>'; inherits: false; initial-value:  20%; }
-    @property --g1y { syntax: '<percentage>'; inherits: false; initial-value:   0%; }
-    @property --g2x { syntax: '<percentage>'; inherits: false; initial-value:  80%; }
-    @property --g2y { syntax: '<percentage>'; inherits: false; initial-value: 100%; }
-    @keyframes bg-drift {
-      0%   { --g1x: 20%; --g1y: 100%; --g2x: 80%; --g2y:   0%; }
-      25%  { --g1x: 78%; --g1y:  72%; --g2x: 12%; --g2y:  38%; }
-      50%  { --g1x: 38%; --g1y:  18%; --g2x: 68%; --g2y:  82%; }
-      75%  { --g1x:  6%; --g1y:  48%; --g2x: 92%; --g2y:  58%; }
-      100% { --g1x: 20%; --g1y: 100%; --g2x: 80%; --g2y:   0%; }
-    }
-
-    html { min-height: 100%; }
-    body {
-      min-height: 100vh;
-      background-color: #080808;
-      background-image:
-        radial-gradient(ellipse at var(--g1x) var(--g1y), rgba(0,90,100,0.30) 0%, transparent 58%),
-        radial-gradient(ellipse at var(--g2x) var(--g2y), rgba(140,20,20,0.24) 0%, transparent 54%);
-      animation: bg-drift 18s ease-in-out infinite;
-      overflow-x: hidden;
-    }
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 18px 40px;
-      background: rgba(8,8,8,0.9);
-      backdrop-filter: blur(8px);
-      border-bottom: 1px solid var(--border);
-    }
-    .header-left { display: flex; align-items: center; gap: 24px; }
-    .back-link   { font-size: 13px; letter-spacing: 0.18em; color: var(--text-dim); transition: color 0.2s; }
-    .back-link:hover { color: var(--teal); }
+    body { overflow-x: hidden; }
     .page-title  { font-family: 'Prototype', var(--font); font-size: 12px; letter-spacing: 0.28em; color: var(--text-dim); }
-    .separator   { color: var(--text-dim); }
-    .header-right { font-size: 13px; letter-spacing: 0.14em; color: var(--text-dim); }
 
     main {
       max-width: 860px;
@@ -128,20 +89,15 @@
     .meta-value a:hover { color: #fff; }
 
     @media (max-width: 768px) {
-      header { padding: 12px 16px; }
       main { padding: 36px 16px 80px; }
       .meta-row { flex-direction: column; gap: 6px; }
       .meta-label { width: auto; }
     }
-
-    @media (prefers-reduced-motion: reduce) {
-      body { animation: none; }
-    }
   </style>
 </head>
-<body>
+<body class="mvl-bg-drift">
 
-  <header>
+  <header class="mvl-header">
     <div class="header-left">
       <a href="index.html" class="back-link nav-link"><img src="assets/1x/Risorsa 5.png" alt="MVL" class="header-logo"></a>
       <span class="separator">//</span>

@@ -239,8 +239,14 @@ try {
   execSync('git push origin main', { stdio: 'inherit' });
   if (committed) console.log('  ✓ Pubblicato! Attendi 1-2 minuti per GitHub Pages.\n');
   else console.log('  (già aggiornato su GitHub)\n');
+  console.log('── DONE ──────────────────────────────────────\n');
 } catch(e) {
-  console.log('  ✗ git push fallito:', e.message);
+  console.log('\n  ╔═══════════════════════════════════════════╗');
+  console.log('  ║   ✗✗✗  PUSH FALLITO — NON PUBBLICATO  ✗✗✗   ║');
+  console.log('  ╚═══════════════════════════════════════════╝');
+  console.log(`  Motivo: ${e.message}`);
+  console.log('  Le modifiche sono salvate solo in locale: il sito online NON è aggiornato.');
+  console.log('  Riprova con:  git push origin main\n');
+  console.log('── DONE (CON ERRORI) ────────────────────────\n');
+  process.exitCode = 1;
 }
-
-console.log('── DONE ──────────────────────────────────────\n');
