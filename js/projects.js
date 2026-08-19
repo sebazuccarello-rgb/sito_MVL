@@ -8,6 +8,10 @@
    Per aggiornare: aggiungi i file nelle cartelle e lancia SYNC.bat
 ══════════════════════════════════════════════════════════ */
 const ALL_PROJECTS = [
+  { file:'HUMANOID_ROBOT_WIP1', src:'projects/laboratory/Humanoid_Robot_WIP1.webp', type:'img' },
+  { file:'HUMANOID_ROBOT_WIP2', src:'projects/laboratory/Humanoid_Robot_WIP2.webp', type:'img' },
+  { file:'HUMANOID_ROBOT_WIP3', src:'projects/laboratory/Humanoid_Robot_WIP3.webp', type:'img' },
+  { file:'HUMANOID_ROBOT_WIP4', src:'projects/laboratory/Humanoid_Robot_WIP4.webp', type:'img' },
   { file:'STAR_WARS_WIP1', src:'projects/laboratory/Star_Wars_WIP1.mp4', type:'video' },
   { file:'STAR_WARS_WIP2', src:'projects/laboratory/Star_Wars_WIP2.mp4', type:'video' },
   { file:'THE_MESSAGE_WIP1', src:'projects/laboratory/The_Message_WIP1.fbx', type:'3d' },
