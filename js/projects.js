@@ -8,10 +8,10 @@
    Per aggiornare: aggiungi i file nelle cartelle e lancia SYNC.bat
 ══════════════════════════════════════════════════════════ */
 const ALL_PROJECTS = [
-  { file:'GOTICH_CHURCH_VISUAL_WIP1', src:'projects/laboratory/Gotich_Church_Visual_WIP1.fbx', type:'3d' },
   { file:'THE_MESSAGE_WIP1', src:'projects/laboratory/The_Message_WIP1.fbx', type:'3d' },
   { file:'THE_MESSAGE_WIP2', src:'projects/laboratory/The_Message_WIP2.fbx', type:'3d' },
   { file:'THE_MESSAGE_WIP3', src:'projects/laboratory/The_Message_WIP3.webp', type:'img' },
+  { file:'_GOTICH_VISUAL_WIP1', src:'projects/laboratory/_Gotich_Visual_WIP1.fbx', type:'3d' },
   { file:'HUMANOID_ROBOT_WIP1_MODELLING', src:'projects/laboratory/Humanoid_Robot_WIP1.webp', type:'img' },
   { file:'HUMANOID_ROBOT_WIP2_MODELLING', src:'projects/laboratory/Humanoid_Robot_WIP2.webp', type:'img' },
   { file:'HUMANOID_ROBOT_WIP3_MODELLING', src:'projects/laboratory/Humanoid_Robot_WIP3.webp', type:'img' },
