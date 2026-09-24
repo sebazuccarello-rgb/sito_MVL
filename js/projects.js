@@ -9,10 +9,6 @@
 ══════════════════════════════════════════════════════════ */
 const ALL_PROJECTS = [
   { file:'GOTICH_VISUAL_WIP1', src:'projects/laboratory/Gotich_Visual_WIP1.fbx', type:'3d' },
-  { file:'PHOTO_EDIT_ANIMA1_WIP1', src:'projects/laboratory/Photo_Edit_Anima1_WIP1.webp', type:'img' },
-  { file:'PHOTO_EDIT_ANIMA1_WIP2', src:'projects/laboratory/Photo_Edit_Anima1_WIP2.webp', type:'img' },
-  { file:'PHOTO_EDIT_ANIMA1_WIP3', src:'projects/laboratory/Photo_Edit_Anima1_WIP3.webp', type:'img' },
-  { file:'PHOTO_EDIT_ANIMA1_WIP4', src:'projects/laboratory/Photo_Edit_Anima1_WIP4.webp', type:'img' },
   { file:'THE_MESSAGE_WIP1', src:'projects/laboratory/The_Message_WIP1.fbx', type:'3d' },
   { file:'THE_MESSAGE_WIP2', src:'projects/laboratory/The_Message_WIP2.fbx', type:'3d' },
   { file:'THE_MESSAGE_WIP3', src:'projects/laboratory/The_Message_WIP3.webp', type:'img' },
@@ -21,6 +17,11 @@ const ALL_PROJECTS = [
   { file:'HUMANOID_ROBOT_WIP3_MODELLING', src:'projects/laboratory/Humanoid_Robot_WIP3.webp', type:'img' },
   { file:'HUMANOID_ROBOT_WIP4_MODELLING', src:'projects/laboratory/Humanoid_Robot_WIP4.webp', type:'img' },
   { file:'HUMANOID_ROBOT_MODELLING_DEF', src:'projects/vault/MODELLING/Humanoid_Robot_DEF.webp', type:'img' },
+  { file:'PHOTO_EDIT_ANIMA1_WIP1_PHOTO EDITING', src:'projects/laboratory/Photo_Edit_Anima1_WIP1.webp', type:'img' },
+  { file:'PHOTO_EDIT_ANIMA1_WIP2_PHOTO EDITING', src:'projects/laboratory/Photo_Edit_Anima1_WIP2.webp', type:'img' },
+  { file:'PHOTO_EDIT_ANIMA1_WIP3_PHOTO EDITING', src:'projects/laboratory/Photo_Edit_Anima1_WIP3.webp', type:'img' },
+  { file:'PHOTO_EDIT_ANIMA1_WIP4_PHOTO EDITING', src:'projects/laboratory/Photo_Edit_Anima1_WIP4.webp', type:'img' },
+  { file:'PHOTO_EDIT_ANIMA1_PHOTO EDITING_DEF', src:'projects/vault/PHOTO EDITING/Photo_Edit_Anima1_DEF.webp', type:'img' },
   { file:'GOOFY_WIP1_TEXTURING', src:'projects/laboratory/Goofy_WIP1.fbx', type:'3d' },
   { file:'GOOFY_WIP2_TEXTURING', src:'projects/laboratory/Goofy_WIP2.webp', type:'img' },
   { file:'GOOFY_WIP3_TEXTURING', src:'projects/laboratory/Goofy_WIP3.webp', type:'img' },
