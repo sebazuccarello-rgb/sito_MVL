@@ -9,6 +9,8 @@
 ══════════════════════════════════════════════════════════ */
 const ALL_PROJECTS = [
   { file:'GOTICH_VISUAL_WIP1', src:'projects/laboratory/Gotich_Visual_WIP1.fbx', type:'3d' },
+  { file:'SPIDER_PUNK_WIP1', src:'projects/laboratory/Spider_Punk_WIP1.webp', type:'img' },
+  { file:'SPIDER_PUNK_WIP2', src:'projects/laboratory/Spider_Punk_WIP2.webp', type:'img' },
   { file:'THE_MESSAGE_WIP1', src:'projects/laboratory/The_Message_WIP1.fbx', type:'3d' },
   { file:'THE_MESSAGE_WIP2', src:'projects/laboratory/The_Message_WIP2.fbx', type:'3d' },
   { file:'THE_MESSAGE_WIP3', src:'projects/laboratory/The_Message_WIP3.webp', type:'img' },
